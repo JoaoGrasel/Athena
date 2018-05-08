@@ -1,0 +1,16 @@
+{
+  "model": "user",
+  "data": [
+    {
+      "_id": "599721a8c89a050fffcf99be",
+      "first_name": "Fitzpatrick",
+      "surname": "common",
+      "birthdate": "Thu Jul 03 1980 15:26:53 GMT+0000 (UTC)",
+      "idioma": "599721a8102502ffe5cb1769",
+      "email": "common@common",
+      "password": "common",
+      "cpf": "52266230671",
+      "matriculation": "489277714"
+    }
+  ]
+}
