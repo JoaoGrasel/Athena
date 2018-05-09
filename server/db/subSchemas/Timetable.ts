@@ -29,7 +29,7 @@ let schema_options = {
 
 const Timetable = new Schema(Object.assign({
   day: {
-    type: Schema.Types.String,
+    type: Schema.Types.Number,
     trim: true,
     required: [true, messages.day.REQUIRED],
   },

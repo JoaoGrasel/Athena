@@ -55,8 +55,11 @@
     "team_member":{
       "REQUIRED": "user_required"
     },
-    "month":{
+    "month": {
       "REQUIRED": "month_required"
+    },
+    "team_member":{
+      "UNIQUE": "team_member_must_be_unique"
     }
   },
   "timetable":{
@@ -82,6 +85,105 @@
     },
     "question3":{
       "REQUIRED": "question3_required"
+    }
+  },
+  "scrum":{
+    "project_name":{
+      "REQUIRED": "project_name_required"
+    },
+    "scrum_description":{
+      "REQUIRED": "description_required"
+    },
+    "scrum_status":{
+      "REQUIRED": "status_required"
+    },
+    "scrum_beginning_date":{
+      "REQUIRED": "beginning_date_required"
+    },
+    "scrum_end_date":{
+      "REQUIRED": "end_date_required"
+    },
+    "scrum_team_members":{
+      "REQUIRED": "team_members_required"
+    },
+    "scrum_history_backlog":{
+      "REQUIRED": "history_backlog_required"
+    },
+    "scrum_sprint_duration":{
+      "REQUIRED": "sprint_duration_required"
+    },
+    "scrum_sprints":{
+      "REQUIRED": "sprints_required"
+    },
+    "scrum_product_backlog":{
+      "REQUIRED": "product_backlog_required"
+    }
+  },
+  "history_backlog":{
+    "histories": {
+      "REQUIRED": "histories_required"
+    },
+    "scrum": {
+      "REQUIRED": "scrum_required"
+    }
+  },
+  "sprint":{
+    "sprint_beginning_date":{
+      "REQUIRED": "sprint_beginning_date_required"
+    },
+    "sprint_end_date":{
+      "REQUIRED": "sprint_end_date_required"
+    },
+    "sprint_tasks":{
+      "REQUIRED": "sprint_tasks_required"
+    },
+    "sprint_status":{
+      "REQUIRED": "sprint_status_required"
+    }
+  },
+  "status": {
+    "status_name":{
+      "REQUIRED": "status_name_required"
+    }
+  },
+  "task":{
+    "task_name":{
+      "REQUIRED": "task_name_required"
+    },
+    "task_status":{
+      "REQUIRED": "task_status_required"
+    },
+    "task_artefact":{
+      "REQUIRED": "task_artefact_required"
+    },
+    "task_description":{
+      "REQUIRED": "task_description_required"
+    },
+    "task_responsible":{
+      "REQUIRED": "task_responsible_required"
+    },
+    "task_sprint":{
+      "REQUIRED": "task_sprint_required"
+    },
+    "task_histories":{
+      "REQUIRED": "task_histories_required"
+    }
+  },
+  "history":{
+    "history_theme":{
+      "REQUIRED": "history_theme_required"
+    },
+    "history_like":{
+      "REQUIRED": "history_like_required"
+    },
+    "history_want_can":{
+      "REQUIRED": "history_want_can_required"
+    },
+    "history_need_to_do":{
+      "REQUIRED": "history_need_to_do_required"
+    },
+    "history_tasks":{
+      "REQUIRED": "history_tasks_required"
     }
   }
 }

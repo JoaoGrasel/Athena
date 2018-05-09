@@ -3,6 +3,10 @@ import {Model as User} from "./User";
 import {BaseSchema} from "../BaseSchema";
 import {Schema, model} from "mongoose";
 
+const messages = require(path.resolve("util/messages.json")).team_member;
+const config = require(path.resolve("config.json"));
+
+
 let schema_options = {
   toObject: {
     virtuals: true,

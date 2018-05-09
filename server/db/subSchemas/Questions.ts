@@ -30,7 +30,7 @@ let schema_options = {
 
 const Questions = new Schema(Object.assign({
   day: {
-    type: Schema.Types.String,
+    type: Schema.Types.Number,
     trim: true,
     required: [true, messages.day.REQUIRED],
   },

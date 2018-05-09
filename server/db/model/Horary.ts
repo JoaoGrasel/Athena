@@ -34,15 +34,16 @@ let schema = new Schema(Object.assign({
     type: Schema.Types.ObjectId,
     ref: "TeamMember",
     trim: true,
-    required: [true, messages.team_member.REQUIRED]
+    required: [true, messages.team_member.REQUIRED],
+    unique: [true, messages.team_member.UNIQUE]
   },
   month: {
-    type: Schema.Types.String,
+    type: Schema.Types.Number,
     trim: true,
     required: [true, messages.month.REQUIRED]
   },
   year: {
-    type: Schema.Types.String,
+    type: Schema.Types.Number,
     trim: true,
     required: [true, messages.year.REQUIRED],
   },

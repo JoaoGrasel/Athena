@@ -34,33 +34,52 @@ let schema = new Schema(Object.assign({
     required: [true, messages.project_name.REQUIRED],
     unique: true,
   },
-  description: {
+  scrum_description: {
     type: Schema.Types.String,
     trim: true,
     required: false,
   },
-  status: {
+  scrum_status: {
     type: Schema.Types.String,
     required: [true, messages.status.REQUIRED],
   },
-  beginning_date: {
-    type: Schema.Types.String,
-    required: [true, messages.beginning_date.REQUIRED],
+  scrum_beginning_date: {
+    type: Schema.Types.Date,
+    required: [true, messages.scrum_beginning_date.REQUIRED],
   },
-  end_date: {
-    type: Schema.Types.String,
-    required: [true, messages.end_date.REQUIRED],
+  scrum_end_date: {
+    type: Schema.Types.Date,
+    required: [true, messages.scrum_end_date.REQUIRED],
   },
-  members:{
+  scrum_team_members:{
     type: [{
       type: Schema.Types.ObjectId,
       ref: 'TeamMember'
-    }]
+    }],
+    required: [true, messages.scrum_team_members.REQUIRED]
   },
-  history: {
+  scrum_history_backlog: {
     type: Schema.Types.ObjectId,
     ref: 'HistoryBacklog',
-    required: [true, messages.history_backlog.REQUIRED],
+    required: [true, messages.scrum_history_backlog.REQUIRED],
+  },
+  scrum_sprint_duration: {
+    type: Schema.Types.Number,
+    required: [true, messages.scrum_sprint_duration.REQUIRED],
+  },
+  scrum_sprints: {
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Sprint'
+    }],
+    required: [true, messages.scrum_sprints.REQUIRED],
+  },
+  scrum_product_backlog: {
+    type:[{
+      type: Schema.Types.ObjectId,
+      ref: 'Task'
+    }],
+    required: [true, messages.scrum_product_backlog.REQUIRED],
   },
   removed: {
     type: Schema.Types.Boolean,
