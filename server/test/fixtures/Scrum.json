@@ -1,0 +1,25 @@
+{
+  "model": "scrum",
+  "data": [
+    {
+      "_id": "5af310303949f6a7eb8285e8",
+      "project_name": "Athena",
+      "description": "Scrum control software",
+      "scrum_status": "Development",
+      "scrum_beginning_date": "Thu Jul 02 1980 15:26:53 GMT+0000 (UTC)",
+      "scrum_end_date": "Thu Jul 03 1981 15:26:53 GMT+0000 (UTC)",
+      "scrum_team_members": [
+        "5af30e015e2cd29a74d29490"
+      ],
+      "scrum_history_backlog": "5af3121b0084efb9b41f949d",
+      "scrum_sprint_duration": 14,
+      "scrum_sprints":[
+        "5af31272b1d11768177296ac"
+      ],
+      "scrum_product_backlog": [
+        "5af314beb754077482a4cf82",
+        "5af314c415a12580e22dbc0e"
+      ]
+    }
+  ]
+}

@@ -159,7 +159,7 @@
     "task_description":{
       "REQUIRED": "task_description_required"
     },
-    "task_responsible":{
+    "task_responsibles":{
       "REQUIRED": "task_responsible_required"
     },
     "task_sprint":{

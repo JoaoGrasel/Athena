@@ -76,6 +76,20 @@ describe("Teste AdminRTC", () => {
 
   });
 
+  it('Teste', done => {
+
+    const teste = true;
+
+    let retorno = function (msg) {
+      expect(msg.datas.success).to.be.true;
+      expect(msg.datas.data).to.be.instanceOf(Object);
+      cliente.removeListener("retorno", retorno);
+      done();
+    };
+    cliente.on("retorno", retorno);
+    cliente.emit("teste", {datas: teste});
+  });
+
   describe ('Logout', ()=>{
 
     it("Admin Logout", (done) => {

@@ -1,0 +1,15 @@
+{
+  "model": "team_member",
+  "data": [
+    {
+      "_id": "5af30e015e2cd29a74d29490",
+      "first_name": "team_member",
+      "surname": "team_member",
+      "birthdate": "Thu Jul 03 1970 15:26:53 GMT+0000 (UTC)",
+      "username": "team_member",
+      "email": "team@member",
+      "password": "team_member",
+      "current_time": "Thu Jul 03 1980 15:26:53 GMT+0000 (UTC)"
+    }
+  ]
+}

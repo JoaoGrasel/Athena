@@ -47,22 +47,12 @@ let schema = new Schema(Object.assign({
     type: Schema.Types.String,
     required: [true, messages.task_description.REQUIRED],
   },
-  task_responsible: {
-    type: Schema.Types.ObjectId,
-    ref: 'TeamMember',
-    required: [true, messages.task_responsible.REQUIRED]
-  },
-  task_sprint: {
-    type: Schema.Types.String,
-    trim: true,
-    required: [true, messages.artefact.REQUIRED],
-  },
-  task_histories: {
-    type: [{
+  task_responsibles: {
+    type:[{
       type: Schema.Types.ObjectId,
-      ref: 'History'
-    }],
-    required: [true, messages.task_histories.REQUIRED],
+      ref: 'TeamMember'
+    }]    ,
+    required: [true, messages.task_responsibles.REQUIRED]
   },
   removed: {
     type: Schema.Types.Boolean,

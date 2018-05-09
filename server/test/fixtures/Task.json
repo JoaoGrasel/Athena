@@ -1,0 +1,26 @@
+{
+  "model": "task",
+  "data": [
+    {
+      "_id": "5af314beb754077482a4cf82",
+      "task_name": "Comprar cafe",
+      "task_artefact": "Cafe",
+      "task_status": "5af316b4fb91b1e207e7f405",
+      "task_description": "Ir no mercado comprar cafe",
+      "task_responsibles": [
+        "5af30e015e2cd29a74d29490"
+      ]
+    },
+    {
+      "_id": "5af314c415a12580e22dbc0e",
+      "task_name":"Comprar filtros de cafe",
+      "task_status":"5af316b4fb91b1e207e7f405",
+      "task_artefact": "Filtros de cafe",
+      "task_description":"Ir no mercado comprar filtros de cafe",
+      "task_responsibles": [
+        "5af30e015e2cd29a74d29490"
+      ]
+    }
+
+  ]
+}
