@@ -1,8 +1,10 @@
 import {model, Schema} from "mongoose";
 import {BaseSchema} from "../BaseSchema";
 import * as path from "path";
+import Timetable from "../subSchemas/Timetable";
+import Questions from "../subSchemas/Questions";
 
-const messages = require(path.resolve("util/messages.json")).user;
+const messages = require(path.resolve("util/messages.json")).horary;
 const config = require(path.resolve("config.json"));
 
 let schema_options = {
@@ -28,40 +30,30 @@ let schema_options = {
 };
 
 let schema = new Schema(Object.assign({
-  first_name: {
+  team_member: {
+    type: Schema.Types.ObjectId,
+    ref: "TeamMember",
+    trim: true,
+    required: [true, messages.team_member.REQUIRED]
+  },
+  month: {
     type: Schema.Types.String,
     trim: true,
-    required: [true, messages.first_name.REQUIRED]
+    required: [true, messages.month.REQUIRED]
   },
-  surname: {
+  year: {
     type: Schema.Types.String,
     trim: true,
-    required: [true, messages.surname.REQUIRED]
+    required: [true, messages.year.REQUIRED],
   },
-  birthdate: {
-    type: Schema.Types.Date,
-    required: [true, messages.birthdate.REQUIRED],
-  },
-  email: {
-    type: Schema.Types.String,
-    required: [true, messages.email.REQUIRED],
+  timetable: {
+    type: [Timetable],
+    required: [true, messages.timetable.REQUIRED],
     unique: true,
   },
-  password: {
-    type: Schema.Types.String,
-    required: [true, messages.password.REQUIRED],
-  },
-  username:{
-    type: Schema.Types.String,
-    trim: true,
-    required: [true, messages.username.REQUIRED],
-    unique: [true, messages.username.UNIQUE],
-  },
-  scrums:{
-    type: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Scrum'
-    }]
+  questions: {
+    type: [Questions],
+    required: [true, messages.questions.REQUIRED],
   },
   removed: {
     type: Schema.Types.Boolean,
@@ -69,5 +61,5 @@ let schema = new Schema(Object.assign({
   },
 }, BaseSchema), schema_options);
 
-let UserModel = model("user", schema);
-export {UserModel as Model};
+let HoraryModel = model("horary", schema);
+export {HoraryModel as Model};

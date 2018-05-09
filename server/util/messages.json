@@ -27,6 +27,10 @@
     "type": {
       "REQUIRED": "type_required"
     },
+    "username":{
+      "REQUIRED": "username_required",
+      "UNIQUE": "username_unique"
+    },
     "login":{
       "USUARIO_INEXISTENTE": "Usuário não cadastrado.",
       "EMAIL_INVALIDO": "E-mail inválido.",
@@ -45,6 +49,39 @@
           }
         }
       }
+    }
+  },
+  "horary":{
+    "team_member":{
+      "REQUIRED": "user_required"
+    },
+    "month":{
+      "REQUIRED": "month_required"
+    }
+  },
+  "timetable":{
+    "day":{
+      "REQUIRED": "day_required"
+    },
+    "entry_time":{
+      "REQUIRED": "entry_time_required"
+    },
+    "exit_time":{
+      "REQUIRED": "exit_time_required"
+    }
+  },
+  "questions":{
+    "day":{
+      "REQUIRED": "day_required"
+    },
+    "question1":{
+      "REQUIRED": "question1_required"
+    },
+    "question2":{
+      "REQUIRED": "question2_required"
+    },
+    "question3":{
+      "REQUIRED": "question3_required"
     }
   }
 }
