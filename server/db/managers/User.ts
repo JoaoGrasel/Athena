@@ -13,13 +13,18 @@ export class User extends BasicManager {
     let user = msg.data.success;
 
     let query = {
-      email: user.email,
+      username: user.username,
       removed: false,
     };
-    let select = 'cpf email id first_name surname password type';
+    let select = 'email username id first_name surname password type horary';
+    let populate = {
+      path: 'horary',
+      select: 'id month year',
+    };
 
     let ret = await this.model.find(query)
       .select(select)
+      .populate(populate)
       .exec();
 
     if(ret.length === 1){

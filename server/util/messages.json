@@ -53,14 +53,22 @@
   },
   "horary":{
     "team_member":{
-      "REQUIRED": "user_required"
+      "REQUIRED": "user_required",
+      "UNIQUE": "team_member_must_be_unique"
+    },
+    "year":{
+      "REQUIRED": "year_required"
     },
     "month": {
       "REQUIRED": "month_required"
     },
-    "team_member":{
-      "UNIQUE": "team_member_must_be_unique"
+    "timetable":{
+      "REQUIRED": "timetable_required"
+    },
+    "questions":{
+      "REQUIRED": "question_required"
     }
+
   },
   "timetable":{
     "day":{
@@ -173,8 +181,8 @@
     "history_theme":{
       "REQUIRED": "history_theme_required"
     },
-    "history_like":{
-      "REQUIRED": "history_like_required"
+    "history_like_one":{
+      "REQUIRED": "history_like_one_required"
     },
     "history_want_can":{
       "REQUIRED": "history_want_can_required"

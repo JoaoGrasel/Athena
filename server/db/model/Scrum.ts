@@ -41,7 +41,7 @@ let schema = new Schema(Object.assign({
   },
   scrum_status: {
     type: Schema.Types.String,
-    required: [true, messages.status.REQUIRED],
+    required: [true, messages.scrum_status.REQUIRED],
   },
   scrum_beginning_date: {
     type: Schema.Types.Date,

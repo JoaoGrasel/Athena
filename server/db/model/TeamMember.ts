@@ -31,9 +31,9 @@ let schema_options = {
 
 //noinspection SpellCheckingInspection,JSNonASCIINames
 let schema = new Schema(Object.assign({
-  current_time:{
-    type: Schema.Types.Date,
-    trim: true,
+  horary:{
+    type: Schema.Types.ObjectId,
+    ref: 'horary'
   }
 }, BaseSchema), schema_options);
 

@@ -7,7 +7,7 @@ let io = require("socket.io-client");
 let socketUrl = "http://localhost:1337";
 let testManager = null;
 
-describe("Teste AdminRTC", () => {
+describe("Teste TeamMemberRTC", () => {
   before(function (done) {
     testManager = new TestManager(done);
   });
@@ -25,7 +25,7 @@ describe("Teste AdminRTC", () => {
 
   describe('Login', ()=>{
 
-    it('Login username errado', (done)=>{
+    it('1. Login do username errado', (done)=>{
       let email_errado = (msg)=>{
         expect(msg.datas.success).to.be.false;
         expect(msg.datas.data).to.be.instanceOf(Object);
@@ -35,13 +35,13 @@ describe("Teste AdminRTC", () => {
       };
       cliente.on('retorno', email_errado);
       let user = {
-        username: 'adminadministrativo',
-        password: 'admin'
+        username: 'team',
+        password: 'team_member'
       };
       cliente.emit('logar', {datas: user});
     });
 
-    it('Login senha errada', (done)=>{
+    it('2. Login com senha errada', (done)=>{
       let senha_errado = (msg)=>{
         expect(msg.datas.success).to.be.false;
         expect(msg.datas.data).to.be.instanceOf(Object);
@@ -51,49 +51,60 @@ describe("Teste AdminRTC", () => {
       };
       cliente.on('retorno', senha_errado);
       let user = {
-        username: 'admin',
-        password: 'administrativo'
+        username: 'team_member',
+        password: 'teamteam'
       };
       cliente.emit('logar', {datas: user});
     });
 
-    it("Admin Login", (done) => {
+    it("3. Team Member Login", (done) => {
       let retorno_login = function (msg) {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.include.all.keys("email","first_name","id","surname","type");
+        expect(msg.datas.data).to.include.all.keys("email","first_name","id","surname","type","username");
         usuario = msg.datas.data;
         cliente.removeListener("retorno", retorno_login);
         done();
       };
       cliente.on("retorno", retorno_login);
       let user = {
-        username: "admin",
-        password: "admin",
+        username: "team_member",
+        password: "123",
       };
       cliente.emit("logar", {datas: user});
     });
 
   });
 
-  describe('Teste', () => {
-    it('Teste', done => {
+  describe('Horarios e questoes ao logar', () =>{
 
-      const teste = true;
-
-      let retorno = function (msg) {
+    it('1. Responder tudo certinho', done =>{
+      let retorno = (msg)=>{
         expect(msg.datas.success).to.be.true;
-        cliente.removeListener("retorno", retorno);
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data.length).to.be.equal(0);
+        cliente.removeListener('retorno', retorno);
         done();
       };
-      cliente.on("retorno", retorno);
-      cliente.emit("teste", {datas: teste});
-    });
+      cliente.on('retorno', retorno);
+      let horary = {
+        team_member: usuario.id,
+        timetable:{
+          exit_time: new Date('Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)')
+        },
+        questions:{
+          question1: 'batata1',
+          question2: 'batata2',
+          question3: 'batata3'
+        }
+      };
+      cliente.emit('update_horary', {datas: horary});
+    })
   });
 
   describe ('Logout', ()=>{
 
-    it("Admin Logout", (done) => {
+    it("1. Team Member Logout", (done) => {
       let retorno_login = (msg)=>{
         expect(msg.datas.success).to.be.true;
         cliente.removeListener("retorno", retorno_login);

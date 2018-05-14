@@ -32,10 +32,9 @@ let schema_options = {
 let schema = new Schema(Object.assign({
   team_member: {
     type: Schema.Types.ObjectId,
-    ref: "TeamMember",
+    ref: "team_member",
     trim: true,
     required: [true, messages.team_member.REQUIRED],
-    unique: [true, messages.team_member.UNIQUE]
   },
   month: {
     type: Schema.Types.Number,
@@ -49,12 +48,9 @@ let schema = new Schema(Object.assign({
   },
   timetable: {
     type: [Timetable],
-    required: [true, messages.timetable.REQUIRED],
-    unique: true,
   },
   questions: {
-    type: [Questions],
-    required: [true, messages.questions.REQUIRED],
+    type: [Questions]
   },
   removed: {
     type: Schema.Types.Boolean,

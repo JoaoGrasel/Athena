@@ -1,7 +1,6 @@
 import {model, Schema} from "mongoose";
 import {BaseSchema} from "../BaseSchema";
 import * as path from "path";
-import {Questions} from "inquirer";
 
 const messages = require(path.resolve("util/messages.json")).questions;
 const config = require(path.resolve("config.json"));
@@ -48,7 +47,7 @@ const Questions = new Schema(Object.assign({
     type: Schema.Types.String,
     trim: true,
     required: [true, messages.question3.REQUIRED],
-  },
+  }
 }), schema_options);
 
 export default Questions;

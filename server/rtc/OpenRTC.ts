@@ -2,6 +2,7 @@ import {BasicRTC} from './BasicRTC';
 import {OpenHandler} from '../handlers/OpenHandler';
 import {AdminRTC} from './RTCs/AdminRTC';
 import {CommonRTC} from './RTCs/CommonRTC';
+import {TeamMemberRTC} from "./RTCs/TeamMemberRTC";
 
 export class OpenRTC extends BasicRTC {
   protected _rtcs_usuario: BasicRTC;
@@ -17,6 +18,7 @@ export class OpenRTC extends BasicRTC {
     this.rtcs_usuario = {
       'admin': AdminRTC,
       'common': CommonRTC,
+      'team_member': TeamMemberRTC
     };
     this.interfaceListeners = {
       'logar': this.logar.bind(this),

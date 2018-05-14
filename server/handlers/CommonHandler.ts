@@ -3,7 +3,7 @@ import {BasicHandler} from "./BasicHandler";
 export class CommonHandler extends BasicHandler {
 
   logout() {
-    console.log('desolgar');
+    console.log('Deslogar');
     return {
       success: true,
       data: null,
