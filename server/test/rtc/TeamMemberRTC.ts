@@ -102,6 +102,39 @@ describe("Teste TeamMemberRTC", () => {
     })
   });
 
+  describe('Relatorio de Horarios e Questoes Diarias', () =>{
+
+    it('1. Visualizar horarios', done =>{
+      let retorno = (msg)=> {
+        expect(msg.datas.sucess).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(String);
+        cliente.removeListener('retorno', retorno);
+        done();
+      };
+      cliente.on('retorno', retorno);
+      cliente.emit('show_all_horaries');
+    })
+
+    //
+    // it('3. Visualizar as questoes diarias de um horario especifico', done =>{
+    //
+    // })
+  });
+
+  // describe(' Scrums, Sprints e Tarefas ', () =>{
+  //   it('1. Visualizar os Srums', done =>{
+  //
+  //   }),
+  //
+  //   it('2. Visualizar as Sprints de um determinado Scrum', done =>{
+  //
+  //   }),
+  //
+  //   it('3. Visualizar as tarefas de uma determinada Sprint', done =>{
+  //
+  //   })
+  // });
+
   describe ('Logout', ()=>{
 
     it("1. Team Member Logout", (done) => {

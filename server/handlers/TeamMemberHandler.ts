@@ -63,7 +63,6 @@ export class TeamMemberHandler extends CommonHandler {
       let query = {_id: loggedUser.id};
       let new_horary = await this.emit_to_server('db.horary.create', new_horary_data);
       if (new_horary.data.error) {
-        //todo atualizar os erros
         new_horary.data.error = await Util.getErrorByLocale('pt-Br', 'create_horary', new_horary.data.error);
         return await this.retorno(new_horary.data);
       }
@@ -77,6 +76,11 @@ export class TeamMemberHandler extends CommonHandler {
       }
       return this.retorno({error: null, success: []});
     }
+
+  }
+
+  async show_all_histories(loggedUser){
+    let histories
 
   }
 }

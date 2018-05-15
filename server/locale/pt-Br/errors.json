@@ -129,5 +129,30 @@
       ],
       "type": "full_required_errors"
     }
+  },
+  "horary": {
+    "update_horary": {
+      "title": "Horario!",
+      "description": "Não foi possivel atualizar o horario",
+      "buttons": [
+        {
+          "label": "ok",
+          "method": null
+        }
+      ],
+      "type": "update_horary"
+    },
+    "create_horary": {
+      "title": "horario!",
+      "description": "Nao foi possivel criar um horario",
+      "buttons": [
+        {
+          "label": "ok",
+          "method": null
+        }
+      ],
+      "type": "create_horary"
+    }
   }
+
 }
