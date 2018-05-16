@@ -27,10 +27,15 @@ let schema_options = {
   // http://mongoosejs.com/docs/guide.html#options
 };
 
+
 let schema = new Schema(Object.assign({
   sprint_beginning_date: {
     type: Schema.Types.Date,
     required: [true, messages.sprint_beginning_date.REQUIRED],
+  },
+  sprint_name: {
+    type: Schema.Types.String,
+    required: [true, messages.sprint_name.REQUIRED],
   },
   sprint_end_date: {
     type: Schema.Types.Date,

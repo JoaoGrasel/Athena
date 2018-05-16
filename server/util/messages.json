@@ -136,6 +136,9 @@
     }
   },
   "sprint":{
+    "sprint_name":{
+      "REQUIRED": "sprint_name_required"
+    },
     "sprint_beginning_date":{
       "REQUIRED": "sprint_beginning_date_required"
     },

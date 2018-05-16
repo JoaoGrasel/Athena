@@ -1,7 +1,7 @@
 import {CommonHandler} from "./CommonHandler";
 import {Util} from "../util/Util";
-import {TeamMember} from "../interfaces/TeamMember";
 import {UpdateObject} from "./util_handler/UpdateObject";
+import {QueryObject} from "./util_handler/QueryObject";
 
 export class TeamMemberHandler extends CommonHandler {
 
@@ -79,8 +79,36 @@ export class TeamMemberHandler extends CommonHandler {
 
   }
 
-  async show_all_histories(loggedUser){
-    let histories
+  async show_horaries(horaryId){
+    let devolution = await this.emit_to_server('db.horary.read', new QueryObject(
+      horaryId,
+      'month timetable.day timetable.entry_time timetable.exit_time year'
+      ));
+    return this.retorno(devolution.data);
+  }
+
+  async find_horary_by_year_and_month(horary_data, loggedUserId){
+    let devolution = await this.emit_to_server('db.horary.read', new QueryObject(
+      {
+        team_member: loggedUserId,
+        month: horary_data.month,
+        year: horary_data.year
+      },
+      'month timetable.day timetable.entry_time timetable.exit_time year'
+    ))
+    return this.retorno(devolution.data);
+  }
+
+  async show_questions_by_horary_id(horaryId){
+    let devolution = await this.emit_to_server('db.horary.read', new QueryObject(
+      horaryId,
+      'questions.day questions.question1 questions.question2 questions.question3'
+    ))
+    return this.retorno(devolution.data);
+  }
+
+  async show_scrums(loggedUser){
 
   }
+
 }

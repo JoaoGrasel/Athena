@@ -14,9 +14,12 @@ export class TeamMemberRTC extends BasicRTC {
     super('team_member', new TeamMemberHandler(), conf);
     openRTC.destroy();
     this.interfaceListeners = {
-       'logout': this.logout.bind(this),
-       'update_horary': this.update_horary.bind(this),
-        'show_all_horaries': this.show_all_horaries.bind(this),
+        'logout': this.logout.bind(this),
+        'update_horary': this.update_horary.bind(this),
+        'show_horaries': this.show_horaries.bind(this),
+        'find_horary_by_year_and_month': this.find_horary_by_year_and_month.bind(this),
+        'show_questions_by_horary_id': this.show_questions_by_horary_id.bind(this),
+        'show_scrums': this.show_scrums.bind(this)
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
@@ -59,9 +62,23 @@ export class TeamMemberRTC extends BasicRTC {
     this.emit_to_browser(msg);
   }
 
-  async show_all_horaries(msg) {
-    // msg.datas = await this.handler.show_all_horaries(this.loggedUser);
+  async show_horaries(msg) {
+    msg.datas = await this.handler.show_horaries(this.loggedUser.horary.id);
     this.emit_to_browser(msg);
   }
 
+  async find_horary_by_year_and_month(msg){
+    msg.datas = await this.handler.find_horary_by_year_and_month(msg.datas, this.loggedUser.id);
+    this.emit_to_browser(msg);
+  }
+
+  async show_questions_by_horary_id(msg){
+    msg.datas = await this.handler.show_questions_by_horary_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async show_scrums(msg){
+    msg.datas = await this.handler.show_scrums(this.loggedUser);
+    this.emit_to_browser(msg);
+  }
 }
