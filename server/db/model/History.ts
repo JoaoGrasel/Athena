@@ -49,7 +49,7 @@ let schema = new Schema(Object.assign({
   history_tasks: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Task',
+      ref: 'task',
     }],
     required: [true, messages.history_tasks.REQUIRED]
   },

@@ -19,7 +19,9 @@ export class TeamMemberRTC extends BasicRTC {
         'show_horaries': this.show_horaries.bind(this),
         'find_horary_by_year_and_month': this.find_horary_by_year_and_month.bind(this),
         'show_questions_by_horary_id': this.show_questions_by_horary_id.bind(this),
-        'show_scrums': this.show_scrums.bind(this)
+        'show_scrums': this.show_scrums.bind(this),
+        'show_sprints_by_scrum': this.show_sprints_by_scrum.bind(this),
+        'show_histories_by_scrum': this.show_histories_by_scrum.bind(this)
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
@@ -79,6 +81,16 @@ export class TeamMemberRTC extends BasicRTC {
 
   async show_scrums(msg){
     msg.datas = await this.handler.show_scrums(this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+
+  async show_sprints_by_scrum(msg){
+    msg.datas = await this.handler.show_sprints_by_scrum(this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+
+  async show_histories_by_scrum(msg){
+    msg.datas = await this.handler.show_histories_by_scrum(msg.datas);
     this.emit_to_browser(msg);
   }
 }

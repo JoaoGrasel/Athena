@@ -35,7 +35,7 @@ let schema = new Schema(Object.assign({
   },
   task_status: {
     type: Schema.Types.ObjectId,
-    ref: 'Status',
+    ref: 'status',
     required: [true, messages.task_status.REQUIRED]
   },
   task_artefact: {
@@ -50,7 +50,7 @@ let schema = new Schema(Object.assign({
   task_responsibles: {
     type:[{
       type: Schema.Types.ObjectId,
-      ref: 'TeamMember'
+      ref: 'team_member'
     }]    ,
     required: [true, messages.task_responsibles.REQUIRED]
   },

@@ -3,7 +3,7 @@
   "db": {
     "mongodb": {
       "host": "localhost",
-      "name": "basepratudo",
+      "name": "pollo_teste",
       "erase_db": true
     }
   },

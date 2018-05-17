@@ -4,7 +4,7 @@
     {
       "_id": "5af310303949f6a7eb8285e8",
       "project_name": "Pollo",
-      "description": "Scrum control software",
+      "scrum_description": "Scrum control software",
       "scrum_status": "Development",
       "scrum_beginning_date": "Thu Jul 02 1980 15:26:53 GMT+0000 (UTC)",
       "scrum_end_date": "Thu Jul 03 1981 15:26:53 GMT+0000 (UTC)",

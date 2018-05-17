@@ -37,14 +37,14 @@ let schema = new Schema(Object.assign({
   previous_status: {
     type:[{
       type: Schema.Types.ObjectId,
-      ref: 'Status',
+      ref: 'status',
     }],
     default: [],
   },
   next_status: {
     type:[{
       type: Schema.Types.ObjectId,
-      ref: 'Status'
+      ref: 'status'
     }],
     default: []
   },

@@ -31,13 +31,13 @@ let schema = new Schema(Object.assign({
   histories: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'History'
+      ref: 'history'
     }],
     required: [true, messages.histories.REQUIRED]
   },
   scrum: {
     type: Schema.Types.ObjectId,
-    ref: 'Scrum',
+    ref: 'scrum',
     required: [true, messages.scrum.REQUIRED]
   },
   removed: {

@@ -152,7 +152,7 @@ describe("Teste TeamMemberRTC", () => {
     it('3. Visualizar as questoes diarias de um horario especifico', done => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object)
+        expect(msg.datas.data).to.be.instanceOf(Object);
         expect(msg.datas.data).to.have.all.keys("_id","questions","id");
         expect(msg.datas.data.questions).to.be.instanceOf(Array);
         msg.datas.data.questions.forEach(question=>{
@@ -173,50 +173,60 @@ describe("Teste TeamMemberRTC", () => {
     it('1. Visualizar os Srums', done => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data.scrums).to.be.instanceOf(Array);
+        msg.datas.data.scrums.forEach(scrum=>{
+          expect(scrum).to.be.instanceOf(Object);
+          expect(scrum).to.have.all.keys("project_name","scrum_status", "scrum_description", "id", "_id");
+        });
         cliente.removeListener('retorno', retorno);
         done();
       }
       cliente.on('retorno', retorno);
-      cliente.emit('show_scrums')
+      cliente.emit('show_scrums', {datas: null});
     });
-  //
-  //
-  //   it('2. Visualizar as Sprints de um determinado Scrum', done => {
-  //     let retorno = (msg) => {
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       msg.datas.data.search.forEach(search => {
-  //         expect(search).to.be.instanceOf(Object);
-  //         expect(search).to.include.all.keys("id", "sprint_name");
-  //       });
-  //       cliente.removeListener('retorno', retorno);
-  //       done();
-  //     }
-  //     let data = {
-  //       scrumId: scrum.id
-  //     };
-  //     cliente.on('retorno', retorno);
-  //     cliente.emit('show_sprints_by_scrum', {datas: data});
-  //   }),
-  //
-  //     it('2. Visualizar as Historias de um determinado Scrum', done => {
-  //       let retorno = (msg) => {
-  //         expect(msg.datas.success).to.be.true;
-  //         expect(msg.datas.data).to.be.instanceOf(Array);
-  //         msg.datas.data.search.forEach(search => {
-  //           expect(search).to.be.instanceOf(Object);
-  //           expect(search).to.include.all.keys("id", "sprint_name");
-  //         });
-  //         cliente.removeListener('retorno', retorno);
-  //         done();
-  //       }
-  //
-  //
-  //       let scrum = "5af310303949f6a7eb8285e8";
-  //       cliente.on('retorno', retorno);
-  //       cliente.emit('show_histories_by_scrum', {datas: scrum});
-  //     });
-  //
+
+    it('2. Visualizar as Sprints de um determinado Scrum', done => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data.scrums).to.be.instanceOf(Array);
+        msg.datas.data.scrums.forEach(scrum=>{
+          expect(scrum).to.be.instanceOf(Object);
+          expect(scrum).to.have.all.keys("scrum_sprints", "id", "_id");
+          expect(scrum.scrum_sprints).to.be.instanceOf(Array);
+          scrum.scrum_sprints.forEach(sprint=>{
+            expect(sprint).to.be.instanceOf(Object);
+            expect(sprint).to.have.all.keys("sprint_name", "sprint_beginning_date", "sprint_end_date", "sprint_tasks",
+                                            "sprint_status", "id", "_id");
+          });
+        });
+        cliente.removeListener('retorno', retorno);
+        done();
+      }
+      cliente.on('retorno', retorno);
+      cliente.emit('show_sprints_by_scrum', {datas: null});
+    });
+
+      it('3. Visualizar as Historias de um determinado Scrum', done => {
+        let retorno = (msg) => {
+          expect(msg.datas.success).to.be.true;
+          expect(msg.datas.data).to.be.instanceOf(Object);
+          expect(msg.datas.data.scrum_history_backlog).to.be.instanceOf(Object);
+          expect(msg.datas.data.scrum_history_backlog.histories).to.be.instanceOf(Array);
+          msg.datas.data.scrum_history_backlog.histories.forEach(history=>{
+            expect(history).to.be.instanceOf(Object);
+            expect(history).to.have.all.keys("history_theme", "history_want_can", "id", "_id");
+          });
+          cliente.removeListener('retorno', retorno);
+          done();
+        }
+        let scrum = "5af310303949f6a7eb8285e8";
+        cliente.on('retorno', retorno);
+        cliente.emit('show_histories_by_scrum', {datas: scrum});
+      });
+
+
   //     it('3. Visualizar as tarefas de uma determinada Sprint', done => {
   //
   //     })

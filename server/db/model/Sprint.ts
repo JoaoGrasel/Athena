@@ -44,7 +44,7 @@ let schema = new Schema(Object.assign({
   sprint_tasks: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Task'
+      ref: 'task'
     }],
     required: [true, messages.sprint_tasks.REQUIRED],
   },

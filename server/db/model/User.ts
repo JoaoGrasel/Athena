@@ -60,7 +60,7 @@ let schema = new Schema(Object.assign({
   scrums:{
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Scrum'
+      ref: 'scrum'
     }]
   },
   removed: {
