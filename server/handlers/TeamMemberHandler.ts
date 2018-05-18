@@ -110,7 +110,7 @@ export class TeamMemberHandler extends CommonHandler {
   async show_scrums(loggedUser){
     let devolution = await this.emit_to_server('db.user.read', new QueryObject(
       loggedUser.id,
-      'scrums',
+      'project_name scrum_description scrum_status',
       {
         path: 'scrums',
         select: 'project_name scrum_description scrum_status'
@@ -121,17 +121,13 @@ export class TeamMemberHandler extends CommonHandler {
 
 
 
-  async show_sprints_by_scrum(loggedUser){
-    let devolution = await this.emit_to_server('db.user.read', new QueryObject(
-      loggedUser.id,
-      'scrums',
+  async show_sprints_by_scrum(scrumId){
+    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject(
+      scrumId,
+      'scrum_sprints',
       {
-        path: 'scrums',
-        select: 'scrum_sprints',
-        populate: {
-          path: 'scrum_sprints',
+        path: 'scrum_sprints',
           select: 'sprint_name sprint_beginning_date sprint_end_date sprint_tasks sprint_status'
-        }
       }
     ))
     return this.retorno(devolution.data);
@@ -147,6 +143,22 @@ export class TeamMemberHandler extends CommonHandler {
         populate: {
           path: 'histories',
           select: 'history_theme history_want_can',
+        }
+      }
+    ))
+    return this.retorno(devolution.data);
+  }
+
+  async show_tasks_by_sprint(sprintId){
+    let devolution = await this.emit_to_server('db.sprint.read', new QueryObject(
+      sprintId,
+      'sprint_tasks',
+      {
+        path: 'sprint_tasks',
+        select: 'task_name task_status task_responsibles',
+        populate: {
+          path: 'task_status task_responsibles',
+          select: 'status_name first_name',
         }
       }
     ))

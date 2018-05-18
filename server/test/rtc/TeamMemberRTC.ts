@@ -170,7 +170,7 @@ describe("Teste TeamMemberRTC", () => {
 
   describe(' Scrums, Sprints e Tarefas ', () => {
 
-    it('1. Visualizar os Srums', done => {
+    it('1. Visualizar os Scrums', done => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Object);
@@ -190,22 +190,18 @@ describe("Teste TeamMemberRTC", () => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data.scrums).to.be.instanceOf(Array);
-        msg.datas.data.scrums.forEach(scrum=>{
-          expect(scrum).to.be.instanceOf(Object);
-          expect(scrum).to.have.all.keys("scrum_sprints", "id", "_id");
-          expect(scrum.scrum_sprints).to.be.instanceOf(Array);
-          scrum.scrum_sprints.forEach(sprint=>{
+        expect(msg.datas.data.scrum_sprints).to.be.instanceOf(Array);
+        msg.datas.data.scrum_sprints.forEach(sprint=>{
             expect(sprint).to.be.instanceOf(Object);
             expect(sprint).to.have.all.keys("sprint_name", "sprint_beginning_date", "sprint_end_date", "sprint_tasks",
                                             "sprint_status", "id", "_id");
-          });
         });
         cliente.removeListener('retorno', retorno);
         done();
       }
+      let scrum = "5af310303949f6a7eb8285e8";
       cliente.on('retorno', retorno);
-      cliente.emit('show_sprints_by_scrum', {datas: null});
+      cliente.emit('show_sprints_by_scrum', {datas: scrum});
     });
 
       it('3. Visualizar as Historias de um determinado Scrum', done => {
@@ -227,9 +223,29 @@ describe("Teste TeamMemberRTC", () => {
       });
 
 
-  //     it('3. Visualizar as tarefas de uma determinada Sprint', done => {
-  //
-  //     })
+      it('4. Visualizar as tarefas de uma determinada Sprint', done => {
+        let retorno = (msg) => {
+          expect(msg.datas.success).to.be.true;
+          expect(msg.datas.data).to.be.instanceOf(Object);
+          expect(msg.datas.data.sprint_tasks).to.be.instanceOf(Array);
+          msg.datas.data.sprint_tasks.forEach(task=>{
+            expect(task).to.be.instanceOf(Object);
+            expect(task).to.have.all.keys("task_name", "task_responsibles", "task_status", "id", "_id");
+            expect(task.task_status).to.be.instanceOf(Object);
+            expect(task.task_status).to.have.all.keys( "id", "_id", "status_name");
+            expect(task.task_responsibles).to.be.instanceOf(Array);
+            task.task_responsibles.forEach(responsible=>{
+              expect(responsible).to.be.instanceOf(Object);
+              expect(responsible).to.have.all.keys("first_name", "type", "id", "_id");
+            });
+          });
+          cliente.removeListener('retorno', retorno);
+          done();
+        };
+        let sprint = "5af31272b1d11768177296ac";
+        cliente.on('retorno', retorno);
+        cliente.emit('show_tasks_by_sprint', {datas: sprint});
+      });
   });
 
   describe('Logout', () => {
