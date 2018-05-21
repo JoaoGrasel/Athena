@@ -125,6 +125,11 @@ describe("Teste AdminRTC", () => {
     it('Busca Scrum', (done)=>{
       let retorno = (msg)=>{
         expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "project_name", "scrum_description",
+                                                 "scrum_status", "scrum_beginning_date", "scrum_end_date",
+                                                 "scrum_history_backlog", "scrum_sprint_duration", "id", "removed",
+                                                 "scrum_product_backlog", "scrum_sprints", "scrum_team_members", "__v");
         current.cliente.removeListener('retorno', retorno);
         done();
       };
@@ -132,14 +137,16 @@ describe("Teste AdminRTC", () => {
       current.cliente.emit('get_scrum_by_id', {datas: current.scrum.id});
     });
 
-    it('3. Edita Scrum', (done)=>{
+    it('Edita Scrum', (done)=>{
       let retorno = (msg)=>{
         expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
         current.cliente.removeListener('retorno', retorno);
         done();
       };
       current.cliente.on('retorno', retorno);
       let edited_scrum = {
+        id: current.scrum.id,
         project_name: "Scrum de Teste Editado",
         scrum_description: "Mais do mesmo",
         scrum_status: "Edited",
@@ -148,17 +155,17 @@ describe("Teste AdminRTC", () => {
       }
       current.cliente.emit('edit_scrum', {datas: edited_scrum});
     });
-  //
-  //   it('4. Exclui Scrum', (done)=>{
-  //     let retorno = (msg)=>{
-  //       expect(msg.datas.success).to.be.true;
-  //       cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     cliente.on('retorno', retorno);
-  //     cliente.emit('', {datas: null});
-  //   });
-  //
+
+    // it('Exclui Scrum', (done)=>{
+    //   let retorno = (msg)=>{
+    //     expect(msg.datas.success).to.be.true;
+    //     current.cliente.removeListener('retorno', retorno);
+    //     done();
+    //   };
+    //   current.cliente.on('retorno', retorno);
+    //   current.cliente.emit('delete_scrum_by_id', {datas: current.scrum.id});
+    // });
+
   });
 
   describe ('Logout', ()=>{

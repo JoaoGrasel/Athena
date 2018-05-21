@@ -1,5 +1,7 @@
 import {CommonHandler} from "./CommonHandler";
 import {QueryObject} from "./util_handler/QueryObject";
+import {UpdateObject} from "./util_handler/UpdateObject";
+import {Util} from "../util/Util";
 
 export class AdminHandler extends CommonHandler {
 
@@ -26,9 +28,32 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  //todo logica do edit scrum
   async edit_scrum(edited_scrum){
 
+    let query = {_id: edited_scrum.id};
+    let update = {scrum: edited_scrum};
+    let update_scrum = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+    if (update_scrum.data.error) {
+      update_scrum.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', update_scrum.data.error);
+      return await this.retorno(update_scrum.data);
+    }
+    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject(edited_scrum.id));
+    return this.retorno(devolution.data);
   }
+
+  // async delete_scrum_by_id(scrumId){
+  //   let query = {_id: scrumId};
+  //   let removed = true;
+  //   let update = {scrum: removed};
+  //   let update_scrum = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+  //   if (update_scrum.data.error) {
+  //     update_scrum.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', update_scrum.data.error);
+  //     return await this.retorno(update_scrum.data);
+  //   }
+  //   let devolution = await this.emit_to_server('db.scrum.read', new QueryObject(scrumId));
+  //   return this.retorno(devolution.data);
+  // }
+
+
 
 }
