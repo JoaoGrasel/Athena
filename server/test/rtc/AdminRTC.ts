@@ -17,6 +17,7 @@ describe("Teste AdminRTC", () => {
     cliente: null,
     usuario: null,
     scrum: null,
+    sprint: null,
   }
 
   it("Connect", (done) => {
@@ -140,32 +141,106 @@ describe("Teste AdminRTC", () => {
     it('Edita Scrum', (done)=>{
       let retorno = (msg)=>{
         expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "project_name", "scrum_description",
+                                                    "scrum_status", "scrum_beginning_date","scrum_end_date",
+                                                    "scrum_history_backlog","scrum_sprint_duration","id","removed",
+                                                    "scrum_product_backlog","scrum_sprints","scrum_team_members");
+        expect(msg.datas.data[0].scrum_product_backlog).to.be.instanceOf(Array);
+        expect(msg.datas.data[0].scrum_sprints).to.be.instanceOf(Array);
+        expect(msg.datas.data[0].scrum_team_members).to.be.instanceOf(Array);
         current.cliente.removeListener('retorno', retorno);
         done();
       };
       current.cliente.on('retorno', retorno);
       let edited_scrum = {
-        id: current.scrum.id,
         project_name: "Scrum de Teste Editado",
         scrum_description: "Mais do mesmo",
         scrum_status: "Edited",
         scrum_beginning_date: "Fri Jul 03 1980 15:26:53 GMT+0000 (UTC)",
         scrum_end_date: "Fri Jul 04 1981 15:26:53 GMT+0000 (UTC)"
-      }
-      current.cliente.emit('edit_scrum', {datas: edited_scrum});
+      };
+      current.cliente.emit('edit_scrum', {datas: {id: current.scrum.id, update: edited_scrum}});
     });
 
-    // it('Exclui Scrum', (done)=>{
+    it('Exclui Scrum', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('delete_scrum_by_id', {datas: {id:current.scrum.id, update:{removed: true}}});
+    });
+
+  });
+
+  describe('Teste do CRUD de Sprints', () => {
+
+    it('Cria Sprint certinha', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("sprint_name", "sprint_beginning_date","sprint_end_date",
+                                                   "sprint_status","id","sprint_tasks");
+        expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
+        current.sprint = msg.datas.data[0];
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let sprint = {
+        sprint_name: "sprint teste",
+        sprint_beginning_date:"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)" ,
+        sprint_end_date:"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
+        sprint_tasks:[
+          "5af314beb754077482a4cf82",
+          "5af314c415a12580e22dbc0e"
+        ],
+        sprint_status: "Running"
+
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('create_sprint', {datas: sprint});
+
+    });
+
+    it('Busca Sprint', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys("_id","updatedAt","createdAt","sprint_name","sprint_beginning_date",
+                                                "sprint_end_date","sprint_status","id","removed","sprint_tasks","__v");
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('get_sprint_by_id', {datas: current.sprint.id});
+
+    });
+
+    // it('Edita Sprint', (done)=>{
     //   let retorno = (msg)=>{
     //     expect(msg.datas.success).to.be.true;
     //     current.cliente.removeListener('retorno', retorno);
     //     done();
     //   };
     //   current.cliente.on('retorno', retorno);
-    //   current.cliente.emit('delete_scrum_by_id', {datas: current.scrum.id});
+    //   current.cliente.emit('create_scrum', {datas: null});
+    //
     // });
 
+    // it('Exclui Sprint', (done)=>{
+    //   let retorno = (msg)=>{
+    //     expect(msg.datas.success).to.be.true;
+    //     current.cliente.removeListener('retorno', retorno);
+    //     done();
+    //   };
+    //   current.cliente.on('retorno', retorno);
+    //   current.cliente.emit('create_scrum', {datas: null});
+    //
+    // });
   });
 
   describe ('Logout', ()=>{
