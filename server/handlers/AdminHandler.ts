@@ -96,8 +96,40 @@ export class AdminHandler extends CommonHandler {
   }
 
   // HISTORY CRUD
-  async create_history(data){
+  async create_history(history){
+    let new_history_data = {
+      history_theme: history.history_theme,
+      history_like_one: history.history_like_one,
+      history_want_can: history.history_want_can,
+      history_need_to_do: history.history_need_to_do,
+      history_tasks: history.history_tasks
+    }
 
+    let devolution = await this.emit_to_server('db.history.create', new_history_data);
+    return this.retorno(devolution.data);
+  }
+
+  async get_history_by_id(historyId){
+    let devolution = await this.emit_to_server('db.history.read', new QueryObject(historyId));
+    return this.retorno(devolution.data);
+  }
+
+  async edit_history(data){
+    let devolution = await this.emit_to_server('db.history.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_history', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  async delete_history_by_id(data){
+    let devolution = await this.emit_to_server('db.history.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_history', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
   }
 
 

@@ -23,7 +23,10 @@ export class AdminRTC extends BasicRTC {
       'get_sprint_by_id': this.get_sprint_by_id.bind(this),
       'edit_sprint': this.edit_sprint.bind(this),
       'delete_sprint_by_id': this.delete_sprint_by_id.bind(this),
-      'create_history': this.create_history.bind(this)
+      'create_history': this.create_history.bind(this),
+      'get_history_by_id': this.get_history_by_id.bind(this),
+      'edit_history': this.edit_history.bind(this),
+      'delete_history_by_id': this.delete_history_by_id.bind(this)
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
@@ -105,8 +108,25 @@ export class AdminRTC extends BasicRTC {
     this.emit_to_browser(msg);
   }
 
+  // HISTORY CRUD
+
   async create_history(msg){
     msg.datas = await this.handler.create_history(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async get_history_by_id(msg){
+    msg.datas = await this.handler.get_history_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async edit_history(msg){
+    msg.datas = await this.handler.edit_history(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async delete_history_by_id(msg){
+    msg.datas = await this.handler.delete_history_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 }
