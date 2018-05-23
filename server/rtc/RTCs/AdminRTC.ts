@@ -31,6 +31,7 @@ export class AdminRTC extends BasicRTC {
       'get_status_by_id':this.get_status_by_id.bind(this),
       'edit_status': this.edit_status.bind(this),
       'delete_status_by_id': this.delete_status_by_id.bind(this),
+      'create_task': this.create_task.bind(this),
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
@@ -154,5 +155,12 @@ export class AdminRTC extends BasicRTC {
   async delete_status_by_id(msg){
     msg.datas = await this.handler.delete_status_by_id(msg.datas);
     this.emit_to_browser(msg);
+  }
+
+  //TAREFAS CRUD
+
+  async create_task(msg){
+    msg.datas = await this.handler.create_task(msg.datas);
+    this.create_task(msg);
   }
 }

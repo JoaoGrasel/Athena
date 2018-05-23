@@ -167,4 +167,22 @@ export class AdminHandler extends CommonHandler {
     }
     return this.retorno(devolution.data);
   }
+
+  //TAREFAS CRUD
+
+  async create_task(task){
+    let new_task_data = {
+      task_name: task.task_name,
+      task_status: task.task_status,
+      task_artefact: task.task_artefact,
+      task_description: task.task_description,
+      task_responsibles: task.task_responsibles,
+      needed_tasks: task.needed_tasks,
+      task_beginning_date: task.task_beginning_date,
+      task_end_date: task.task_end_date,
+      completed: task.completed,
+    }
+    let devolution = await this.emit_to_server('db.task.create', new_task_data);
+    return this.retorno(devolution.data);
+  }
 }
