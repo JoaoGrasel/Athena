@@ -132,5 +132,39 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+  // STATUS CRUD
 
+  async create_status(status){
+    let new_status_data = {
+    status_name: status.status_name,
+    previous_status: status.previous_status,
+    next_status: status.next_status,
+    completed: status.completed
+    }
+    let devolution = await this.emit_to_server('db.status.create', new_status_data);
+    return this.retorno(devolution.data);
+  }
+
+  async get_status_by_id(statusId){
+    let devolution = await this.emit_to_server('db.status.read', new QueryObject(statusId));
+    return this.retorno(devolution.data);
+  }
+
+  async edit_status(data){
+    let devolution = await this.emit_to_server('db.status.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_status', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  async delete_status_by_id(data){
+    let devolution = await this.emit_to_server('db.status.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_status', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
 }

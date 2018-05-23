@@ -26,7 +26,11 @@ export class AdminRTC extends BasicRTC {
       'create_history': this.create_history.bind(this),
       'get_history_by_id': this.get_history_by_id.bind(this),
       'edit_history': this.edit_history.bind(this),
-      'delete_history_by_id': this.delete_history_by_id.bind(this)
+      'delete_history_by_id': this.delete_history_by_id.bind(this),
+      'create_status': this.create_status.bind(this),
+      'get_status_by_id':this.get_status_by_id.bind(this),
+      'edit_status': this.edit_status.bind(this),
+      'delete_status_by_id': this.delete_status_by_id.bind(this),
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
@@ -127,6 +131,28 @@ export class AdminRTC extends BasicRTC {
 
   async delete_history_by_id(msg){
     msg.datas = await this.handler.delete_history_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  //STATUS CRUD
+
+  async create_status(msg){
+    msg.datas = await this.handler.create_status(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async get_status_by_id(msg){
+    msg.datas = await this.handler.get_status_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async edit_status(msg){
+    msg.datas = await this.handler.edit_status(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async delete_status_by_id(msg){
+    msg.datas = await this.handler.delete_status_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 }

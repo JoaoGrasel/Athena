@@ -19,6 +19,7 @@ describe("Teste AdminRTC", () => {
     scrum: null,
     sprint: null,
     history: null,
+    status: null,
   }
 
   it("Connect", (done) => {
@@ -339,6 +340,87 @@ describe("Teste AdminRTC", () => {
       };
       current.cliente.on('retorno', retorno);
       current.cliente.emit('delete_history_by_id', {datas: {id:current.history.id, update:{removed: true}}});
+    });
+  });
+
+  describe('Teste do CRUD de Status', () => {
+
+    it('Cria Status certinho', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("status_name","id","next_status","previous_status");
+        expect(msg.datas.data[0].next_status).to.be.instanceOf(Array);
+        expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array);
+        current.status = msg.datas.data[0];
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let status = {
+        status_name: "Complete",
+        previous_status: [
+          "5af316b4fb91b1e207e7f405"
+        ],
+        next_status: [],
+        completed: true
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('create_status', {datas: status});
+
+    });
+
+    it('Busca Status', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys("_id","updatedAt","createdAt","status_name","id","removed","next_status",
+                                                "previous_status","__v");
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('get_status_by_id', {datas: current.status.id});
+
+    });
+
+    it('Edita Status', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","status_name","id","removed","next_status",
+                                                   "previous_status");
+        expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
+        expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_status = {
+        status_name: "Not Complete",
+        previous_status: [],
+        next_status:[
+          "5af316b4fb91b1e207e7f405"
+        ]
+      };
+      current.cliente.emit('edit_status', {datas: {id: current.status.id, update: edited_status}});
+    });
+
+    it('Exclui Status', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","status_name","id","removed","next_status",
+                                                   "previous_status");
+        expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
+        expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('delete_status_by_id', {datas: {id:current.status.id, update:{removed: true}}});
     });
   });
 
