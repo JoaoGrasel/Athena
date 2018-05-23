@@ -167,6 +167,15 @@ describe("Teste AdminRTC", () => {
     it('Exclui Scrum', (done)=>{
       let retorno = (msg)=>{
         expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "project_name", "scrum_description",
+                                                   "scrum_status", "scrum_beginning_date","scrum_end_date",
+                                                   "scrum_history_backlog","scrum_sprint_duration","id","removed",
+                                                   "scrum_product_backlog","scrum_sprints","scrum_team_members");
+        expect(msg.datas.data[0].scrum_product_backlog).to.be.instanceOf(Array);
+        expect(msg.datas.data[0].scrum_sprints).to.be.instanceOf(Array);
+        expect(msg.datas.data[0].scrum_team_members).to.be.instanceOf(Array);
         current.cliente.removeListener('retorno', retorno);
         done();
       };
@@ -220,26 +229,109 @@ describe("Teste AdminRTC", () => {
 
     });
 
+    it('Edita Sprint', (done)=>{
+        let retorno = (msg)=>{
+          expect(msg.datas.success).to.be.true;
+          expect(msg.datas.data).to.be.instanceOf(Array);
+          expect(msg.datas.data[0]).to.be.instanceOf(Object);
+          expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","sprint_name","sprint_beginning_date",
+                                                     "sprint_end_date","sprint_status","id","removed","sprint_tasks");
+          expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
+          current.cliente.removeListener('retorno', retorno);
+          done();
+        };
+        current.cliente.on('retorno', retorno);
+        let edited_sprint = {
+          sprint_status: "Closed",
+        };
+        current.cliente.emit('edit_sprint', {datas: {id: current.sprint.id, update: edited_sprint}});
+      });
+
+    it('Exclui Sprint', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","sprint_name","sprint_beginning_date",
+                                                   "sprint_end_date","sprint_status","id","removed","sprint_tasks");
+        expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('delete_sprint_by_id', {datas: {id:current.sprint.id, update:{removed: true}}});
+    });
+  });
+
+  describe('Teste do CRUD de Historias', () => {
+
+    it('Cria Historia certinha', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let history = {
+        history_theme: "RU",
+        history_like_one: "Team Member",
+        history_want_can: "Jantar no RU",
+        history_need_to_do: "Comprar o passe",
+        history_tasks: [
+          "5af314beb754077482a4cf82",
+          "5af314c415a12580e22dbc0e"
+        ]
+
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('create_history', {datas: history});
+
+    });
+
+    // it('Busca Sprint', (done)=>{
+    //   let retorno = (msg)=>{
+    //     expect(msg.datas.success).to.be.true;
+    //     expect(msg.datas.data).to.be.instanceOf(Object);
+    //     expect(msg.datas.data).to.have.all.keys("_id","updatedAt","createdAt","sprint_name","sprint_beginning_date",
+    //       "sprint_end_date","sprint_status","id","removed","sprint_tasks","__v");
+    //     current.cliente.removeListener('retorno', retorno);
+    //     done();
+    //   };
+    //   current.cliente.on('retorno', retorno);
+    //   current.cliente.emit('get_sprint_by_id', {datas: current.sprint.id});
+    //
+    // });
+    //
     // it('Edita Sprint', (done)=>{
     //   let retorno = (msg)=>{
     //     expect(msg.datas.success).to.be.true;
+    //     expect(msg.datas.data).to.be.instanceOf(Array);
+    //     expect(msg.datas.data[0]).to.be.instanceOf(Object);
+    //     expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","sprint_name","sprint_beginning_date",
+    //       "sprint_end_date","sprint_status","id","removed","sprint_tasks");
+    //     expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
     //     current.cliente.removeListener('retorno', retorno);
     //     done();
     //   };
     //   current.cliente.on('retorno', retorno);
-    //   current.cliente.emit('create_scrum', {datas: null});
-    //
+    //   let edited_sprint = {
+    //     sprint_status: "Closed",
+    //   };
+    //   current.cliente.emit('edit_sprint', {datas: {id: current.sprint.id, update: edited_sprint}});
     // });
-
+    //
     // it('Exclui Sprint', (done)=>{
     //   let retorno = (msg)=>{
     //     expect(msg.datas.success).to.be.true;
+    //     expect(msg.datas.data).to.be.instanceOf(Array);
+    //     expect(msg.datas.data[0]).to.be.instanceOf(Object);
+    //     expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","sprint_name","sprint_beginning_date",
+    //       "sprint_end_date","sprint_status","id","removed","sprint_tasks");
+    //     expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
     //     current.cliente.removeListener('retorno', retorno);
     //     done();
     //   };
     //   current.cliente.on('retorno', retorno);
-    //   current.cliente.emit('create_scrum', {datas: null});
-    //
+    //   current.cliente.emit('delete_sprint_by_id', {datas: {id:current.sprint.id, update:{removed: true}}});
     // });
   });
 

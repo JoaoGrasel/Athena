@@ -46,6 +46,10 @@ let schema = new Schema(Object.assign({
       type: Schema.Types.ObjectId,
       ref: 'status'
     }],
+    completed: {
+      type: Schema.Types.Boolean,
+      default: false
+    },
     default: []
   },
   removed: {

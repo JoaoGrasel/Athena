@@ -9,7 +9,9 @@
       "task_description": "Ir no mercado comprar cafe",
       "task_responsibles": [
         "5af30e015e2cd29a74d29490"
-      ]
+      ],
+      "task_beginning_date":"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)" ,
+      "task_end_date":"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)"
     },
     {
       "_id": "5af314c415a12580e22dbc0e",
@@ -19,7 +21,9 @@
       "task_description":"Ir no mercado comprar filtros de cafe",
       "task_responsibles": [
         "5af30e015e2cd29a74d29490"
-      ]
+      ],
+      "task_beginning_date":"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)" ,
+      "task_end_date":"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)"
     }
 
   ]
