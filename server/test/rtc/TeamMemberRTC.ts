@@ -144,7 +144,7 @@ describe("Teste TeamMemberRTC", () => {
         month: 1
       }
       cliente.on('retorno', retorno);
-      cliente.emit('find_horary_by_year_and_month', {datas: horaryDate})
+      cliente.emit('', {datas: horaryDate})
 
     });
 

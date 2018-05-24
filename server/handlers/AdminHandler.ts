@@ -185,4 +185,67 @@ export class AdminHandler extends CommonHandler {
     let devolution = await this.emit_to_server('db.task.create', new_task_data);
     return this.retorno(devolution.data);
   }
+
+  async get_task_by_id(taskId){
+    let devolution = await this.emit_to_server('db.task.read', new QueryObject(taskId));
+    return this.retorno(devolution.data);
+  }
+
+  async edit_task(data){
+    let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  async delete_task_by_id(data){
+    let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  // TEAM MEMBER CRUD
+
+  async create_team_member(team_member){
+      let new_task_data = {
+        first_name: team_member.first_name,
+        surname: team_member.surname,
+        birthdate: team_member.birthdate,
+        username: team_member.username,
+        email: team_member.email,
+        password: team_member.password,
+        horary: team_member.horary,
+        scrums: team_member.scrums
+      }
+      let devolution = await this.emit_to_server('db.team_member.create', new_task_data);
+      return this.retorno(devolution.data);
+  }
+
+  async get_team_member_by_id(team_member_id){
+    let devolution = await this.emit_to_server('db.team_member.read', new QueryObject(team_member_id));
+    return this.retorno(devolution.data);
+  }
+
+  async edit_team_member(data){
+    let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  async delete_team_member_by_id(data){
+    let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
 }

@@ -32,6 +32,13 @@ export class AdminRTC extends BasicRTC {
       'edit_status': this.edit_status.bind(this),
       'delete_status_by_id': this.delete_status_by_id.bind(this),
       'create_task': this.create_task.bind(this),
+      'get_task_by_id': this.get_task_by_id.bind(this),
+      'edit_task': this.edit_task.bind(this),
+      'delete_task_by_id': this.delete_task_by_id.bind(this),
+      'create_team_member': this.create_team_member.bind(this),
+      'get_team_member_by_id': this.get_team_member_by_id.bind(this),
+      'edit_team_member': this.edit_team_member.bind(this),
+      'delete_team_member_by_id': this.delete_team_member_by_id.bind(this)
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
@@ -161,6 +168,43 @@ export class AdminRTC extends BasicRTC {
 
   async create_task(msg){
     msg.datas = await this.handler.create_task(msg.datas);
-    this.create_task(msg);
+    this.emit_to_browser(msg);
   }
+
+  async get_task_by_id(msg){
+    msg.datas = await this.handler.get_task_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async edit_task(msg){
+    msg.datas = await this.handler.edit_task(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  async delete_task_by_id(msg) {
+    msg.datas = await this.handler.delete_task_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+    // TEAM MEMBER CRUD
+
+    async create_team_member(msg){
+      msg.datas = await this.handler.create_team_member(msg.datas);
+      this.emit_to_browser(msg);
+    }
+
+    async get_team_member_by_id(msg){
+    msg.datas = await this.handler.get_team_member_by_id(msg.datas);
+    this.emit_to_browser(msg);
+    }
+
+    async edit_team_member(msg){
+    msg.datas = await this.handler.edit_team_member(msg.datas);
+    this.emit_to_browser(msg);
+    }
+
+    async delete_team_member_by_id(msg){
+    msg.datas = await this.handler.delete_team_member_by_id(msg.datas);
+    this.emit_to_browser(msg);
+    }
+
 }
