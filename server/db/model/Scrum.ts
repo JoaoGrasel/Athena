@@ -56,12 +56,10 @@ let schema = new Schema(Object.assign({
       type: Schema.Types.ObjectId,
       ref: 'team_member'
     }],
-    required: [true, messages.scrum_team_members.REQUIRED]
   },
   scrum_history_backlog: {
     type: Schema.Types.ObjectId,
     ref: 'history_backlog',
-    required: [true, messages.scrum_history_backlog.REQUIRED],
   },
   scrum_sprint_duration: {
     type: Schema.Types.Number,
@@ -72,14 +70,12 @@ let schema = new Schema(Object.assign({
       type: Schema.Types.ObjectId,
       ref: 'sprint'
     }],
-    required: [true, messages.scrum_sprints.REQUIRED],
   },
   scrum_product_backlog: {
     type:[{
       type: Schema.Types.ObjectId,
       ref: 'task'
     }],
-    required: [true, messages.scrum_product_backlog.REQUIRED],
   },
   removed: {
     type: Schema.Types.Boolean,

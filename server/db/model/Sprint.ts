@@ -52,6 +52,12 @@ let schema = new Schema(Object.assign({
     type: Schema.Types.String,
     required: [true, messages.sprint_status.REQUIRED],
   },
+  scrum: {
+    type: Schema.Types.ObjectId,
+    ref:'scrum',
+    required: [true, messages.sprint_status.REQUIRED],
+  },
+
   removed: {
     type: Schema.Types.Boolean,
     default: false

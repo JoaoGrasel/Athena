@@ -113,7 +113,6 @@ describe("Teste AdminRTC", () => {
         scrum_team_members: [
           "5af30e015e2cd29a74d29490"
         ],
-        scrum_history_backlog: "5af3121b0084efb9b41f949d",
         scrum_sprint_duration: 14,
         scrum_sprints:[
           "5af31272b1d11768177296ac"
@@ -165,7 +164,7 @@ describe("Teste AdminRTC", () => {
         scrum_beginning_date: "Fri Jul 03 1980 15:26:53 GMT+0000 (UTC)",
         scrum_end_date: "Fri Jul 04 1981 15:26:53 GMT+0000 (UTC)"
       };
-      current.cliente.emit('edit_scrum', {datas: {id: current.scrum.id, update: edited_scrum}});
+      current.cliente.emit('edit_scrum', {datas: {current_scrum: current.scrum, edited_scrum: edited_scrum}});
     });
 
     it('Exclui Scrum', (done)=>{
@@ -197,7 +196,7 @@ describe("Teste AdminRTC", () => {
         expect(msg.datas.data).to.be.instanceOf(Array);
         expect(msg.datas.data[0]).to.be.instanceOf(Object);
         expect(msg.datas.data[0]).to.have.all.keys("sprint_name", "sprint_beginning_date","sprint_end_date",
-                                                   "sprint_status","id","sprint_tasks");
+                                                   "sprint_status","id","sprint_tasks", "scrum");
         expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
         current.sprint = msg.datas.data[0];
         current.cliente.removeListener('retorno', retorno);
@@ -205,6 +204,7 @@ describe("Teste AdminRTC", () => {
       };
       let sprint = {
         sprint_name: "sprint teste",
+        scrum: "5af310303949f6a7eb8285e8",
         sprint_beginning_date:"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)" ,
         sprint_end_date:"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
         sprint_tasks:[
@@ -224,7 +224,7 @@ describe("Teste AdminRTC", () => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Object);
         expect(msg.datas.data).to.have.all.keys("_id","updatedAt","createdAt","sprint_name","sprint_beginning_date",
-                                                "sprint_end_date","sprint_status","id","removed","sprint_tasks","__v");
+                                                "sprint_end_date","sprint_status","id","removed","sprint_tasks","__v", "scrum");
         current.cliente.removeListener('retorno', retorno);
         done();
       };
@@ -239,7 +239,7 @@ describe("Teste AdminRTC", () => {
           expect(msg.datas.data).to.be.instanceOf(Array);
           expect(msg.datas.data[0]).to.be.instanceOf(Object);
           expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","sprint_name","sprint_beginning_date",
-                                                     "sprint_end_date","sprint_status","id","removed","sprint_tasks");
+                                                     "sprint_end_date","sprint_status","id","removed","sprint_tasks", "scrum");
           expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
           current.cliente.removeListener('retorno', retorno);
           done();
@@ -257,7 +257,7 @@ describe("Teste AdminRTC", () => {
         expect(msg.datas.data).to.be.instanceOf(Array);
         expect(msg.datas.data[0]).to.be.instanceOf(Object);
         expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","sprint_name","sprint_beginning_date",
-                                                   "sprint_end_date","sprint_status","id","removed","sprint_tasks");
+                                                   "sprint_end_date","sprint_status","id","removed","sprint_tasks", "scrum");
         expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
         current.cliente.removeListener('retorno', retorno);
         done();

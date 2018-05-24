@@ -33,7 +33,6 @@ let schema = new Schema(Object.assign({
       type: Schema.Types.ObjectId,
       ref: 'history'
     }],
-    required: [true, messages.histories.REQUIRED]
   },
   scrum: {
     type: Schema.Types.ObjectId,

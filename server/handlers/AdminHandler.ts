@@ -2,38 +2,75 @@ import {CommonHandler} from "./CommonHandler";
 import {QueryObject} from "./util_handler/QueryObject";
 import {UpdateObject} from "./util_handler/UpdateObject";
 import {Util} from "../util/Util";
+import {Types} from "mongoose";
 
 export class AdminHandler extends CommonHandler {
 
   //SCRUM CRUD
 
   async create_scrum(scrum) {
+    let _id = new Types.ObjectId();
     let new_scrum_data = {
+      _id: _id,
       project_name: scrum.project_name,
       scrum_description: scrum.scrum_description,
       scrum_status: scrum.scrum_status,
       scrum_beginning_date: scrum.scrum_beginning_date,
       scrum_end_date: scrum.scrum_end_date,
       scrum_team_members: scrum.scrum_team_members,
-      scrum_history_backlog: scrum.scrum_history_backlog,
+      scrum_history_backlog: await this.create_history_backlog(_id),
       scrum_sprint_duration: scrum.scrum_sprint_duration,
       scrum_sprints:scrum.scrum_sprints,
       scrum_product_backlog: scrum.scrum_product_backlog
     }
 
     let devolution = await this.emit_to_server('db.scrum.create', new_scrum_data);
-      return this.retorno(devolution.data);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_scrum', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+
+    let query = {
+      _id: {
+        $in: new_scrum_data.scrum_team_members
+      }
+    };
+    let update = {
+      $push: {
+        scrums: _id
+      }
+    };
+    let update_team_member_scrums = await this.emit_to_server('db.team_member.update', new UpdateObject(query, update));
+    if (update_team_member_scrums.data.error) {
+      update_team_member_scrums.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', update_team_member_scrums.data.error);
+      return await this.retorno(update_team_member_scrums.data);
+    }
+
+    return this.retorno(devolution.data);
   }
 
-  async get_scrum_by_id(scrumId){
-    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject(scrumId));
+  async create_history_backlog(scrum_id){
+    let new_history_backlog = {
+      histories: [],
+      scrum: scrum_id
+    }
+    let devolution = await this.emit_to_server('db.history_backlog.create', new_history_backlog);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_history_backlog', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return devolution.data.success[0].id;
+  }
+
+  async get_scrum_by_id(scrum_id){
+    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject(scrum_id));
     return this.retorno(devolution.data);
   }
 
   async edit_scrum(data){
     //todo sincronia de quando editar em uma ponta tambem editar em outra (scrums e team members)
-    delete data.scrum_team_members;
-    let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.id, data.update));
+
+    let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.id, data.edited_scrum));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', devolution.data.error);
       return await this.retorno(devolution.data);
@@ -41,11 +78,6 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  //todo sincronia de quando editar em uma ponta tambem editar em outra (scrums e team members)
-  // bind_team_members_to_scrum(teamMembers, scrumId){
-  //   teamMembers._data.success.scrum_team_members.forEach(teamMember=>{
-  //     teamMembers._data.success.scrum_team_members.scrums.forEach(scrum=>{
-  // }
 
   async delete_scrum_by_id(data){
     let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.id, data.update));
