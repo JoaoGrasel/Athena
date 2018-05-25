@@ -69,8 +69,11 @@ export class AdminHandler extends CommonHandler {
 
   async edit_scrum(data){
     //todo sincronia de quando editar em uma ponta tambem editar em outra (scrums e team members)
+    delete data.edited_scrum.history_backlog;
+    await this.bind_scrum_to_team_member(data.edited_scrum.scrum_team_members, data.edited_scrum.id);
+    delete data.scrum_team_members;
 
-    let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.id, data.edited_scrum));
+    let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.actual_scrum.id, data.edited_scrum));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', devolution.data.error);
       return await this.retorno(devolution.data);
@@ -78,6 +81,20 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+  async bind_scrum_to_team_member(edited_team_members, scrum_id){
+    edited_team_members.forEach(team_member=>{
+
+      let team_members_scrums = await this.emit_to_server('db.team_member.read', new QueryObject(
+        scrum_id,
+        '',
+        {
+          path: 'scrum_sprints',
+          select: 'sprint_name sprint_beginning_date sprint_end_date sprint_tasks sprint_status'
+        }
+
+    })
+
+  }
 
   async delete_scrum_by_id(data){
     let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.id, data.update));
@@ -104,8 +121,8 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  async get_sprint_by_id(sprintId){
-    let devolution = await this.emit_to_server('db.sprint.read', new QueryObject(sprintId));
+  async get_sprint_by_id(sprint_id){
+    let devolution = await this.emit_to_server('db.sprint.read', new QueryObject(sprint_id));
     return this.retorno(devolution.data);
   }
 
@@ -141,8 +158,8 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  async get_history_by_id(historyId){
-    let devolution = await this.emit_to_server('db.history.read', new QueryObject(historyId));
+  async get_history_by_id(history_id){
+    let devolution = await this.emit_to_server('db.history.read', new QueryObject(history_id));
     return this.retorno(devolution.data);
   }
 
@@ -177,8 +194,8 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  async get_status_by_id(statusId){
-    let devolution = await this.emit_to_server('db.status.read', new QueryObject(statusId));
+  async get_status_by_id(status_id){
+    let devolution = await this.emit_to_server('db.status.read', new QueryObject(status_id));
     return this.retorno(devolution.data);
   }
 
@@ -218,8 +235,8 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  async get_task_by_id(taskId){
-    let devolution = await this.emit_to_server('db.task.read', new QueryObject(taskId));
+  async get_task_by_id(task_id){
+    let devolution = await this.emit_to_server('db.task.read', new QueryObject(task_id));
     return this.retorno(devolution.data);
   }
 
