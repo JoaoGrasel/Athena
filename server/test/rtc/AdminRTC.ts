@@ -165,7 +165,20 @@ describe("Teste AdminRTC", () => {
         scrum_beginning_date: "Fri Jul 03 1980 15:26:53 GMT+0000 (UTC)",
         scrum_end_date: "Fri Jul 04 1981 15:26:53 GMT+0000 (UTC)"
       };
-      current.cliente.emit('edit_scrum', {datas: {edited_scrum: edited_scrum}});
+      current.cliente.emit('edit_scrum', {datas: {edited_scrum: edited_scrum, actual_scrum: current.scrum}});
+    });
+
+    it('Edita Team Members do Scrum', (done)=>{
+      let retorno = (msg)=>{
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_scrum_team_members = {
+        removed_team_members: ["5af30e015e2cd29a74d29490"],
+        added_team_members: ["5b0c017395fd435568db21ea"]
+      };
+      current.cliente.emit('edit_scrum_team_members', {datas: {edited_scrum_team_members: edited_scrum_team_members, scrum: current.scrum}});
     });
 
     it('Exclui Scrum', (done)=>{

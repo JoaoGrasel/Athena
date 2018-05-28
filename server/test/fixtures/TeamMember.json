@@ -11,6 +11,17 @@
       "password": "123",
       "horary": "5af30d7e57ace13eb3c6b0dd",
       "scrums": ["5af310303949f6a7eb8285e8"]
+    },
+    {
+      "_id": "5b0c017395fd435568db21ea",
+      "first_name": "team_member2",
+      "surname": "team_member2",
+      "birthdate": "Thu Jul 03 1970 15:26:53 GMT+0000 (UTC)",
+      "username": "team_member2",
+      "email": "team2@member",
+      "password": "123",
+      "horary": "5af30d7e57ace13eb3c6b0dd",
+      "scrums": ["5af310303949f6a7eb8285e8"]
     }
   ]
 }

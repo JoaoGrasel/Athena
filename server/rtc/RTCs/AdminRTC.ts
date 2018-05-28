@@ -38,6 +38,7 @@ export class AdminRTC extends BasicRTC {
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
       'edit_team_member': this.edit_team_member.bind(this),
+      'edit_scrum_team_members': this.edit_scrum_team_members.bind(this),
       'delete_team_member_by_id': this.delete_team_member_by_id.bind(this)
     };
     this.loggedUser = msg.datas.data;
@@ -206,5 +207,10 @@ export class AdminRTC extends BasicRTC {
     msg.datas = await this.handler.delete_team_member_by_id(msg.datas);
     this.emit_to_browser(msg);
     }
+
+    async edit_scrum_team_members(msg){
+    msg.datas = await this.handler.edit_scrum_team_members(msg.datas);
+    this.emit_to_browser(msg);
+  }
 
 }
