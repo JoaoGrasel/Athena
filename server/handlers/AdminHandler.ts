@@ -10,6 +10,8 @@ export class AdminHandler extends CommonHandler {
 
   public async create_scrum(scrum) {
     let _id = new Types.ObjectId();
+    let x = _id.toString();
+    console.log(x);
     let new_scrum_data = {
       _id: _id,
       project_name: scrum.project_name,
@@ -30,7 +32,7 @@ export class AdminHandler extends CommonHandler {
       return await this.retorno(devolution.data);
     }
 
-    this.add_scrum_to_team_member(new_scrum_data.scrum_team_members, new_scrum_data._id)
+    this.add_scrum_to_team_member(new_scrum_data.scrum_team_members, new_scrum_data)
 
     return this.retorno(devolution.data);
   }
@@ -65,19 +67,19 @@ export class AdminHandler extends CommonHandler {
   }
 
   public async edit_scrum_team_members(data){
-    if(data.edited_scrum_team_members.removed_team_members.length){
-      this.remove_team_member_of_scrum(data.edited_scrum_team_members.removed_team_members, data.scrum);
-    };
     if(data.edited_scrum_team_members.added_team_members.length){
-      this.add_team_member_to_scrum(data.edited_scrum_team_members.added_team_members, data.scrum);
-      this.add_scrum_to_team_member(data.edited_scrum_team_members.added_team_members, data.scrum._id);
+      await this.add_team_member_to_scrum(data.edited_scrum_team_members.added_team_members, data.scrum);
+      await this.add_scrum_to_team_member(data.edited_scrum_team_members.added_team_members, data.scrum);
     };
+    if(data.edited_scrum_team_members.removed_team_members.length){
+      await this.remove_team_member_of_scrum(data.edited_scrum_team_members.removed_team_members, data.scrum);
+      await this.remove_scrum_of_team_member(data.edited_scrum_team_members.removed_team_members, data.scrum);
+    };
+
     return true;
   }
 
-
-
-  private async add_scrum_to_team_member(added_team_members, scrum_id){
+  private async add_scrum_to_team_member(added_team_members, scrum){
     let query = {
       _id: {
         $in: added_team_members
@@ -85,7 +87,7 @@ export class AdminHandler extends CommonHandler {
     };
     let update = {
       $addToSet: {
-        scrums: scrum_id
+        scrums: scrum.id
       }
     };
     let update_team_member_scrums = await this.emit_to_server('db.team_member.update', new UpdateObject(query, update));
@@ -116,9 +118,43 @@ export class AdminHandler extends CommonHandler {
   }
 
   private async remove_team_member_of_scrum(removed_team_members, scrum){
-
-
+    let query = {
+      _id: scrum.id
+    };
+    let update = {
+      $pull: {
+        scrum_team_members: {
+          $in: removed_team_members
+        }
+      }
+    };
+    let update_team_member_scrums = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+    if (update_team_member_scrums.data.error) {
+      update_team_member_scrums.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', update_team_member_scrums.data.error);
+      return await this.retorno(update_team_member_scrums.data);
+    }
+    return this.retorno(update_team_member_scrums.data)
   }
+
+  private async remove_scrum_of_team_member(removed_team_members, scrum){
+    let query = {
+      _id: {
+        $in: removed_team_members
+      }
+    };
+    let update = {
+      $pull: {
+        scrums: scrum.id
+      }
+    };
+    let update_team_member_scrums = await this.emit_to_server('db.team_member.update', new UpdateObject(query, update));
+    if (update_team_member_scrums.data.error) {
+      update_team_member_scrums.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', update_team_member_scrums.data.error);
+      return await this.retorno(update_team_member_scrums.data);
+    }
+    return this.retorno(update_team_member_scrums.data)
+  }
+
   // async bind_scrum_to_team_member(edited_team_members, actual_scrum, scrum_id) {
   //   let arraydepromessa = [];
   //   for (let i = 0; i < 100; i++) {
