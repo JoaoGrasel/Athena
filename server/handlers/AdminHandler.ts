@@ -54,7 +54,6 @@ export class AdminHandler extends CommonHandler {
   }
 
   public async edit_scrum(data) {
-    //todo sincronia de quando editar em uma ponta tambem editar em outra (scrums e team members)
     delete data.edited_scrum.history_backlog;
     let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.actual_scrum.id, data.edited_scrum));
     if (devolution.data.error) {
@@ -208,6 +207,7 @@ export class AdminHandler extends CommonHandler {
   }
 
   async edit_sprint(data) {
+    delete data.scrum;
     let devolution = await this.emit_to_server('db.sprint.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_sprint', devolution.data.error);
@@ -270,6 +270,7 @@ export class AdminHandler extends CommonHandler {
   }
 
   async edit_history(data) {
+    delete data.history_backlog;
     let devolution = await this.emit_to_server('db.history.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_history', devolution.data.error);
