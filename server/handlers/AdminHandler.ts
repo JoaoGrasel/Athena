@@ -10,8 +10,6 @@ export class AdminHandler extends CommonHandler {
 
   public async create_scrum(scrum) {
     let _id = new Types.ObjectId();
-    let x = _id.toString();
-    console.log(x);
     let new_scrum_data = {
       _id: _id,
       project_name: scrum.project_name,
@@ -155,25 +153,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  // async bind_scrum_to_team_member(edited_team_members, actual_scrum, scrum_id) {
-  //   let arraydepromessa = [];
-  //   for (let i = 0; i < 100; i++) {
-  //     arraydepromessa.push(this.emit_to_server('db.team_member.read', new QueryObject(
-  //       scrum_id,
-  //       '',
-  //       {
-  //         path: 'scrum_sprints',
-  //         select: 'sprint_name sprint_beginning_date sprint_end_date sprint_tasks sprint_status'
-  //       }
-  //     )))
-  //   }
-  //   let rets = await Promise.all(arraydepromessa);
-  //   return rets;
-  //
-  //
-  // }
-
-  async delete_scrum_by_id(data) {
+  public async delete_scrum_by_id(data) {
     let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', devolution.data.error);
@@ -185,17 +165,41 @@ export class AdminHandler extends CommonHandler {
 
   // SPRINT CRUD
 
-  async create_sprint(sprint) {
+  public async create_sprint(sprint) {
+    let _id = new Types.ObjectId();
     let new_sprint_data = {
+      _id: _id,
       sprint_name: sprint.sprint_name,
+      scrum: sprint.scrum,
       sprint_beginning_date: sprint.sprint_beginning_date,
       sprint_end_date: sprint.sprint_end_date,
       sprint_tasks: sprint.sprint_tasks,
       sprint_status: sprint.sprint_status
     }
-
     let devolution = await this.emit_to_server('db.sprint.create', new_sprint_data);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_sprint', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    await this.add_sprint_to_scrum(new_sprint_data._id, new_sprint_data.scrum);
     return this.retorno(devolution.data);
+  }
+
+  private async add_sprint_to_scrum(sprint_id, scrum_id){
+    let query = {
+      _id: scrum_id,
+    };
+    let update = {
+      $addToSet: {
+        scrum_sprints: sprint_id,
+      }
+    };
+    let update_scrum = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+    if (update_scrum.data.error) {
+      update_scrum.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', update_scrum.data.error);
+      return await this.retorno(update_scrum.data);
+    }
+    return this.retorno(update_scrum.data)
   }
 
   async get_sprint_by_id(sprint_id) {
@@ -223,16 +227,41 @@ export class AdminHandler extends CommonHandler {
 
   // HISTORY CRUD
   async create_history(history) {
+    let _id = new Types.ObjectId();
     let new_history_data = {
+      _id: _id,
       history_theme: history.history_theme,
       history_like_one: history.history_like_one,
       history_want_can: history.history_want_can,
       history_need_to_do: history.history_need_to_do,
-      history_tasks: history.history_tasks
+      history_tasks: history.history_tasks,
+      history_backlog: history.history_backlog,
     }
 
     let devolution = await this.emit_to_server('db.history.create', new_history_data);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_history', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    await this.add_history_to_history_backlog(new_history_data._id, new_history_data.history_backlog);
     return this.retorno(devolution.data);
+  }
+
+  private async add_history_to_history_backlog(history_id, history_backlog_id){
+    let query = {
+      _id: history_backlog_id,
+    };
+    let update = {
+      $addToSet: {
+        histories: history_id,
+      }
+    };
+    let update_history_backlog = await this.emit_to_server('db.history_backlog.update', new UpdateObject(query, update));
+    if (update_history_backlog.data.error) {
+      update_history_backlog.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', update_history_backlog.data.error);
+      return await this.retorno(update_history_backlog.data);
+    }
+    return this.retorno(update_history_backlog.data)
   }
 
   async get_history_by_id(history_id) {

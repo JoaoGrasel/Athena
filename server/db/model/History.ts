@@ -53,6 +53,11 @@ let schema = new Schema(Object.assign({
     }],
     required: [true, messages.history_tasks.REQUIRED]
   },
+  history_backlog: {
+    type: Schema.Types.ObjectId,
+    ref:'history_backlog',
+    required: [true, messages.history_backlog.REQUIRED],
+  },
   removed: {
     type: Schema.Types.Boolean,
     default: false

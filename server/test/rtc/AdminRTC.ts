@@ -281,35 +281,36 @@ describe("Teste AdminRTC", () => {
     });
   });
 
-  // describe('Teste do CRUD de Historias', () => {
-  //
-  //   it('Cria Historia certinha', (done)=>{
-  //     let retorno = (msg)=>{
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
-  //       expect(msg.datas.data[0]).to.have.all.keys("history_theme","history_like_one","history_want_can","history_need_to_do",
-  //                                                  "id","history_tasks");
-  //       expect(msg.datas.data[0].history_tasks).to.be.instanceOf(Array);
-  //       current.history = msg.datas.data[0];
-  //       current.cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     let history = {
-  //       history_theme: "RU",
-  //       history_like_one: "Team Member",
-  //       history_want_can: "Jantar no RU",
-  //       history_need_to_do: "Comprar o passe",
-  //       history_tasks: [
-  //         "5af314beb754077482a4cf82",
-  //         "5af314c415a12580e22dbc0e"
-  //       ]
-  //
-  //     }
-  //     current.cliente.on('retorno', retorno);
-  //     current.cliente.emit('create_history', {datas: history});
-  //
-  //   });
+  describe('Teste do CRUD de Historias', () => {
+
+    it('Cria Historia certinha', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("history_theme","history_like_one","history_want_can","history_need_to_do",
+                                                   "id","history_tasks", "history_backlog");
+        expect(msg.datas.data[0].history_tasks).to.be.instanceOf(Array);
+        current.history = msg.datas.data[0];
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let history = {
+        history_theme: "RU",
+        history_like_one: "Team Member",
+        history_want_can: "Jantar no RU",
+        history_need_to_do: "Comprar o passe",
+        history_tasks: [
+          "5af314beb754077482a4cf82",
+          "5af314c415a12580e22dbc0e"
+        ],
+        history_backlog: "5af3121b0084efb9b41f949d"
+
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('create_history', {datas: history});
+
+    });
   //
   //   it('Busca Historia', (done)=>{
   //     let retorno = (msg)=>{
@@ -357,8 +358,8 @@ describe("Teste AdminRTC", () => {
   //     current.cliente.on('retorno', retorno);
   //     current.cliente.emit('delete_history_by_id', {datas: {id:current.history.id, update:{removed: true}}});
   //   });
-  // });
-  //
+  });
+
   // describe('Teste do CRUD de Status', () => {
   //
   //   it('Cria Status certinho', (done)=>{

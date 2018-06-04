@@ -150,6 +150,9 @@
     },
     "sprint_status":{
       "REQUIRED": "sprint_status_required"
+    },
+    "sprint_scrum":{
+      "REQUIRED": "sprint_scrum_required"
     }
   },
   "status": {
@@ -195,6 +198,9 @@
     },
     "history_tasks":{
       "REQUIRED": "history_tasks_required"
+    },
+    "history_backlog":{
+      "REQUIRED": "history_backlog_required"
     }
   }
 }
