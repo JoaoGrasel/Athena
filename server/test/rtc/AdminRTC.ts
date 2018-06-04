@@ -443,118 +443,140 @@ describe("Teste AdminRTC", () => {
   //   });
   // });
   //
-  // describe('Teste do CRUD de Tarefas', () => {
-  //
-  //   it('Cria Tarefa certinha', (done)=>{
-  //     let retorno = (msg)=>{
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
-  //       expect(msg.datas.data[0]).to.have.all.keys(
-  //         "id",
-  //         "task_name",
-  //         "task_status",
-  //         "task_artefact",
-  //         "task_description",
-  //         "task_responsibles"
-  //       );
-  //       expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-  //       current.task = msg.datas.data[0];
-  //       current.cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     let task = {
-  //       task_name: "Kill pedro",
-  //       task_status: "5af316b4fb91b1e207e7f405",
-  //       task_artefact: "Corpo estirado no chão",
-  //       task_description: "Peça 10 reais para cada amigo para realizar essa missao de matar o pedro.",
-  //       task_responsibles: [
-  //         "5af30e015e2cd29a74d29490"
-  //       ],
-  //       needed_tasks: [],
-  //       task_beginning_date:"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
-  //       task_end_date: "Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
-  //       completed: false,
-  //     }
-  //     current.cliente.on('retorno', retorno);
-  //     current.cliente.emit('create_task', {datas: task});
-  //
-  //   });
-  //
-  //   it('Busca Tarefa', (done)=>{
-  //     let retorno = (msg)=>{
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Object);
-  //       expect(msg.datas.data).to.have.all.keys(
-  //         "id",
-  //         "_id",
-  //         "__v",
-  //         "updatedAt",
-  //         "createdAt",
-  //         "task_name",
-  //         "task_status",
-  //         "task_artefact",
-  //         "task_description",
-  //         "task_responsibles",
-  //       );
-  //       current.cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     current.cliente.on('retorno', retorno);
-  //     current.cliente.emit('get_task_by_id', {datas: current.task.id});
-  //
-  //   });
-  //
-  //   it('Edita Task', (done)=>{
-  //     let retorno = (msg)=>{
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
-  //       expect(msg.datas.data[0]).to.have.all.keys(
-  //         "id",
-  //         "updatedAt",
-  //         "createdAt",
-  //         "task_name",
-  //         "task_status",
-  //         "task_artefact",
-  //         "task_description",
-  //         "task_responsibles"
-  //       );
-  //       expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-  //       current.cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     current.cliente.on('retorno', retorno);
-  //     let edited_task = {
-  //       completed: true,
-  //     };
-  //     current.cliente.emit('edit_task', {datas: {id: current.task.id, update: edited_task}});
-  //   });
-  //
-  //   it('Exclui Task', (done)=>{
-  //     let retorno = (msg)=>{
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
-  //       expect(msg.datas.data[0]).to.have.all.keys(
-  //         "id",
-  //         "updatedAt",
-  //         "createdAt",
-  //         "task_name",
-  //         "task_status",
-  //         "task_artefact",
-  //         "task_description",
-  //         "task_responsibles"
-  //       );
-  //       expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-  //       current.cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     current.cliente.on('retorno', retorno);
-  //     current.cliente.emit('delete_task_by_id', {datas: {id:current.task.id, update:{removed: true}}});
-  //   });
-  // });
-  //
+  describe('Teste do CRUD de Tarefas', () => {
+
+    it('Cria Tarefa certinha', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "id",
+          "task_name",
+          "task_status",
+          "task_artefact",
+          "task_description",
+          "task_responsibles"
+        );
+        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.task = msg.datas.data[0];
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let task = {
+        task_name: "Kill pedro",
+        task_status: "5af316b4fb91b1e207e7f405",
+        task_artefact: "Corpo estirado no chão",
+        task_description: "Peça 10 reais para cada amigo para realizar essa missao de matar o pedro.",
+        task_responsibles: [
+          "5af30e015e2cd29a74d29490"
+        ],
+        needed_tasks: [],
+        task_beginning_date:"Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
+        task_end_date: "Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
+        completed: false,
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('create_task', {datas: task});
+
+    });
+
+    it('Busca Tarefa', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys(
+          "id",
+          "_id",
+          "__v",
+          "updatedAt",
+          "createdAt",
+          "task_name",
+          "task_status",
+          "task_artefact",
+          "task_description",
+          "task_responsibles",
+        );
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('get_task_by_id', {datas: current.task.id});
+
+    });
+
+    it('Edita Task', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "id",
+          "updatedAt",
+          "createdAt",
+          "task_name",
+          "task_status",
+          "task_artefact",
+          "task_description",
+          "task_responsibles"
+        );
+        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_task = {
+        completed: true,
+      };
+      current.cliente.emit('edit_task', {datas: {id: current.task.id, update: edited_task}});
+    });
+
+    it('Adiciona Task em uma sprint', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('add_task_in_sprint', {datas: {task_id:current.task.id, sprint_id:"5af31272b1d11768177296ac"}});
+    });
+
+    it('Adiciona Task em uma history', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('add_task_in_history', {datas: {id:current.task.id, history: "5af315f24e85890f295d836b"}});
+    });
+
+    it('Exclui Task', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "id",
+          "updatedAt",
+          "createdAt",
+          "task_name",
+          "task_status",
+          "task_artefact",
+          "task_description",
+          "task_responsibles"
+        );
+        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('delete_task_by_id', {datas: {id:current.task.id, update:{removed: true}}});
+    });
+
+
+  });
+
   // describe('Teste do CRUD de Team Members', () => {
   //
   //   it('Cria Team Member certinho', (done)=>{
