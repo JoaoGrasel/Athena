@@ -10,7 +10,7 @@
       "email": "team@member",
       "password": "123",
       "horary": "5af30d7e57ace13eb3c6b0dd",
-      "scrums": ["5af310303949f6a7eb8285e8"]
+      "scrums": ["5b1698801a49f5071e55fe21"]
     },
     {
       "_id": "5b0c017395fd435568db21ea",
@@ -21,7 +21,7 @@
       "email": "team2@member",
       "password": "123",
       "horary": "5af30d7e57ace13eb3c6b0dd",
-      "scrums": ["5af310303949f6a7eb8285e8"]
+      "scrums": ["5b1698801a49f5071e55fe21"]
     }
   ]
 }

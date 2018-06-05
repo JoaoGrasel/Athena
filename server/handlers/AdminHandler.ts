@@ -30,7 +30,7 @@ export class AdminHandler extends CommonHandler {
       return await this.retorno(devolution.data);
     }
 
-    this.add_scrum_to_team_member(new_scrum_data.scrum_team_members, new_scrum_data)
+    this.add_scrum_to_team_members(new_scrum_data.scrum_team_members, new_scrum_data)
 
     return this.retorno(devolution.data);
   }
@@ -65,18 +65,18 @@ export class AdminHandler extends CommonHandler {
 
   public async edit_scrum_team_members(data){
     if(data.edited_scrum_team_members.added_team_members.length){
-      await this.add_team_member_to_scrum(data.edited_scrum_team_members.added_team_members, data.scrum);
-      await this.add_scrum_to_team_member(data.edited_scrum_team_members.added_team_members, data.scrum);
+      await this.add_team_members_to_scrum(data.edited_scrum_team_members.added_team_members, data.scrum);
+      await this.add_scrum_to_team_members(data.edited_scrum_team_members.added_team_members, data.scrum);
     };
     if(data.edited_scrum_team_members.removed_team_members.length){
-      await this.remove_team_member_of_scrum(data.edited_scrum_team_members.removed_team_members, data.scrum);
-      await this.remove_scrum_of_team_member(data.edited_scrum_team_members.removed_team_members, data.scrum);
+      await this.remove_team_members_of_scrum(data.edited_scrum_team_members.removed_team_members, data.scrum);
+      await this.remove_scrum_of_team_members(data.edited_scrum_team_members.removed_team_members, data.scrum);
     };
 
     return true;
   }
 
-  private async add_scrum_to_team_member(added_team_members, scrum){
+  private async add_scrum_to_team_members(added_team_members, scrum){
     let query = {
       _id: {
         $in: added_team_members
@@ -95,7 +95,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async add_team_member_to_scrum(added_team_members, scrum){
+  private async add_team_members_to_scrum(added_team_members, scrum){
     let query = {
       _id: scrum.id
     };
@@ -114,7 +114,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async remove_team_member_of_scrum(removed_team_members, scrum){
+  private async remove_team_members_of_scrum(removed_team_members, scrum){
     let query = {
       _id: scrum.id
     };
@@ -133,7 +133,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async remove_scrum_of_team_member(removed_team_members, scrum){
+  private async remove_scrum_of_team_members(removed_team_members, scrum){
     let query = {
       _id: {
         $in: removed_team_members
@@ -339,6 +339,10 @@ export class AdminHandler extends CommonHandler {
       completed: task.completed,
     }
     let devolution = await this.emit_to_server('db.task.create', new_task_data);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_task', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
     return this.retorno(devolution.data);
   }
 
@@ -401,8 +405,10 @@ export class AdminHandler extends CommonHandler {
 
   // TEAM MEMBER CRUD
 
-  async create_team_member(team_member) {
+  public async create_team_member(team_member) {
+    let _id = new Types.ObjectId();
     let new_task_data = {
+      _id: _id,
       first_name: team_member.first_name,
       surname: team_member.surname,
       birthdate: team_member.birthdate,
@@ -413,15 +419,39 @@ export class AdminHandler extends CommonHandler {
       scrums: team_member.scrums
     }
     let devolution = await this.emit_to_server('db.team_member.create', new_task_data);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_team_member', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    await this.add_team_member_to_scrums(new_task_data._id, new_task_data.scrums);
     return this.retorno(devolution.data);
   }
 
-  async get_team_member_by_id(team_member_id) {
+  private async add_team_member_to_scrums(team_member_id, scrums){
+    let query = {
+      _id: {
+        $in: scrums
+      },
+    };
+    let update = {
+      $addToSet: {
+        scrum_team_members: team_member_id,
+      }
+    };
+    let update_scrum = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+    if (update_scrum.data.error) {
+      update_scrum.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum', update_scrum.data.error);
+      return await this.retorno(update_scrum.data);
+    }
+    return this.retorno(update_scrum.data)
+  }
+
+  public async get_team_member_by_id(team_member_id) {
     let devolution = await this.emit_to_server('db.team_member.read', new QueryObject(team_member_id));
     return this.retorno(devolution.data);
   }
 
-  async edit_team_member(data) {
+  public async edit_team_member(data) {
     let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);
@@ -429,6 +459,21 @@ export class AdminHandler extends CommonHandler {
     }
     return this.retorno(devolution.data);
   }
+
+  public async edit_team_member_scrums(data){
+    if(data.edited_team_member_scrums.added_scrums.length){
+      await this.add_team_members_to_scrum(data.edited_team_member_scrums.added_scrums, data.scrum);
+      await this.add_scrum_to_team_members(data.edited_team_member_scrums.added_scrums, data.scrum);
+    };
+    if(data.edited_team_member_scrums.removed_scrums.length){
+      await this.remove_team_members_of_scrum(data.edited_team_member_scrums.removed_scrums, data.scrum);
+      await this.remove_scrum_of_team_members(data.edited_team_member_scrums.removed_scrums, data.scrum);
+    };
+
+    return true;
+  }
+
+
 
   async delete_team_member_by_id(data) {
     let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
