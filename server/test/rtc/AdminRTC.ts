@@ -664,7 +664,7 @@ describe("Teste AdminRTC", () => {
       };
       current.cliente.emit('edit_team_member', {datas: {id: current.team_member.id, update: edited_team_member}});
     });
-// todo não esta adicionando ou removendo os scrums
+
     it('Edita Scrums do Team Member', (done)=>{
       let retorno = (msg)=>{
         expect(msg.datas).to.be.true;
@@ -676,7 +676,7 @@ describe("Teste AdminRTC", () => {
         removed_scrums: ["5b1698801a49f5071e55fe21"],
         added_scrums: ["5b169888ec6ac5329634f5af"]
       };
-      current.cliente.emit('edit_team_member_scrums', {datas: {edited_team_member_scrums: edited_team_member_scrums, scrum: current.scrum}});
+      current.cliente.emit('edit_team_member_scrums', {datas: {edited_team_member_scrums: edited_team_member_scrums, team_member: current.team_member}});
     });
 
     it('Exclui Team Member', (done)=>{
