@@ -201,12 +201,12 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_scrum.data)
   }
 
-  async get_sprint_by_id(sprint_id) {
+  public async get_sprint_by_id(sprint_id) {
     let devolution = await this.emit_to_server('db.sprint.read', new QueryObject(sprint_id));
     return this.retorno(devolution.data);
   }
 
-  async edit_sprint(data) {
+  public async edit_sprint(data) {
     delete data.scrum;
     let devolution = await this.emit_to_server('db.sprint.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
@@ -216,7 +216,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  async delete_sprint_by_id(data) {
+  public async delete_sprint_by_id(data) {
     let devolution = await this.emit_to_server('db.sprint.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_sprint', devolution.data.error);
@@ -416,15 +416,50 @@ export class AdminHandler extends CommonHandler {
       username: team_member.username,
       email: team_member.email,
       password: team_member.password,
-      horary: team_member.horary,
       scrums: team_member.scrums
     }
+    delete team_member.horary;
     let devolution = await this.emit_to_server('db.team_member.create', new_task_data);
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_team_member', devolution.data.error);
       return await this.retorno(devolution.data);
     }
     await this.add_team_member_to_scrums(new_task_data.scrums, new_task_data);
+    await this.create_horary_for_team_member(new_task_data.id);
+    return this.retorno(devolution.data);
+  }
+
+  private async create_horary_for_team_member(team_member_id){
+    let current_date = new Date();
+    let current_month = current_date.getMonth();
+    let current_year = current_date.getFullYear();
+    let _id = new Types.ObjectId();
+
+    let horary = {
+      _id: _id,
+      team_member: team_member_id,
+      month: current_month,
+      year: current_year,
+      timetable:[],
+      questions:[]
+    };
+
+    let new_horary = await this.emit_to_server('db.horary.create', horary);
+    if (new_horary.data.error) {
+      new_horary.data.error = await Util.getErrorByLocale('pt-Br', 'create_horary', new_horary.data.error);
+      return await this.retorno(new_horary.data);
+    }
+
+    new_horary = new_horary.data.success[0];
+
+    let query = {_id: team_member_id};
+    let update = {horary: new_horary.id};
+
+    let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(query, update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_horary', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
     return this.retorno(devolution.data);
   }
 
@@ -532,7 +567,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_scrums_team_member.data)
   }
 
-  async delete_team_member_by_id(data) {
+  public async delete_team_member_by_id(data) {
     let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);

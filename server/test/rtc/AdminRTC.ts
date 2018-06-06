@@ -579,7 +579,6 @@ describe("Teste AdminRTC", () => {
   });
 
   describe('Teste do CRUD de Team Members', () => {
-//todo ver a questao dos horarios
     it('Cria Team Member certinho', (done)=>{
       let retorno = (msg)=>{
         expect(msg.datas.success).to.be.true;
@@ -589,7 +588,6 @@ describe("Teste AdminRTC", () => {
           "id",
           "type",
           "email",
-          "horary",
           "scrums",
           "surname",
           "username",
@@ -608,13 +606,11 @@ describe("Teste AdminRTC", () => {
         username: "Thaigo",
         email: "tt@thaigo",
         password: "123",
-        horary: "5af30d7e57ace13eb3c6b0dd",
         scrums: ["5b1698801a49f5071e55fe21"]
       }
       current.cliente.on('retorno', retorno);
       current.cliente.emit('create_team_member', {datas: team_member});
     });
-
 
     it('Busca Team Member', (done)=>{
       let retorno = (msg)=>{

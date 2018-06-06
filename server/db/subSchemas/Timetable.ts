@@ -31,17 +31,14 @@ const Timetable = new Schema(Object.assign({
   day: {
     type: Schema.Types.Number,
     trim: true,
-    required: [true, messages.day.REQUIRED],
   },
   entry_time: {
     type: Schema.Types.Date,
     trim: true,
-    required: [true, messages.entry_time.REQUIRED],
   },
   exit_time: {
     type: Schema.Types.Date,
     trim: true,
-    required: [true, messages.exit_time.REQUIRED],
   },
 }), schema_options);
 

@@ -31,22 +31,18 @@ const Questions = new Schema(Object.assign({
   day: {
     type: Schema.Types.Number,
     trim: true,
-    required: [true, messages.day.REQUIRED],
   },
   question1: {
     type: Schema.Types.String,
     trim: true,
-    required: [true, messages.question1.REQUIRED],
   },
   question2: {
     type: Schema.Types.String,
     trim: true,
-    required: [true, messages.question2.REQUIRED],
   },
   question3: {
     type: Schema.Types.String,
-    trim: true,
-    required: [true, messages.question3.REQUIRED],
+    trim: true
   }
 }), schema_options);
 
