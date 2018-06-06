@@ -22,6 +22,7 @@ describe("Teste AdminRTC", () => {
     status: null,
     task: null,
     team_member: null,
+    admin: null,
   }
 
   it("Connect", (done) => {
@@ -690,6 +691,120 @@ describe("Teste AdminRTC", () => {
       };
       current.cliente.on('retorno', retorno);
       current.cliente.emit('delete_team_member_by_id', {datas: {id:current.team_member.id, update:{removed: true}}});
+    });
+  });
+
+  describe('Teste do CRUD de Admin', () => {
+    it('Cria Admin certinho', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "id",
+          "type",
+          "email",
+          "scrums",
+          "surname",
+          "username",
+          "birthdate",
+          "first_name",
+        );
+        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
+        current.admin = msg.datas.data[0];
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let admin = {
+        first_name: "Osvaldo",
+        surname: "Piadasruins",
+        birthdate: "Thu Jul 03 1970 15:26:53 GMT+0000 (UTC)",
+        username: "Osvaldo",
+        email: "Osvaldo@Osvaldo",
+        password: "123",
+        scrums: ["5b1698801a49f5071e55fe21"]
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('create_admin', {datas: admin});
+    });
+
+    it('Busca Admin', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys(
+          "id",
+          "_id",
+          "__v",
+          "type",
+          "email",
+          "scrums",
+          "surname",
+          "removed",
+          "username",
+          "password",
+          "updatedAt",
+          "createdAt",
+          "birthdate",
+          "first_name",
+        );
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('get_admin_by_id', {datas: current.admin.id});
+
+    });
+
+    it('Edita Admin', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "updatedAt","createdAt","first_name","surname","birthdate","username",
+          "email","password","id","type","removed","scrums"
+        );
+        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_admin = {
+        email: "topster@tgt",
+      };
+      current.cliente.emit('edit_admin', {datas: {id: current.admin.id, update: edited_admin}});
+    });
+
+    it('Edita Scrums do Admin', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_admin_scrums = {
+        removed_scrums: ["5b1698801a49f5071e55fe21"],
+        added_scrums: ["5b169888ec6ac5329634f5af"]
+      };
+      current.cliente.emit('edit_admin_scrums', {datas: {edited_admin_scrums: edited_admin_scrums, current_admin: current.admin}});
+    });
+
+    it('Exclui Admin', (done)=>{
+      let retorno = (msg)=>{
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "updatedAt","createdAt","first_name","surname","birthdate","username",
+          "email","password","id","type","removed","scrums"
+        );
+        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('delete_admin_by_id', {datas: {id:current.admin.id, update:{removed: true}}});
     });
   });
 

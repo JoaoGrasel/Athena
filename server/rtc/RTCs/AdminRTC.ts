@@ -43,37 +43,42 @@ export class AdminRTC extends BasicRTC {
       'add_task_in_sprint': this.add_task_in_sprint.bind(this),
       'add_task_in_history': this.add_task_in_history.bind(this),
       'edit_team_member_scrums': this.edit_team_member_scrums.bind(this),
+      'create_admin': this.create_admin.bind(this),
+      'get_admin_by_id': this.get_admin_by_id.bind(this),
+      'edit_admin': this.edit_admin.bind(this),
+      'edit_admin_scrums': this.edit_admin_scrums.bind(this),
+      'delete_admin_by_id': this.delete_admin_by_id.bind(this),
     };
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
     this.wiring();
   }
 
-  set loggedUser(loggedUser){
+  public set loggedUser(loggedUser){
     this._loggedUser = loggedUser;
   }
 
-  get loggedUser(){
+  public get loggedUser(){
     return this._loggedUser;
   }
 
-  set handler(handler: AdminHandler) {
+  public set handler(handler: AdminHandler) {
     this._handler = handler;
   }
 
-  get handler(): AdminHandler {
+  public get handler(): AdminHandler {
     return this._handler;
   }
 
-  set interfaceListeners(interfaceListeners: object) {
+  public set interfaceListeners(interfaceListeners: object) {
     this._interfaceListeners = interfaceListeners;
   }
 
-  get interfaceListeners(): object {
+  public get interfaceListeners(): object {
     return this._interfaceListeners;
   }
 
-  async logout(msg) {
+  public async logout(msg) {
     msg.datas = await this.handler.logout();
     new OpenRTC(this.config);
     this.emit_to_browser(msg);
@@ -82,155 +87,179 @@ export class AdminRTC extends BasicRTC {
 
   // SCRUM CRUD
 
-  async create_scrum(msg) {
+  public async create_scrum(msg) {
     msg.datas = await this.handler.create_scrum(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async get_scrum_by_id(msg){
+  public async get_scrum_by_id(msg){
     msg.datas = await this.handler.get_scrum_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async edit_scrum(msg){
+  public async edit_scrum(msg){
     msg.datas = await this.handler.edit_scrum(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async delete_scrum_by_id(msg){
+  public async delete_scrum_by_id(msg){
     msg.datas = await this.handler.delete_scrum_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
   // SPRINT CRUD
 
-  async create_sprint(msg){
+  public async create_sprint(msg){
     msg.datas = await this.handler.create_sprint(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async get_sprint_by_id(msg){
+  public async get_sprint_by_id(msg){
     msg.datas = await this.handler.get_sprint_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async edit_sprint(msg){
+  public async edit_sprint(msg){
     msg.datas = await this.handler.edit_sprint(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async delete_sprint_by_id(msg){
+  public async delete_sprint_by_id(msg){
     msg.datas = await this.handler.delete_sprint_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
   // HISTORY CRUD
 
-  async create_history(msg){
+  public async create_history(msg){
     msg.datas = await this.handler.create_history(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async get_history_by_id(msg){
+  public async get_history_by_id(msg){
     msg.datas = await this.handler.get_history_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async edit_history(msg){
+  public async edit_history(msg){
     msg.datas = await this.handler.edit_history(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async delete_history_by_id(msg){
+  public async delete_history_by_id(msg){
     msg.datas = await this.handler.delete_history_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
   //STATUS CRUD
 
-  async create_status(msg){
+  public async create_status(msg){
     msg.datas = await this.handler.create_status(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async get_status_by_id(msg){
+  public async get_status_by_id(msg){
     msg.datas = await this.handler.get_status_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async edit_status(msg){
+  public async edit_status(msg){
     msg.datas = await this.handler.edit_status(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async delete_status_by_id(msg){
+  public async delete_status_by_id(msg){
     msg.datas = await this.handler.delete_status_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
   //TAREFAS CRUD
 
-  async create_task(msg){
+  public async create_task(msg){
     msg.datas = await this.handler.create_task(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async get_task_by_id(msg){
+  public async get_task_by_id(msg){
     msg.datas = await this.handler.get_task_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async edit_task(msg){
+  public async edit_task(msg){
     msg.datas = await this.handler.edit_task(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async delete_task_by_id(msg) {
+  public async delete_task_by_id(msg) {
     msg.datas = await this.handler.delete_task_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async add_task_in_sprint(msg){
+  public async add_task_in_sprint(msg){
     msg.datas = await this.handler.add_task_in_sprint(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async add_task_in_history(msg){
+  public async add_task_in_history(msg){
     msg.datas = await this.handler.add_task_in_history(msg.datas);
     this.emit_to_browser(msg);
   }
     // TEAM MEMBER CRUD
 
-    async create_team_member(msg){
-      msg.datas = await this.handler.create_team_member(msg.datas);
-      this.emit_to_browser(msg);
-    }
+  public async create_team_member(msg){
+    msg.datas = await this.handler.create_team_member(msg.datas);
+    this.emit_to_browser(msg);
+  }
 
-    async get_team_member_by_id(msg){
+  public async get_team_member_by_id(msg){
     msg.datas = await this.handler.get_team_member_by_id(msg.datas);
     this.emit_to_browser(msg);
-    }
+  }
 
-    async edit_team_member(msg){
+  public async edit_team_member(msg){
     msg.datas = await this.handler.edit_team_member(msg.datas);
     this.emit_to_browser(msg);
-    }
+  }
 
-    async edit_team_member_scrums(msg){
+  public async edit_team_member_scrums(msg){
     msg.datas = await this.handler.edit_team_member_scrums(msg.datas);
     this.emit_to_browser(msg);
-    }
+  }
 
-    async delete_team_member_by_id(msg){
+  public async delete_team_member_by_id(msg){
     msg.datas = await this.handler.delete_team_member_by_id(msg.datas);
     this.emit_to_browser(msg);
-    }
+  }
 
-    async edit_scrum_team_members(msg){
+  public async edit_scrum_team_members(msg){
     msg.datas = await this.handler.edit_scrum_team_members(msg.datas);
     this.emit_to_browser(msg);
   }
 
+  // ADMIN CRUD
 
+  public async create_admin(msg){
+    msg.datas = await this.handler.create_admin(msg.datas);
+    this.emit_to_browser(msg);
+  }
 
+  public async get_admin_by_id(msg){
+    msg.datas = await this.handler.get_admin_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public async edit_admin(msg){
+    msg.datas = await this.handler.edit_admin(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public async edit_admin_scrums(msg){
+    msg.datas = await this.handler.edit_admin_scrums(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public async delete_admin_by_id(msg){
+    msg.datas = await this.handler.delete_admin_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
 }

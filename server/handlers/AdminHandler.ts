@@ -407,7 +407,7 @@ export class AdminHandler extends CommonHandler {
 
   public async create_team_member(team_member) {
     let _id = new Types.ObjectId();
-    let new_task_data = {
+    let new_team_member = {
       _id: _id,
       id: _id,
       first_name: team_member.first_name,
@@ -419,13 +419,13 @@ export class AdminHandler extends CommonHandler {
       scrums: team_member.scrums
     }
     delete team_member.horary;
-    let devolution = await this.emit_to_server('db.team_member.create', new_task_data);
+    let devolution = await this.emit_to_server('db.team_member.create', new_team_member);
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_team_member', devolution.data.error);
       return await this.retorno(devolution.data);
     }
-    await this.add_team_member_to_scrums(new_task_data.scrums, new_task_data);
-    await this.create_horary_for_team_member(new_task_data.id);
+    await this.add_team_member_to_scrums(new_team_member.scrums, new_team_member);
+    await this.create_horary_for_team_member(new_team_member.id);
     return this.retorno(devolution.data);
   }
 
@@ -571,6 +571,142 @@ export class AdminHandler extends CommonHandler {
     let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  // ADMIN CRUD
+
+  public async create_admin(admin){
+    let _id = new Types.ObjectId();
+    let new_admin = {
+      _id: _id,
+      id: _id,
+      first_name: admin.first_name,
+      surname: admin.surname,
+      birthdate: admin.birthdate,
+      username: admin.username,
+      email: admin.email,
+      password: admin.password,
+      scrums: admin.scrums
+    }
+    let devolution = await this.emit_to_server('db.admin.create', new_admin);
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'create_admin', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    await this.add_admin_to_scrums(admin.scrums, admin);
+    return this.retorno(devolution.data);
+  }
+
+  public async get_admin_by_id(admin_id) {
+    let devolution = await this.emit_to_server('db.admin.read', new QueryObject(admin_id));
+    return this.retorno(devolution.data);
+  }
+
+  public async edit_admin(data){
+    let devolution = await this.emit_to_server('db.admin.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_admin', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  public async edit_admin_scrums(data){
+    if(data.edited_admin_scrums.added_scrums.length){
+      await this.add_admin_to_scrums(data.edited_admin_scrums.added_scrums, data.current_admin);
+      await this.add_scrums_to_admin(data.edited_admin_scrums.added_scrums, data.current_admin);
+    };
+    if(data.edited_team_member_scrums.removed_scrums.length){
+      await this.remove_admin_of_scrums(data.edited_admin_scrums.removed_scrums, data.current_admin);
+      await this.remove_scrums_of_admin(data.edited_admin_scrums.removed_scrums, data.current_admin);
+    };
+
+    return true;
+  }
+
+  private async add_admin_to_scrums(added_scrums, admin){
+    let query = {
+      _id: {
+        $in: added_scrums
+      }
+    };
+    let update = {
+      $addToSet: {
+        scrum_team_members: admin.id
+      }
+    };
+    let update_scrum_admins = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+    if (update_scrum_admins.data.error) {
+      update_scrum_admins.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrum_admins', update_scrum_admins.data.error);
+      return await this.retorno(update_scrum_admins.data);
+    }
+    return this.retorno(update_scrum_admins.data)
+  }
+
+  private async add_scrums_to_admin(added_scrums, admin){
+    let query = {
+      _id: admin.id
+    };
+    let update = {
+      $addToSet: {
+        scrums: {
+          $each: added_scrums
+        }
+      }
+    };
+    let update_admin_scrums = await this.emit_to_server('db.admin.update', new UpdateObject(query, update));
+    if (update_admin_scrums.data.error) {
+      update_admin_scrums.data.error = await Util.getErrorByLocale('pt-Br', 'update_admin_scrums', update_admin_scrums.data.error);
+      return await this.retorno(update_admin_scrums.data);
+    }
+    return this.retorno(update_admin_scrums.data)
+  }
+
+  private async remove_scrums_of_admin(removed_scrums, admin){
+    let query = {
+      _id: admin.id
+    };
+    let update = {
+      $pull: {
+        scrums: {
+          $in: removed_scrums
+        }
+      }
+    };
+    let update_admin_scrums = await this.emit_to_server('db.admin.update', new UpdateObject(query, update));
+    if (update_admin_scrums.data.error) {
+      update_admin_scrums.data.error = await Util.getErrorByLocale('pt-Br', 'update_admin_scrums', update_admin_scrums.data.error);
+      return await this.retorno(update_admin_scrums.data);
+    }
+    return this.retorno(update_admin_scrums.data)
+  }
+
+  private async remove_admin_of_scrums(removed_scrums, admin){
+    let query = {
+      _id: {
+        $in: removed_scrums
+      }
+    };
+    let update = {
+      $pull: {
+        scrum_team_members: admin.id
+      }
+    };
+    let update_scrums_admin = await this.emit_to_server('db.scrum.update', new UpdateObject(query, update));
+    if (update_scrums_admin.data.error) {
+      update_scrums_admin.data.error = await Util.getErrorByLocale('pt-Br', 'update_scrums_admin', update_scrums_admin.data.error);
+      return await this.retorno(update_scrums_admin.data);
+    }
+    return this.retorno(update_scrums_admin.data)
+  }
+
+  public async delete_admin_by_id(data) {
+    let devolution = await this.emit_to_server('db.admin.update', new UpdateObject(data.id, data.update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_admin', devolution.data.error);
       return await this.retorno(devolution.data);
     }
     return this.retorno(devolution.data);
