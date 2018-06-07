@@ -33,10 +33,13 @@ export class AdminRTC extends BasicRTC {
       'delete_status_by_id': this.delete_status_by_id.bind(this),
       'create_task': this.create_task.bind(this),
       'get_task_by_id': this.get_task_by_id.bind(this),
+      'add_team_member_in_task': this.add_team_member_in_task.bind(this),
       'edit_task': this.edit_task.bind(this),
       'delete_task_by_id': this.delete_task_by_id.bind(this),
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
+      'get_timetable_by_team_member_id': this.get_timetable_by_team_member_id.bind(this),
+      'get_questions_by_team_member_id': this.get_questions_by_team_member_id.bind(this),
       'edit_team_member': this.edit_team_member.bind(this),
       'edit_scrum_team_members': this.edit_scrum_team_members.bind(this),
       'delete_team_member_by_id': this.delete_team_member_by_id.bind(this),
@@ -190,6 +193,11 @@ export class AdminRTC extends BasicRTC {
     this.emit_to_browser(msg);
   }
 
+  public async add_team_member_in_task(msg){
+    msg.datas = await this.handler.add_team_member_in_task(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
   public async delete_task_by_id(msg) {
     msg.datas = await this.handler.delete_task_by_id(msg.datas);
     this.emit_to_browser(msg);
@@ -213,6 +221,16 @@ export class AdminRTC extends BasicRTC {
 
   public async get_team_member_by_id(msg){
     msg.datas = await this.handler.get_team_member_by_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public  async get_timetable_by_team_member_id(msg){
+    msg.datas = await this.handler.get_timetable_by_team_member_id(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public  async get_questions_by_team_member_id(msg){
+    msg.datas = await this.handler.get_questions_by_team_member_id(msg.datas);
     this.emit_to_browser(msg);
   }
 

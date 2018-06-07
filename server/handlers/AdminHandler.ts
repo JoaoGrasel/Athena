@@ -63,20 +63,22 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async edit_scrum_team_members(data){
-    if(data.edited_scrum_team_members.added_team_members.length){
+  public async edit_scrum_team_members(data) {
+    if (data.edited_scrum_team_members.added_team_members.length) {
       await this.add_team_members_to_scrum(data.edited_scrum_team_members.added_team_members, data.scrum);
       await this.add_scrum_to_team_members(data.edited_scrum_team_members.added_team_members, data.scrum);
-    };
-    if(data.edited_scrum_team_members.removed_team_members.length){
+    }
+    ;
+    if (data.edited_scrum_team_members.removed_team_members.length) {
       await this.remove_team_members_of_scrum(data.edited_scrum_team_members.removed_team_members, data.scrum);
       await this.remove_scrum_of_team_members(data.edited_scrum_team_members.removed_team_members, data.scrum);
-    };
+    }
+    ;
 
     return true;
   }
 
-  private async add_scrum_to_team_members(added_team_members, scrum){
+  private async add_scrum_to_team_members(added_team_members, scrum) {
     let query = {
       _id: {
         $in: added_team_members
@@ -95,7 +97,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async add_team_members_to_scrum(added_team_members, scrum){
+  private async add_team_members_to_scrum(added_team_members, scrum) {
     let query = {
       _id: scrum.id
     };
@@ -114,7 +116,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async remove_team_members_of_scrum(removed_team_members, scrum){
+  private async remove_team_members_of_scrum(removed_team_members, scrum) {
     let query = {
       _id: scrum.id
     };
@@ -133,7 +135,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async remove_scrum_of_team_members(removed_team_members, scrum){
+  private async remove_scrum_of_team_members(removed_team_members, scrum) {
     let query = {
       _id: {
         $in: removed_team_members
@@ -184,7 +186,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  private async add_sprint_to_scrum(sprint_id, scrum_id){
+  private async add_sprint_to_scrum(sprint_id, scrum_id) {
     let query = {
       _id: scrum_id,
     };
@@ -247,7 +249,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  private async add_history_to_history_backlog(history_id, history_backlog_id){
+  private async add_history_to_history_backlog(history_id, history_backlog_id) {
     let query = {
       _id: history_backlog_id,
     };
@@ -369,7 +371,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async add_task_in_sprint(data){
+  public async add_task_in_sprint(data) {
     let query = {
       _id: data.sprint_id,
     };
@@ -386,7 +388,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_sprint.data)
   }
 
-  public async add_task_in_history(data){
+  public async add_task_in_history(data) {
     let query = {
       _id: data.history_id,
     };
@@ -401,6 +403,23 @@ export class AdminHandler extends CommonHandler {
       return await this.retorno(update_history.data);
     }
     return this.retorno(update_history.data)
+  }
+
+  public async add_team_member_in_task(data) {
+    let query = {
+      _id: data.task.id,
+    };
+    let update = {
+      $addToSet: {
+        task_responsibles: data.team_member_id,
+      }
+    };
+    let update_task_team_members = await this.emit_to_server('db.task.update', new UpdateObject(query, update));
+    if (update_task_team_members.data.error) {
+      update_task_team_members.data.error = await Util.getErrorByLocale('pt-Br', 'update_task_team_members', update_task_team_members.data.error);
+      return await this.retorno(update_task_team_members.data);
+    }
+    return this.retorno(update_task_team_members.data)
   }
 
   // TEAM MEMBER CRUD
@@ -429,7 +448,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  private async create_horary_for_team_member(team_member_id){
+  private async create_horary_for_team_member(team_member_id) {
     let current_date = new Date();
     let current_month = current_date.getMonth();
     let current_year = current_date.getFullYear();
@@ -440,8 +459,8 @@ export class AdminHandler extends CommonHandler {
       team_member: team_member_id,
       month: current_month,
       year: current_year,
-      timetable:[],
-      questions:[]
+      timetable: [],
+      questions: []
     };
 
     let new_horary = await this.emit_to_server('db.horary.create', horary);
@@ -468,6 +487,27 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+
+  public async get_timetable_by_team_member_id(team_member_id) {
+    let populate = {
+      path: "horary",
+      select: "timetable",
+    }
+    let timetable = await this.emit_to_server('db.team_member.read', new QueryObject(team_member_id, "horary", populate));
+    return this.retorno(timetable.data);
+  }
+
+
+  public async get_questions_by_team_member_id(team_member_id) {
+      let populate = {
+        path: "horary",
+        select: "questions",
+      }
+      let questions = await this.emit_to_server('db.team_member.read', new QueryObject(team_member_id, "horary", populate));
+      return this.retorno(questions.data);
+    }
+
+
   public async edit_team_member(data) {
     let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
@@ -477,20 +517,22 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async edit_team_member_scrums(data){
-    if(data.edited_team_member_scrums.added_scrums.length){
+  public async edit_team_member_scrums(data) {
+    if (data.edited_team_member_scrums.added_scrums.length) {
       await this.add_team_member_to_scrums(data.edited_team_member_scrums.added_scrums, data.team_member);
       await this.add_scrums_to_team_member(data.edited_team_member_scrums.added_scrums, data.team_member);
-    };
-    if(data.edited_team_member_scrums.removed_scrums.length){
+    }
+    ;
+    if (data.edited_team_member_scrums.removed_scrums.length) {
       await this.remove_team_member_of_scrums(data.edited_team_member_scrums.removed_scrums, data.team_member);
       await this.remove_scrums_of_team_member(data.edited_team_member_scrums.removed_scrums, data.team_member);
-    };
+    }
+    ;
 
     return true;
   }
 
-  private async add_team_member_to_scrums(added_scrums, team_member){
+  private async add_team_member_to_scrums(added_scrums, team_member) {
     let query = {
       _id: {
         $in: added_scrums
@@ -509,7 +551,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_scrum_team_members.data)
   }
 
-  private async add_scrums_to_team_member(added_scrums, team_member){
+  private async add_scrums_to_team_member(added_scrums, team_member) {
     let query = {
       _id: team_member.id
     };
@@ -528,8 +570,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-
-  private async remove_scrums_of_team_member(removed_scrums, team_member){
+  private async remove_scrums_of_team_member(removed_scrums, team_member) {
     let query = {
       _id: team_member.id
     };
@@ -548,7 +589,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_team_member_scrums.data)
   }
 
-  private async remove_team_member_of_scrums(removed_scrums, team_member){
+  private async remove_team_member_of_scrums(removed_scrums, team_member) {
     let query = {
       _id: {
         $in: removed_scrums
@@ -578,7 +619,7 @@ export class AdminHandler extends CommonHandler {
 
   // ADMIN CRUD
 
-  public async create_admin(admin){
+  public async create_admin(admin) {
     let _id = new Types.ObjectId();
     let new_admin = {
       _id: _id,
@@ -605,7 +646,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async edit_admin(data){
+  public async edit_admin(data) {
     let devolution = await this.emit_to_server('db.admin.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_admin', devolution.data.error);
@@ -614,20 +655,22 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async edit_admin_scrums(data){
-    if(data.edited_admin_scrums.added_scrums.length){
+  public async edit_admin_scrums(data) {
+    if (data.edited_admin_scrums.added_scrums.length) {
       await this.add_admin_to_scrums(data.edited_admin_scrums.added_scrums, data.current_admin);
       await this.add_scrums_to_admin(data.edited_admin_scrums.added_scrums, data.current_admin);
-    };
-    if(data.edited_team_member_scrums.removed_scrums.length){
+    }
+    ;
+    if (data.edited_team_member_scrums.removed_scrums.length) {
       await this.remove_admin_of_scrums(data.edited_admin_scrums.removed_scrums, data.current_admin);
       await this.remove_scrums_of_admin(data.edited_admin_scrums.removed_scrums, data.current_admin);
-    };
+    }
+    ;
 
     return true;
   }
 
-  private async add_admin_to_scrums(added_scrums, admin){
+  private async add_admin_to_scrums(added_scrums, admin) {
     let query = {
       _id: {
         $in: added_scrums
@@ -646,7 +689,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_scrum_admins.data)
   }
 
-  private async add_scrums_to_admin(added_scrums, admin){
+  private async add_scrums_to_admin(added_scrums, admin) {
     let query = {
       _id: admin.id
     };
@@ -665,7 +708,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_admin_scrums.data)
   }
 
-  private async remove_scrums_of_admin(removed_scrums, admin){
+  private async remove_scrums_of_admin(removed_scrums, admin) {
     let query = {
       _id: admin.id
     };
@@ -684,7 +727,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(update_admin_scrums.data)
   }
 
-  private async remove_admin_of_scrums(removed_scrums, admin){
+  private async remove_admin_of_scrums(removed_scrums, admin) {
     let query = {
       _id: {
         $in: removed_scrums
