@@ -777,46 +777,44 @@ describe("Teste AdminRTC", () => {
       current.cliente.emit('get_admin_by_id', {datas: current.admin.id});
 
     });
-//todo consertar o editar
-    // it('Edita Admin', (done) => {
-    //   let retorno = (msg) => {
-    //     expect(msg.datas.success).to.be.true;
-    //     expect(msg.datas.data).to.be.instanceOf(Array);
-    //     expect(msg.datas.data[0]).to.be.instanceOf(Object);
-    //     expect(msg.datas.data[0]).to.have.all.keys(
-    //       "updatedAt", "createdAt", "first_name", "surname", "birthdate", "username",
-    //       "email", "password", "id", "type", "removed", "scrums"
-    //     );
-    //     expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-    //     current.cliente.removeListener('retorno', retorno);
-    //     done();
-    //   };
-    //   current.cliente.on('retorno', retorno);
-    //   let edited_admin = {
-    //     email: "topster@tgt",
-    //   };
-    //   current.cliente.emit('edit_admin', {datas: {id: current.admin.id, update: edited_admin}});
-    // });
+    it('Edita Admin', (done) => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys(
+          "updatedAt", "createdAt", "first_name", "surname", "birthdate", "username",
+          "email", "password", "id", "type", "removed", "scrums"
+        );
+        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_admin = {
+        email: "topstsadssfer@tgt",
+      };
+      current.cliente.emit('edit_admin', {datas: {id: current.admin.id, update: edited_admin}});
+    });
 
-    //todo consertar o editar scrums
-    // it('Edita Scrums do Admin', (done) => {
-    //   let retorno = (msg) => {
-    //     expect(msg.datas).to.be.true;
-    //     current.cliente.removeListener('retorno', retorno);
-    //     done();
-    //   };
-    //   current.cliente.on('retorno', retorno);
-    //   let edited_admin_scrums = {
-    //     removed_scrums: ["5b1698801a49f5071e55fe21"],
-    //     added_scrums: ["5b169888ec6ac5329634f5af"]
-    //   };
-    //   current.cliente.emit('edit_admin_scrums', {
-    //     datas: {
-    //       edited_admin_scrums: edited_admin_scrums,
-    //       current_admin: current.admin
-    //     }
-    //   });
-    // });
+    it('Edita Scrums do Admin', (done) => {
+      let retorno = (msg) => {
+        expect(msg.datas).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_admin_scrums = {
+        removed_scrums: ["5b1698801a49f5071e55fe21"],
+        added_scrums: ["5b169888ec6ac5329634f5af"]
+      };
+      current.cliente.emit('edit_admin_scrums', {
+        datas: {
+          edited_admin_scrums: edited_admin_scrums,
+          current_admin: current.admin
+        }
+      });
+    });
 
     it('Exclui Admin', (done) => {
       let retorno = (msg) => {

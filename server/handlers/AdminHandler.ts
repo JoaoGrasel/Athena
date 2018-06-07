@@ -661,7 +661,7 @@ export class AdminHandler extends CommonHandler {
       await this.add_scrums_to_admin(data.edited_admin_scrums.added_scrums, data.current_admin);
     }
     ;
-    if (data.edited_team_member_scrums.removed_scrums.length) {
+    if (data.edited_admin_scrums.removed_scrums.length) {
       await this.remove_admin_of_scrums(data.edited_admin_scrums.removed_scrums, data.current_admin);
       await this.remove_scrums_of_admin(data.edited_admin_scrums.removed_scrums, data.current_admin);
     }
