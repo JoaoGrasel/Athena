@@ -35,6 +35,8 @@ export class AdminRTC extends BasicRTC {
       'get_task_by_id': this.get_task_by_id.bind(this),
       'add_team_member_in_task': this.add_team_member_in_task.bind(this),
       'edit_task': this.edit_task.bind(this),
+      'edit_task_status': this.edit_task_status.bind(this),
+      'edit_needed_tasks': this.edit_needed_tasks.bind(this),
       'delete_task_by_id': this.delete_task_by_id.bind(this),
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
@@ -190,6 +192,16 @@ export class AdminRTC extends BasicRTC {
 
   public async edit_task(msg){
     msg.datas = await this.handler.edit_task(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public async edit_task_status(msg){
+    msg.datas = await this.handler.edit_task_status(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public async edit_needed_tasks(msg){
+    msg.datas = await this.handler.edit_needed_tasks(msg.datas);
     this.emit_to_browser(msg);
   }
 

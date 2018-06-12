@@ -4,6 +4,15 @@
     {
       "_id": "5af316b4fb91b1e207e7f405",
       "status_name": "Running"
+    },
+    {
+      "_id": "5b1fc75c38fe2b2f4874b7cd",
+      "status_name": "Done"
+    },
+    {
+      "_id": "5b1fc774ede1a5e616559b19",
+      "status_name": "To do"
     }
+
   ]
 }

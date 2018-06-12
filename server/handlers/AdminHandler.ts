@@ -227,6 +227,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+
   // HISTORY CRUD
   public async create_history(history) {
     let _id = new Types.ObjectId();
@@ -290,6 +291,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+
   // STATUS CRUD
 
   async create_status(status) {
@@ -326,6 +328,7 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+
   //TAREFAS CRUD
 
   public async create_task(task) {
@@ -354,6 +357,9 @@ export class AdminHandler extends CommonHandler {
   }
 
   public async edit_task(data) {
+    delete data.update.task_status;
+    delete data.update.needed_tasks;
+    delete data.update.completed;
     let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, data.update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task', devolution.data.error);
@@ -361,6 +367,62 @@ export class AdminHandler extends CommonHandler {
     }
     return this.retorno(devolution.data);
   }
+
+  public async edit_task_status(data) {
+    let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, data.edited_status));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task_status', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+
+  //todo testar "visita ao banco uma vez só passando o pull junto com o add to set", pensar em uma verificação de ifs
+  public async edit_needed_tasks(data) {
+    let update_needed_tasks;
+
+    if (data.edited_tasks_needed.added_tasks_needed.length) {
+      let query = {
+        _id: data.id
+      };
+      let update = {
+        $addToSet: {
+          needed_tasks: {
+            $each: data.edited_tasks_needed.added_tasks_needed
+          }
+        },
+
+      };
+      update_needed_tasks = await this.emit_to_server('db.task.update', new UpdateObject(query, update));
+      if (update_needed_tasks.data.error) {
+        update_needed_tasks.data.error = await Util.getErrorByLocale('pt-Br', 'update_needed_tasks', update_needed_tasks.data.error);
+        return await this.retorno(update_needed_tasks.data);
+      }
+    };
+
+    if (data.edited_tasks_needed.removed_tasks_needed.length) {
+      let query = {
+        _id: data.id
+      };
+      let update = {
+        $pull: {
+          scrum_team_members: {
+            $in: data.edited_tasks_needed.removed_tasks_needed
+          }
+        }
+      };
+      update_needed_tasks = await this.emit_to_server('db.task.update', new UpdateObject(query, update));
+      if (update_needed_tasks.data.error) {
+        update_needed_tasks.data.error = await Util.getErrorByLocale('pt-Br', 'update_needed_tasks', update_needed_tasks.data.error);
+        return await this.retorno(update_needed_tasks.data);
+      }
+    };
+
+    return this.retorno(update_needed_tasks.data);
+  }
+
+
 
   public async delete_task_by_id(data) {
     let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, data.update));
@@ -459,6 +521,7 @@ export class AdminHandler extends CommonHandler {
       team_member: team_member_id,
       month: current_month,
       year: current_year,
+      worked_hours: 0,
       timetable: [],
       questions: []
     };

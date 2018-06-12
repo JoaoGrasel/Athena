@@ -15,7 +15,8 @@ export class TeamMemberRTC extends BasicRTC {
     openRTC.destroy();
     this.interfaceListeners = {
         'logout': this.logout.bind(this),
-        'update_horary': this.update_horary.bind(this),
+        'add_day_answers': this.add_day_answers.bind(this),
+
         'show_horaries': this.show_horaries.bind(this),
         'find_horary_by_year_and_month': this.find_horary_by_year_and_month.bind(this),
         'show_questions_by_horary_id': this.show_questions_by_horary_id.bind(this),
@@ -60,8 +61,8 @@ export class TeamMemberRTC extends BasicRTC {
     this.destroy();
   }
 
-  async update_horary(msg) {
-    msg.datas = await this.handler.update_horary(msg.datas, this.loggedUser);
+  async add_day_answers(msg) {
+    msg.datas = await this.handler.add_day_answers(msg.datas, this._loggedUser);
     this.emit_to_browser(msg);
   }
 

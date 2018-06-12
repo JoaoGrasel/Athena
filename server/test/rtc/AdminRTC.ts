@@ -514,9 +514,52 @@ describe("Teste AdminRTC", () => {
       };
       current.cliente.on('retorno', retorno);
       let edited_task = {
+        task_status: "5b1fc75c38fe2b2f4874b7cd",
         completed: true,
+        task_name: "Amar o pedro"
       };
       current.cliente.emit('edit_task', {datas: {id: current.task.id, update: edited_task}});
+    });
+
+    it('Edita Status de uma Task', (done) => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        expect(msg.datas.data[0]).to.have.all.keys("id", "updatedAt", "createdAt", "task_name", "task_status",
+          "task_artefact", "task_description",
+          "task_responsibles"
+        );
+        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_status = {
+        task_status: "5b1fc75c38fe2b2f4874b7cd",
+      };
+      current.cliente.emit('edit_task_status', {datas: {id: current.task.id, edited_status: edited_status}});
+    });
+
+    it('Edita Tasks necessarias de uma Task', (done) => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        // expect(msg.datas.data).to.be.instanceOf(Array);
+        // expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        // expect(msg.datas.data[0]).to.have.all.keys("id", "updatedAt", "createdAt", "task_name", "task_status",
+        //   "task_artefact", "task_description",
+        //   "task_responsibles"
+        // );
+        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_tasks_needed = {
+        added_tasks_needed: ["5b1fc75c38fe2b2f4874b7cd"],
+        removed_tasks_needed: []
+      };
+      current.cliente.emit('edit_needed_tasks', {datas: {id: current.task.id, edited_tasks_needed: edited_tasks_needed}});
     });
 
     it('Adiciona Task em uma sprint', (done) => {
