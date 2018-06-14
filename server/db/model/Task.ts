@@ -52,27 +52,28 @@ let schema = new Schema(Object.assign({
       type: Schema.Types.ObjectId,
       ref: 'team_member'
     }],
-    needed_tasks: {
-      type: [{
-        type: Schema.Types.ObjectId,
-        ref: 'task'
-      }]
-    },
-    task_beginning_date: {
-      type: Schema.Types.Date
-    },
-    task_end_date: {
-      type: Schema.Types.Date,
-    },
-    completed: {
-      type: Schema.Types.Boolean,
-      default: false
-    },
-    removed: {
-      type: Schema.Types.Boolean,
-      default: false
-    },
-  }
+  },
+  needed_tasks: {
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: 'task'
+    }],
+    default: []
+  },
+  task_beginning_date: {
+    type: Schema.Types.Date
+  },
+  task_end_date: {
+    type: Schema.Types.Date,
+  },
+  completed: {
+    type: Schema.Types.Boolean,
+    default: false
+  },
+  removed: {
+    type: Schema.Types.Boolean,
+    default: false
+  },
 }, BaseSchema), schema_options);
 
 let TaskModel = model("task", schema);

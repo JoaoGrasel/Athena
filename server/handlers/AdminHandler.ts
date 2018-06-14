@@ -377,51 +377,44 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-
-  //todo testar "visita ao banco uma vez só passando o pull junto com o add to set", pensar em uma verificação de ifs
   public async edit_needed_tasks(data) {
-    let update_needed_tasks;
-
-    if (data.edited_tasks_needed.added_tasks_needed.length) {
-      let query = {
-        _id: data.id
-      };
+    let devolution
+    if (data.edited_tasks_needed.added_tasks_needed ) {
       let update = {
         $addToSet: {
           needed_tasks: {
             $each: data.edited_tasks_needed.added_tasks_needed
           }
-        },
-
-      };
-      update_needed_tasks = await this.emit_to_server('db.task.update', new UpdateObject(query, update));
-      if (update_needed_tasks.data.error) {
-        update_needed_tasks.data.error = await Util.getErrorByLocale('pt-Br', 'update_needed_tasks', update_needed_tasks.data.error);
-        return await this.retorno(update_needed_tasks.data);
+        }
+      }
+      devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, update));
+      if (devolution.data.error) {
+        devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task_status', devolution.data.error);
+        return await this.retorno(devolution.data);
       }
     };
 
-    if (data.edited_tasks_needed.removed_tasks_needed.length) {
-      let query = {
-        _id: data.id
-      };
+    if (data.edited_tasks_needed.removed_tasks_needed) {
       let update = {
         $pull: {
-          scrum_team_members: {
+          needed_tasks: {
             $in: data.edited_tasks_needed.removed_tasks_needed
           }
         }
-      };
-      update_needed_tasks = await this.emit_to_server('db.task.update', new UpdateObject(query, update));
-      if (update_needed_tasks.data.error) {
-        update_needed_tasks.data.error = await Util.getErrorByLocale('pt-Br', 'update_needed_tasks', update_needed_tasks.data.error);
-        return await this.retorno(update_needed_tasks.data);
+      }
+      devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, update));
+      if (devolution.data.error) {
+        devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task_status', devolution.data.error);
+        return await this.retorno(devolution.data);
       }
     };
-
-    return this.retorno(update_needed_tasks.data);
+    return this.retorno(devolution.data);
   }
 
+  //TODO FAZER VALIDAÇÃO DE TASKS SÓ SEREM COMPLETADAS QUANDO TODAS AS PREVIAS FORAM COMPLETADAS
+  public async complete_task(task){
+
+  }
 
 
   public async delete_task_by_id(data) {
