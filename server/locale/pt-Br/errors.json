@@ -153,6 +153,10 @@
       ],
       "type": "create_horary"
     }
+  },
+  "task": {
+    "not_all_completed": "Nem todas as tarefas necessárias para esta tarefa foram completadas"
   }
+
 
 }

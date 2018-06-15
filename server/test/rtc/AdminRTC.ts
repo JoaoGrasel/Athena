@@ -510,6 +510,7 @@ describe("Teste AdminRTC", () => {
         );
         expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
         current.cliente.removeListener('retorno', retorno);
+        current.task = msg.datas.data[0];
         done();
       };
       current.cliente.on('retorno', retorno);
@@ -532,6 +533,7 @@ describe("Teste AdminRTC", () => {
         );
         expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
         current.cliente.removeListener('retorno', retorno);
+        current.task = msg.datas.data[0];
         done();
       };
       current.cliente.on('retorno', retorno);
@@ -552,6 +554,7 @@ describe("Teste AdminRTC", () => {
         );
         expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
         current.cliente.removeListener('retorno', retorno);
+        current.task = msg.datas.data[0];
         done();
       };
       current.cliente.on('retorno', retorno);

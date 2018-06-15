@@ -411,9 +411,21 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  //TODO FAZER VALIDAÇÃO DE TASKS SÓ SEREM COMPLETADAS QUANDO TODAS AS PREVIAS FORAM COMPLETADAS
-  public async complete_task(task){
-
+  public async complete_task(data){
+    for(let i = 0; i < data.task.needed_tasks.length; i++){
+      if(!data.task.needed_tasks[i].completed){
+        return await Util.getErrorByLocale('pt-Br', 'task', 'not_all_completed');
+      }
+    }
+    let update = {
+      completed: true
+    }
+    let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.task.id, update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task_completed', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
   }
 
 
