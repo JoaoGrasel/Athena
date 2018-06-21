@@ -3,6 +3,7 @@ import {OpenHandler} from '../handlers/OpenHandler';
 import {AdminRTC} from './RTCs/AdminRTC';
 import {CommonRTC} from './RTCs/CommonRTC';
 import {TeamMemberRTC} from "./RTCs/TeamMemberRTC";
+import {TeamMemberHandler} from "../handlers/TeamMemberHandler";
 
 export class OpenRTC extends BasicRTC {
   protected _rtcs_usuario: BasicRTC;
@@ -59,6 +60,7 @@ export class OpenRTC extends BasicRTC {
     msg.datas = await this.handler.logar(msg.datas);
 
     if (msg.datas.success) {
+
       return this.trocar_rtc(msg);
     }
 

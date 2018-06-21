@@ -80,7 +80,38 @@ describe("Teste TeamMemberRTC", () => {
 
   describe('Horarios e questoes ao logar', () => {
 
-    it('1. Responder perguntas do dia ao logar', done => {
+    it('Responder perguntas do dia ao logar', done => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        cliente.removeListener('retorno', retorno);
+        done();
+      };
+      cliente.on('retorno', retorno);
+      let answers = {
+        question1: 'vermelho1',
+        question2: 'vermelho2',
+        question3: 'vermelho3'
+      };
+      cliente.emit('add_day_answers', {datas: answers});
+    });
+
+    it('Tentar responder as perguntas mais de uma vez por dia', done => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.false;
+        cliente.removeListener('retorno', retorno);
+        done();
+      };
+      cliente.on('retorno', retorno);
+      let answers = {
+        question1: 'batata1',
+        question2: 'batata2',
+        question3: 'batata3'
+      };
+      cliente.emit('add_day_answers', {datas: answers});
+    })
+
+    it('Informar um horario de saida', done => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
         // expect(msg.datas.data).to.be.instanceOf(Array);
@@ -89,61 +120,14 @@ describe("Teste TeamMemberRTC", () => {
         done();
       };
       cliente.on('retorno', retorno);
-      let answers = {
-        day: new Date().getDate(),
-        question1: 'batata1',
-        question2: 'batata2',
-        question3: 'batata3'
+      let exit_time = {
+        exit_time: new Date('Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)')
       };
-      cliente.emit('add_day_answers', {datas: answers});
-    })
+      cliente.emit('update_daily_exit_time', {datas: exit_time});
+    });
   });
-  //
-  // it('2. Tentar responder as perguntas mais de uma vez por dia', done => {
-  //   let retorno = (msg) => {
-  //     expect(msg.datas.success).to.be.true;
-  //     expect(msg.datas.data).to.be.instanceOf(Array);
-  //     expect(msg.datas.data.length).to.be.equal(0);
-  //     cliente.removeListener('retorno', retorno);
-  //     done();
-  //   };
-  //   cliente.on('retorno', retorno);
-  //   let horary = {
-  //     team_member: usuario.id,
-  //     timetable: {
-  //       exit_time: new Date('Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)')
-  //     },
-  //     questions: {
-  //       question1: 'batata1',
-  //       question2: 'batata2',
-  //       question3: 'batata3'
-  //     }
-  //   };
-  //   cliente.emit('update_horary', {datas: horary});
-  // })
-  //
-  // it('3. "Criar um horario de entrada" e um de saida', done => {
-  //   let retorno = (msg) => {
-  //     expect(msg.datas.success).to.be.true;
-  //     expect(msg.datas.data).to.be.instanceOf(Array);
-  //     expect(msg.datas.data.length).to.be.equal(0);
-  //     cliente.removeListener('retorno', retorno);
-  //     done();
-  //   };
-  //   cliente.on('retorno', retorno);
-  //   let horary = {
-  //     team_member: usuario.id,
-  //     timetable: {
-  //       exit_time: new Date('Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)')
-  //     },
-  //     questions: {
-  //       question1: 'batata1',
-  //       question2: 'batata2',
-  //       question3: 'batata3'
-  //     }
-  //   };
-  //   cliente.emit('update_horary', {datas: horary});
-  // })
+
+
 
   //
   // describe('Relatorio de Horarios e Questoes Diarias', () => {

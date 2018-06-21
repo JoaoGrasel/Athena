@@ -34,7 +34,8 @@ let schema = new Schema(Object.assign({
   horary:{
     type: Schema.Types.ObjectId,
     ref: 'horary'
-  }
+  },
+
 }, BaseSchema), schema_options);
 
 let discriminated = User.discriminator("team_member", schema);

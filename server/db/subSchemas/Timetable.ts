@@ -35,10 +35,12 @@ const Timetable = new Schema(Object.assign({
   entry_time: {
     type: Schema.Types.Date,
     trim: true,
+
   },
   exit_time: {
     type: Schema.Types.Date,
     trim: true,
+    default: null
   },
 }), schema_options);
 

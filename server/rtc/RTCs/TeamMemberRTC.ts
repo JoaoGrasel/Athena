@@ -16,7 +16,7 @@ export class TeamMemberRTC extends BasicRTC {
     this.interfaceListeners = {
         'logout': this.logout.bind(this),
         'add_day_answers': this.add_day_answers.bind(this),
-
+        'update_daily_exit_time': this.update_daily_exit_time.bind(this),
         'show_horaries': this.show_horaries.bind(this),
         'find_horary_by_year_and_month': this.find_horary_by_year_and_month.bind(this),
         'show_questions_by_horary_id': this.show_questions_by_horary_id.bind(this),
@@ -28,6 +28,7 @@ export class TeamMemberRTC extends BasicRTC {
     this.loggedUser = msg.datas.data;
     this.emit_to_browser(msg);
     this.wiring();
+    this.create_daily_timetable(this.loggedUser);
   }
 
   set loggedUser(loggedUser){
@@ -100,4 +101,15 @@ export class TeamMemberRTC extends BasicRTC {
     msg.datas = await this.handler.show_tasks_by_sprint(msg.datas);
     this.emit_to_browser(msg);
   }
+
+  async update_daily_exit_time(msg){
+    msg.datas = await this.handler.update_daily_exit_time(msg.datas, this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+  async create_daily_timetable(msg){
+    msg.datas = await this.handler.create_daily_timetable(msg);
+    this.emit_to_browser(msg
+    );
+  }
 }
+

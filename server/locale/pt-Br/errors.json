@@ -152,6 +152,17 @@
         }
       ],
       "type": "create_horary"
+    },
+    "daily_questions_already_answered":{
+      "title": "As questoes diarias ja foram respondidas hoje!",
+      "description": "Não é possivel responder novamente",
+      "buttons": [
+        {
+          "label": "ok",
+          "method": null
+        }
+      ],
+      "type": "update_questions"
     }
   },
   "task": {

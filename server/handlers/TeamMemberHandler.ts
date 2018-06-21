@@ -6,36 +6,43 @@ import {Types} from "mongoose";
 
 export class TeamMemberHandler extends CommonHandler {
 
-  //todo nao esta funcionando
   public async add_day_answers(data, loggedUser) {
     let current_date = new Date();
     let current_day = current_date.getDate();
     let current_month = current_date.getMonth();
     let current_year = current_date.getFullYear();
+    let new_question = {
+      question1: data.question1,
+      question2: data.question2,
+      question3:  data.question3,
+      day: current_day
+    }
+    let horary_questions = await this.emit_to_server('db.horary.read', new QueryObject(
+      loggedUser.horary,
+      'questions'
+    ))
 
     if (current_month === loggedUser.horary.month && current_year === loggedUser.horary.year) {
 
       let exist = false;
 
 
-      for (let i = 0; loggedUser.horary.questions.length > i; i++) {
-        if (loggedUser.horary.questions[i].day === current_day) {
+      for (let i = 0; horary_questions.data.success[0].questions.length > i; i++) {
+        if (horary_questions.data.success[0].questions[i].day === current_day) {
           exist = true;
         }
       }
 
 
+
       if (!exist) {
-        let query = {
-          __id: loggedUser.horary.id
-        };
         let update = {
           $push: {
-            questions: data.answers
+            questions: new_question
           }
         };
 
-        let devolution = await this.emit_to_server('db.horary.update', new UpdateObject(query, update));
+        let devolution = await this.emit_to_server('db.horary.update', new UpdateObject(loggedUser.horary.id, update));
         if (devolution.data.error) {
           devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_horary', devolution.data.error);
           return await this.retorno(devolution.data);
@@ -43,18 +50,18 @@ export class TeamMemberHandler extends CommonHandler {
         return this.retorno(devolution.data);
 
       } else {
-        return
+        return this.retorno({success: false, error: await Util.getErrorByLocale('pt-Br', 'horary', 'daily_questions_already_answered')})
       }
 
 
     } else {
       let new_horary = await this.create_horary_for_team_member(loggedUser.id);
       let query = {
-        _id: new_horary.data.id
+        _id: new_horary.data[0].id
       };
       let update = {
         $push: {
-          questions: data.answers
+          questions: new_question
         }
       }
       let devolution =  await this.emit_to_server('db.horary.update',  new UpdateObject(query, update));
@@ -88,10 +95,8 @@ export class TeamMemberHandler extends CommonHandler {
       return await this.retorno(new_horary.data);
     }
 
-    new_horary = new_horary.data.success[0];
-
     // let query = {_id: team_member_id};
-    let update = {horary: new_horary.id};
+    let update = {horary: new_horary.data.success[0].id};
     let options = {
       new: true,
       runValidators: true,
@@ -101,13 +106,61 @@ export class TeamMemberHandler extends CommonHandler {
       }
     };
 
-    let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(team_member_id, update, options));
+    let updated_team_member = await this.emit_to_server('db.team_member.update', new UpdateObject(team_member_id, update, options));
+    if (updated_team_member.data.error) {
+      updated_team_member.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', updated_team_member.data.error);
+      return await this.retorno(updated_team_member.data);
+    }
+    return this.retorno(new_horary.data);
+  };
+
+  public async create_daily_timetable(data){
+    let current_date = new Date();
+    let current_day = current_date.getDate();
+    let new_timetable = {
+      day: current_day,
+      entry_time: current_date
+    }
+    let update = {
+      $push: {
+        timetable: new_timetable
+      }
+    }
+    let devolution =  await this.emit_to_server('db.horary.update',  new UpdateObject(data.horary.id, update));
     if (devolution.data.error) {
-      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_horary', devolution.data.error);
       return await this.retorno(devolution.data);
     }
     return this.retorno(devolution.data);
-  };
+  }
+
+  public async update_daily_exit_time(data, loggedUser){
+    let current_date = new Date();
+    let current_day = current_date.getDate();
+
+    let horary_timetable = await this.emit_to_server('db.horary.read', new QueryObject(
+      loggedUser.horary,
+      'timetable'
+    ))
+    for (let i = 0; horary_timetable.data.success[0].timetable.length > i; i++) {
+      if (horary_timetable.data.success[0].timetable[i].day === current_day) {
+        if(horary_timetable.data.success[0].timetable[i].exit_time === null){
+          horary_timetable.data.success[0].timetable[i].exit_time = data.exit_time;
+
+          let update = {
+            timetable: horary_timetable.data.success[0].timetable
+          };
+
+          let devolution =  await this.emit_to_server('db.horary.update',  new UpdateObject(loggedUser.horary, update));
+          if (devolution.data.error) {
+            devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_horary', devolution.data.error);
+            return await this.retorno(devolution.data);
+          }
+          return this.retorno(devolution.data);
+        }
+      }
+    }
+  }
 
   // async update_horary(horary_data, loggedUser) {
   //
