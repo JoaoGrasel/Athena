@@ -11,7 +11,10 @@
         {
           "day": 2,
           "entry_time": "Thu Jul 03 1980 16:26:53 GMT+0000 (UTC)",
-          "exit_time": "Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)"
+          "expected_exit_time": "Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)",
+          "real_exit_time": "Thu Jul 03 1980 17:20:53 GMT+0000 (UTC)"
+
+
         }
       ],
       "questions":[

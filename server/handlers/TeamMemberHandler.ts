@@ -144,8 +144,8 @@ export class TeamMemberHandler extends CommonHandler {
     ))
     for (let i = 0; horary_timetable.data.success[0].timetable.length > i; i++) {
       if (horary_timetable.data.success[0].timetable[i].day === current_day) {
-        if(horary_timetable.data.success[0].timetable[i].exit_time === null){
-          horary_timetable.data.success[0].timetable[i].exit_time = data.exit_time;
+        if(horary_timetable.data.success[0].timetable[i].expected_exit_time === null){
+          horary_timetable.data.success[0].timetable[i].expected_exit_time = data.expected_exit_time;
 
           let update = {
             timetable: horary_timetable.data.success[0].timetable
@@ -177,7 +177,7 @@ export class TeamMemberHandler extends CommonHandler {
   //     let timetable = {
   //       day: current_day,
   //       entry_time: current_date,
-  //       exit_time: horary_data.timetable.exit_time
+  //       expected_exit_time: horary_data.timetable.expected_exit_time
   //     };
   //     let questions = {
   //       day: current_day,
@@ -208,7 +208,7 @@ export class TeamMemberHandler extends CommonHandler {
   //       timetable:[{
   //         day: current_day,
   //         entry_time: current_date,
-  //         exit_time: horary_data.timetable.exit_time
+  //         expected_exit_time: horary_data.timetable.expected_exit_time
   //       }],
   //       questions:[{
   //         day: current_day,
@@ -240,7 +240,7 @@ export class TeamMemberHandler extends CommonHandler {
   public async show_horaries(horaryId){
     let devolution = await this.emit_to_server('db.horary.read', new QueryObject(
       horaryId,
-      'month timetable.day timetable.entry_time timetable.exit_time year'
+      'month timetable.day timetable.entry_time timetable.expected_exit_time timetable.real_exit_time year'
       ));
     return this.retorno(devolution.data);
   }
@@ -252,7 +252,7 @@ export class TeamMemberHandler extends CommonHandler {
         month: horary_data.month,
         year: horary_data.year
       },
-      'month timetable.day timetable.entry_time timetable.exit_time year'
+      'timetable'
     ))
     return this.retorno(devolution.data);
   }
@@ -319,6 +319,34 @@ export class TeamMemberHandler extends CommonHandler {
       }
     ))
     return this.retorno(devolution.data);
+  }
+  // todo atualizar as horas trabalhadas do team membr
+  public async update_real_exit_time(loggedUser) {
+    let current_date = new Date();
+    let current_day = current_date.getDate();
+
+    let horary_timetable = await this.emit_to_server('db.horary.read', new QueryObject(
+      loggedUser.horary,
+      'timetable'
+    ))
+    for (let i = 0; horary_timetable.data.success[0].timetable.length > i; i++) {
+      if (horary_timetable.data.success[0].timetable[i].day === current_day) {
+        if(horary_timetable.data.success[0].timetable[i].real_exit_time === null){
+          horary_timetable.data.success[0].timetable[i].real_exit_time = current_date;
+
+          let update = {
+            timetable: horary_timetable.data.success[0].timetable
+          };
+
+          let devolution =  await this.emit_to_server('db.horary.update',  new UpdateObject(loggedUser.horary, update));
+          if (devolution.data.error) {
+            devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_horary', devolution.data.error);
+            return await this.retorno(devolution.data);
+          }
+          return this.retorno(devolution.data);
+        }
+      }
+    }
   }
 
 }

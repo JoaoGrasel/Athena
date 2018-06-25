@@ -15,6 +15,7 @@ export class TeamMemberRTC extends BasicRTC {
     openRTC.destroy();
     this.interfaceListeners = {
         'logout': this.logout.bind(this),
+        'update_real_exit_time': this.update_real_exit_time.bind(this),
         'add_day_answers': this.add_day_answers.bind(this),
         'update_daily_exit_time': this.update_daily_exit_time.bind(this),
         'show_horaries': this.show_horaries.bind(this),
@@ -55,58 +56,67 @@ export class TeamMemberRTC extends BasicRTC {
     return this._interfaceListeners;
   }
 
-  async logout(msg) {
-    msg.datas = await this.handler.logout();
+  public async logout(msg) {
+    await Promise.all([
+      this.handler.update_real_exit_time(msg),
+      msg.datas = this.handler.logout()
+    ]);
     new OpenRTC(this.config);
     this.emit_to_browser(msg);
     this.destroy();
   }
 
-  async add_day_answers(msg) {
+  public async update_real_exit_time(msg){
+    msg.datas = await this.handler.update_real_exit_time(this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+
+  public async add_day_answers(msg) {
     msg.datas = await this.handler.add_day_answers(msg.datas, this._loggedUser);
     this.emit_to_browser(msg);
   }
 
-  async show_horaries(msg) {
+  public async show_horaries(msg) {
     msg.datas = await this.handler.show_horaries(this.loggedUser.horary.id);
     this.emit_to_browser(msg);
   }
 
-  async find_horary_by_year_and_month(msg){
+  public async find_horary_by_year_and_month(msg){
     msg.datas = await this.handler.find_horary_by_year_and_month(msg.datas, this.loggedUser.id);
     this.emit_to_browser(msg);
   }
 
-  async show_questions_by_horary_id(msg){
+  public async show_questions_by_horary_id(msg){
     msg.datas = await this.handler.show_questions_by_horary_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async show_scrums(msg){
+  public async show_scrums(msg){
     msg.datas = await this.handler.show_scrums(this.loggedUser);
     this.emit_to_browser(msg);
   }
 
-  async show_sprints_by_scrum(msg){
+  public async show_sprints_by_scrum(msg){
     msg.datas = await this.handler.show_sprints_by_scrum(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async show_histories_by_scrum(msg){
+  public async show_histories_by_scrum(msg){
     msg.datas = await this.handler.show_histories_by_scrum(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async show_tasks_by_sprint(msg){
+  public async show_tasks_by_sprint(msg){
     msg.datas = await this.handler.show_tasks_by_sprint(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  async update_daily_exit_time(msg){
+  public async update_daily_exit_time(msg){
     msg.datas = await this.handler.update_daily_exit_time(msg.datas, this.loggedUser);
     this.emit_to_browser(msg);
   }
-  async create_daily_timetable(msg){
+
+  public async create_daily_timetable(msg){
     msg.datas = await this.handler.create_daily_timetable(msg);
     this.emit_to_browser(msg
     );

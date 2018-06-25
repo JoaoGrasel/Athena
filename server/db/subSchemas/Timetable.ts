@@ -37,7 +37,12 @@ const Timetable = new Schema(Object.assign({
     trim: true,
 
   },
-  exit_time: {
+  real_exit_time: {
+    type: Schema.Types.Date,
+    trim: true,
+    default: null
+  },
+  expected_exit_time: {
     type: Schema.Types.Date,
     trim: true,
     default: null

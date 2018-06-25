@@ -114,85 +114,80 @@ describe("Teste TeamMemberRTC", () => {
     it('Informar um horario de saida', done => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
-        // expect(msg.datas.data).to.be.instanceOf(Array);
-        // expect(msg.datas.data.length).to.be.equal(0);
+        expect(msg.datas.data).to.be.instanceOf(Object);
         cliente.removeListener('retorno', retorno);
         done();
       };
       cliente.on('retorno', retorno);
-      let exit_time = {
-        exit_time: new Date('Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)')
+      let expected_exit_time = {
+        expected_exit_time: new Date('Thu Jul 03 1980 17:26:53 GMT+0000 (UTC)')
       };
-      cliente.emit('update_daily_exit_time', {datas: exit_time});
+      cliente.emit('update_daily_exit_time', {datas: expected_exit_time});
     });
   });
 
 
 
-  //
-  // describe('Relatorio de Horarios e Questoes Diarias', () => {
-  //
-  //   it('1. Visualizar ultimos horarios', done => {
-  //     let retorno = (msg) => {
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Object);
-  //       expect(msg.datas.data).to.have.all.keys("_id","month","year","id","timetable");
-  //       expect(msg.datas.data.timetable).to.be.instanceOf(Array);
-  //       msg.datas.data.timetable.forEach(time=>{
-  //         expect(time).to.be.instanceOf(Object);
-  //         expect(time).to.have.all.keys("day","entry_time","exit_time");
-  //       });
-  //       cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     cliente.on('retorno', retorno);
-  //     cliente.emit('show_horaries', {datas: null});
-  //   });
-  //
-  //   it('2. Encontrar horario por mes e ano', done => {
-  //     let retorno = (msg) => {
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       msg.datas.data.forEach(time=>{
-  //         expect(time).to.be.instanceOf(Object);
-  //         expect(time).to.have.all.keys("month","year","id", "timetable");
-  //       });
-  //       expect(msg.datas.data[0].timetable).to.be.instanceOf(Array);
-  //       msg.datas.data[0].timetable.forEach(time=>{
-  //         expect(time).to.be.instanceOf(Object);
-  //         expect(time).to.have.all.keys("day","entry_time","exit_time");
-  //       });
-  //       cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     let horaryDate = {
-  //       year: 1,
-  //       month: 1
-  //     }
-  //     cliente.on('retorno', retorno);
-  //     cliente.emit('', {datas: horaryDate})
-  //
-  //   });
-  //
-  //
-  //   it('3. Visualizar as questoes diarias de um horario especifico', done => {
-  //     let retorno = (msg) => {
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Object);
-  //       expect(msg.datas.data).to.have.all.keys("_id","questions","id");
-  //       expect(msg.datas.data.questions).to.be.instanceOf(Array);
-  //       msg.datas.data.questions.forEach(question=>{
-  //         expect(question).to.be.instanceOf(Object);
-  //         expect(question).to.have.all.keys("day","question1","question2", "question3");
-  //       });
-  //       cliente.removeListener('retorno', retorno);
-  //       done();
-  //     }
-  //     let horaryID = "5af30d7e57ace13eb3c6b0dd";
-  //     cliente.on('retorno', retorno);
-  //     cliente.emit('show_questions_by_horary_id', {datas: horaryID})
-  //   })
-  // });
+
+  describe('Relatorio de Horarios e Questoes Diarias', () => {
+
+    it('1. Visualizar ultimos horarios', done => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys("_id","month","year","id","timetable");
+        expect(msg.datas.data.timetable).to.be.instanceOf(Array);
+        msg.datas.data.timetable.forEach(time=>{
+          expect(time).to.be.instanceOf(Object);
+          expect(time).to.have.all.keys("day","entry_time","expected_exit_time", "real_exit_time");
+        });
+        cliente.removeListener('retorno', retorno);
+        done();
+      };
+      cliente.on('retorno', retorno);
+      cliente.emit('show_horaries', {datas: null});
+    });
+
+    it('2. Encontrar horario por mes e ano', done => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        expect(msg.datas.data[0].timetable).to.be.instanceOf(Array);
+        msg.datas.data[0].timetable.forEach(time=>{
+          expect(time).to.be.instanceOf(Object);
+          expect(time).to.include.all.keys("day","entry_time","expected_exit_time", "real_exit_time");
+        });
+        cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let horaryDate = {
+        year: 2018,
+        month: 5
+      }
+      cliente.on('retorno', retorno);
+      cliente.emit('find_horary_by_year_and_month', {datas: horaryDate})
+
+    });
+
+
+    it('3. Visualizar as questoes diarias de um horario especifico', done => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        expect(msg.datas.data).to.be.instanceOf(Object);
+        expect(msg.datas.data).to.have.all.keys("_id","questions","id");
+        expect(msg.datas.data.questions).to.be.instanceOf(Array);
+        msg.datas.data.questions.forEach(question=>{
+          expect(question).to.be.instanceOf(Object);
+          expect(question).to.have.all.keys("day","question1","question2", "question3");
+        });
+        cliente.removeListener('retorno', retorno);
+        done();
+      }
+      let horaryID = "5af30d7e57ace13eb3c6b0dd";
+      cliente.on('retorno', retorno);
+      cliente.emit('show_questions_by_horary_id', {datas: horaryID})
+    })
+  });
 
   describe(' Scrums, Sprints e Tarefas ', () => {
 
