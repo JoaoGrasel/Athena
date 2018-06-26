@@ -16,6 +16,7 @@ export class TeamMemberRTC extends BasicRTC {
     this.interfaceListeners = {
         'logout': this.logout.bind(this),
         'update_real_exit_time': this.update_real_exit_time.bind(this),
+        'update_worked_minutes': this.update_worked_minutes.bind(this),
         'add_day_answers': this.add_day_answers.bind(this),
         'update_daily_exit_time': this.update_daily_exit_time.bind(this),
         'show_horaries': this.show_horaries.bind(this),
@@ -59,6 +60,7 @@ export class TeamMemberRTC extends BasicRTC {
   public async logout(msg) {
     await Promise.all([
       this.handler.update_real_exit_time(msg),
+      this.handler.update_worked_minutes(msg),
       msg.datas = this.handler.logout()
     ]);
     new OpenRTC(this.config);
@@ -113,6 +115,11 @@ export class TeamMemberRTC extends BasicRTC {
 
   public async update_daily_exit_time(msg){
     msg.datas = await this.handler.update_daily_exit_time(msg.datas, this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+
+  public async update_worked_minutes(msg){
+    msg.datas = await this.handler.update_worked_minutes(this.loggedUser);
     this.emit_to_browser(msg);
   }
 

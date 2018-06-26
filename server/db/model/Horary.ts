@@ -46,7 +46,7 @@ let schema = new Schema(Object.assign({
     trim: true,
     required: [true, messages.year.REQUIRED],
   },
-  worked_hours: {
+  worked_minutes: {
     type: Schema.Types.Number,
   },
   timetable: {
