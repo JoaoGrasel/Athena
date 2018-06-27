@@ -4,7 +4,7 @@ import * as path from "path";
 import Timetable from "../subSchemas/Timetable";
 import Questions from "../subSchemas/Questions";
 
-const messages = require(path.resolve("util/messages.json")).horary;
+const messages = require(path.resolve("util/messages.json")).justification;
 const config = require(path.resolve("config.json"));
 
 let schema_options = {
@@ -36,30 +36,19 @@ let schema = new Schema(Object.assign({
     trim: true,
     required: [true, messages.team_member.REQUIRED],
   },
-  month: {
+  minutes: {
     type: Schema.Types.Number,
     trim: true,
     required: [true, messages.month.REQUIRED]
   },
-  year: {
-    type: Schema.Types.Number,
+  date: {
+    type: Schema.Types.Date,
     trim: true,
     required: [true, messages.year.REQUIRED],
   },
-  worked_minutes: {
-    type: Schema.Types.Number,
-  },
-  timetable: {
-    type: [Timetable],
-  },
-  justifications: {
-    type: [{
-      type: Schema.Types.ObjectId,
-      ref: 'justification'
-    }],
-  },
-  questions: {
-    type: [Questions]
+  description: {
+    type: Schema.Types.String,
+    required: [true, messages.month.REQUIRED]
   },
   removed: {
     type: Schema.Types.Boolean,
@@ -67,5 +56,5 @@ let schema = new Schema(Object.assign({
   },
 }, BaseSchema), schema_options);
 
-let HoraryModel = model("horary", schema);
+let HoraryModel = model("justification", schema);
 export {HoraryModel as Model};
