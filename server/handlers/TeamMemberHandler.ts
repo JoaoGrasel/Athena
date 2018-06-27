@@ -320,7 +320,7 @@ export class TeamMemberHandler extends CommonHandler {
     ))
     return this.retorno(devolution.data);
   }
-  // todo verificar se esta atualizando mesmo
+
   public async update_real_exit_time(loggedUser) {
     let current_date = new Date();
     let current_day = current_date.getDate();
@@ -348,7 +348,7 @@ export class TeamMemberHandler extends CommonHandler {
       }
     }
   }
-  //todo revisar depois de verificar a atualização do real exit time
+
   public async update_worked_minutes(loggedUser){
     let horary = await this.emit_to_server('db.horary.read', new QueryObject(
       loggedUser.horary,
@@ -358,10 +358,13 @@ export class TeamMemberHandler extends CommonHandler {
 
     let entry = horary.data.success[0].timetable[last_worked_time_position].entry_time;
     let exit = horary.data.success[0].timetable[last_worked_time_position].real_exit_time;
-    let diff = exit - entry;
-    let diffMins = Math.round(((diff % 86400000) % 3600000) / 60000);
-
-    let worked_minutes = horary.data.success[0].worked_minutes + diffMins;
+    let diff = exit.getTime() - entry.getTime();;
+    let worked_minutes = horary.data.success[0].worked_minutes;
+    worked_minutes += + Math.round(diff / 60000);
+    // let diff = exit - entry;
+    // let diffMins = Math.round(((diff % 86400000) % 3600000) / 60000);
+    //
+    // let worked_minutes = horary.data.success[0].worked_minutes + diffMins;
 
     let update = {
       worked_minutes: worked_minutes

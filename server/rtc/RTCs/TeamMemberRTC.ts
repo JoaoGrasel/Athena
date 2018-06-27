@@ -1,6 +1,7 @@
 import {BasicRTC} from '../BasicRTC';
 import {TeamMemberHandler} from '../../handlers/TeamMemberHandler';
 import {OpenRTC} from '../OpenRTC';
+import {Util} from "../../util/Util";
 
 export class TeamMemberRTC extends BasicRTC {
   private _loggedUser;
@@ -58,11 +59,13 @@ export class TeamMemberRTC extends BasicRTC {
   }
 
   public async logout(msg) {
-    await Promise.all([
-      this.handler.update_real_exit_time(msg),
-      this.handler.update_worked_minutes(msg),
-      msg.datas = this.handler.logout()
-    ]);
+    let horary_updated = await this.handler.update_real_exit_time(this.loggedUser);
+    if(horary_updated.success === true) {
+      await this.handler.update_worked_minutes(msg);
+    } else {
+      horary_updated.data.error = await Util.getErrorByLocale('pt-Br', 'real_time_exit_not_updated', horary_updated.data.error);
+    }
+    msg.datas = this.handler.logout()
     new OpenRTC(this.config);
     this.emit_to_browser(msg);
     this.destroy();

@@ -814,6 +814,44 @@ describe("Teste AdminRTC", () => {
       });
     });
 
+    // it('Edita Scrums do Team Member', (done) => {
+    //   let retorno = (msg) => {
+    //     expect(msg.datas).to.be.true;
+    //     current.cliente.removeListener('retorno', retorno);
+    //     done();
+    //   };
+    //   current.cliente.on('retorno', retorno);
+    //   let edited_team_member_scrums = {
+    //     removed_scrums: ["5b1698801a49f5071e55fe21"],
+    //     added_scrums: ["5b169888ec6ac5329634f5af"]
+    //   };
+    //   current.cliente.emit('edit_team_member_scrums', {
+    //     datas: {
+    //       edited_team_member_scrums: edited_team_member_scrums,
+    //       team_member: current.team_member
+    //     }
+    //   });
+    // });
+
+    // it('Edita Scrums do Team Member', (done) => {
+    //   let retorno = (msg) => {
+    //     expect(msg.datas).to.be.true;
+    //     current.cliente.removeListener('retorno', retorno);
+    //     done();
+    //   };
+    //   current.cliente.on('retorno', retorno);
+    //   let edited_team_member_scrums = {
+    //     removed_scrums: ["5b1698801a49f5071e55fe21"],
+    //     added_scrums: ["5b169888ec6ac5329634f5af"]
+    //   };
+    //   current.cliente.emit('edit_team_member_scrums', {
+    //     datas: {
+    //       edited_team_member_scrums: edited_team_member_scrums,
+    //       team_member: current.team_member
+    //     }
+    //   });
+    // });
+
     it('Exclui Team Member', (done) => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
