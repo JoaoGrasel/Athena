@@ -24,6 +24,7 @@ describe("Teste AdminRTC", () => {
     task: null,
     team_member: null,
     admin: null,
+    justification: null
   }
 
   it("Connect", (done) => {
@@ -451,6 +452,98 @@ describe("Teste AdminRTC", () => {
     });
   });
 
+  describe('Teste do CRUD de Justificativas', () => {
+
+    it('Cria Justificativa aumentando o numero de minutos trabalhados', (done) => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      let justification = {
+        day: "Wed jun 03 2018 11:26:53 GMT-0300 (-03)",
+        description: "Disse que caiu um meteoro sobre o carro.",
+        minutes: 120,
+        team_member: "5af30e015e2cd29a74d29490"
+      }
+      current.cliente.on('retorno', retorno);
+      current.cliente.emit('increase_worked_minutes', {datas: justified_minutes});
+
+    });
+
+  //  it('Cria Justificativa diminuindo o numero de minutos trabalhados', (done) => {
+  //     let retorno = (msg) => {
+  //       expect(msg.datas.success).to.be.true;
+  //       current.cliente.removeListener('retorno', retorno);
+  //       done();
+  //     };
+  //     let status = {
+  //       status_name: "Complete",
+  //       previous_status: [
+  //         "5af316b4fb91b1e207e7f405"
+  //       ],
+  //       next_status: [],
+  //       completed: true
+  //     }
+  //     current.cliente.on('retorno', retorno);
+  //     current.cliente.emit('create_status', {datas: status});
+  //
+  //   });
+  //
+  //   it('Busca Justificativa por team member', (done) => {
+  //     let retorno = (msg) => {
+  //       expect(msg.datas.success).to.be.true;
+  //       expect(msg.datas.data).to.be.instanceOf(Object);
+  //       expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+  //         "previous_status", "__v");
+  //       current.cliente.removeListener('retorno', retorno);
+  //       done();
+  //     };
+  //     current.cliente.on('retorno', retorno);
+  //     current.cliente.emit('get_status_by_id', {datas: current.status.id});
+  //
+  //   });
+  //
+  //   it('Edita justificafica', (done) => {
+  //     let retorno = (msg) => {
+  //       expect(msg.datas.success).to.be.true;
+  //       expect(msg.datas.data).to.be.instanceOf(Array);
+  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
+  //       expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+  //         "previous_status");
+  //       expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
+  //       expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
+  //       current.cliente.removeListener('retorno', retorno);
+  //       done();
+  //     };
+  //     current.cliente.on('retorno', retorno);
+  //     let edited_status = {
+  //       status_name: "Not Complete",
+  //       previous_status: [],
+  //       next_status: [
+  //         "5af316b4fb91b1e207e7f405"
+  //       ]
+  //     };
+  //     current.cliente.emit('edit_status', {datas: {id: current.status.id, update: edited_status}});
+  //   });
+  //
+  //   it('Exclui justificativa', (done) => {
+  //     let retorno = (msg) => {
+  //       expect(msg.datas.success).to.be.true;
+  //       expect(msg.datas.data).to.be.instanceOf(Array);
+  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
+  //       expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+  //         "previous_status");
+  //       expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
+  //       expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
+  //       current.cliente.removeListener('retorno', retorno);
+  //       done();
+  //     };
+  //     current.cliente.on('retorno', retorno);
+  //     current.cliente.emit('delete_status_by_id', {datas: {id: current.status.id, update: {removed: true}}});
+  //   });
+  });
+
   describe('Teste do CRUD de Tarefas', () => {
 
     it('Cria Tarefa certinha', (done) => {
@@ -521,6 +614,7 @@ describe("Teste AdminRTC", () => {
       };
       current.cliente.emit('edit_task', {datas: {id: current.task.id, update: edited_task}});
     });
+
 
     it('Edita Status de uma Task', (done) => {
       let retorno = (msg) => {

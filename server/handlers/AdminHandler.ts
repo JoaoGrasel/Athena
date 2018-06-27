@@ -685,6 +685,12 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+  // JUSTIFICATION CRUD
+
+  public async increase_worked_minutes(datas, loggedUser){
+
+  }
+
   // ADMIN CRUD
 
   public async create_admin(admin) {

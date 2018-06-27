@@ -39,6 +39,7 @@ export class AdminRTC extends BasicRTC {
       'edit_needed_tasks': this.edit_needed_tasks.bind(this),
       'complete_task': this.complete_task.bind(this),
       'delete_task_by_id': this.delete_task_by_id.bind(this),
+      'increase_worked_minutes': this.increase_worked_minutes.bind(this),
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
       'get_timetable_by_team_member_id': this.get_timetable_by_team_member_id.bind(this),
@@ -229,6 +230,13 @@ export class AdminRTC extends BasicRTC {
 
   public async add_task_in_history(msg){
     msg.datas = await this.handler.add_task_in_history(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  // JUSTIFICATION CRUD
+
+  public async increase_worked_minutes(msg){
+    msg.datas = await this.handler.increase_worked_minutes(msg.datas, this.loggedUser);
     this.emit_to_browser(msg);
   }
     // TEAM MEMBER CRUD
