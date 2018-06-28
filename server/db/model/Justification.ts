@@ -39,16 +39,16 @@ let schema = new Schema(Object.assign({
   minutes: {
     type: Schema.Types.Number,
     trim: true,
-    required: [true, messages.month.REQUIRED]
+    required: [true, messages.minutes.REQUIRED]
   },
   date: {
     type: Schema.Types.Date,
     trim: true,
-    required: [true, messages.year.REQUIRED],
+    required: [true, messages.date.REQUIRED],
   },
   description: {
     type: Schema.Types.String,
-    required: [true, messages.month.REQUIRED]
+    required: [true, messages.description.REQUIRED]
   },
   removed: {
     type: Schema.Types.Boolean,
@@ -56,5 +56,5 @@ let schema = new Schema(Object.assign({
   },
 }, BaseSchema), schema_options);
 
-let HoraryModel = model("justification", schema);
-export {HoraryModel as Model};
+let JustificationModel = model("justification", schema);
+export {JustificationModel as Model};

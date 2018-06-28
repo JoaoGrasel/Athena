@@ -40,6 +40,8 @@ export class AdminRTC extends BasicRTC {
       'complete_task': this.complete_task.bind(this),
       'delete_task_by_id': this.delete_task_by_id.bind(this),
       'increase_worked_minutes': this.increase_worked_minutes.bind(this),
+      'decrease_worked_minutes': this.decrease_worked_minutes.bind(this),
+      'get_justifications_by_team_member_id': this.get_justifications_by_team_member_id.bind(this),
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
       'get_timetable_by_team_member_id': this.get_timetable_by_team_member_id.bind(this),
@@ -239,6 +241,17 @@ export class AdminRTC extends BasicRTC {
     msg.datas = await this.handler.increase_worked_minutes(msg.datas, this.loggedUser);
     this.emit_to_browser(msg);
   }
+
+  public async decrease_worked_minutes(msg){
+    msg.datas = await this.handler.decrease_worked_minutes(msg.datas, this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+  public async get_justifications_by_team_member_id(msg){
+    msg.datas = await this.handler.get_justifications_by_team_member_id(msg.datas, this.loggedUser);
+    this.emit_to_browser(msg);
+  }
+
+
     // TEAM MEMBER CRUD
 
   public async create_team_member(msg){

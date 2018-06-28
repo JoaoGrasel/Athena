@@ -202,5 +202,19 @@
     "history_backlog":{
       "REQUIRED": "history_backlog_required"
     }
+  },
+  "justification":{
+    "team_member":{
+      "REQUIRED": "team_member_required"
+    },
+    "minutes":{
+      "REQUIRED": "minutes_required"
+    },
+    "date":{
+      "REQUIRED": "date_required"
+    },
+    "description":{
+      "REQUIRED": "description_required"
+    }
   }
 }

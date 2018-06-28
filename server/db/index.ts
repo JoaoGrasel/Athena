@@ -8,6 +8,7 @@ import {Sprint} from './managers/Sprint';
 import {Status} from './managers/Status';
 import {Task} from './managers/Task';
 import {TeamMember} from './managers/TeamMember';
+import {Justification} from './managers/Justification';
 
 import {ManagerMap} from "../interfaces/ManagerMap";
 
@@ -25,6 +26,8 @@ let managers: ManagerMap = {
   "status": new Status(),
   "task": new Task(),
   "team_member": new TeamMember(),
+  "justification": new Justification(),
+
 };
 
 export {managers};
