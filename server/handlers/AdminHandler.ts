@@ -688,7 +688,7 @@ export class AdminHandler extends CommonHandler {
 
   // JUSTIFICATION CRUD
 
-  public async increase_worked_minutes(data, loggedUser){
+  public async create_justification(data){
     let _id = new Types.ObjectId();
     let new_justification = {
       _id: _id,
@@ -696,23 +696,45 @@ export class AdminHandler extends CommonHandler {
       date: data.date,
       description: data.description,
       minutes: data.minutes,
-      team_member: data.team_member
+      team_member: data.team_member,
+      add_minutes: data.add_minutes
     }
     let justification = await this.emit_to_server('db.justification.create', new_justification);
     if (justification.data.error) {
       justification.data.error = await Util.getErrorByLocale('pt-Br', 'create_justification', justification.data.error);
       return await this.retorno(justification.data);
-    };
-    let justification_month = new Date(data.date).getMonth() + 1;
-    let justification_year = new Date(data.date).getFullYear();
+    }
+    let updated_worked_minutes;
+    if(data.add_minutes){
+      updated_worked_minutes = await this.increase_worked_minutes(justification);
+    } else {
+      updated_worked_minutes = await this.decrease_worked_minutes(justification);
+    }
+
+    await this.add_justification_to_horary(justification);
+
+    if(updated_worked_minutes.success){
+      return this.retorno(justification.data);
+    } else {
+      justification.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member_minutes', justification.data.error);
+      return await this.retorno(justification.data);
+    }
+  }
+
+  private async increase_worked_minutes(data){
+    let justification_month = new Date(data._data.success[0].date).getMonth() + 1;
+    let justification_year = new Date(data._data.success[0].date).getFullYear();
     let query = {
       month: justification_month,
       year: justification_year,
-      team_member: data.team_member
+      team_member: data._data.success[0].team_member
     };
     let update = {
       $inc: {
-        worked_minutes: data.minutes
+        worked_minutes: data._data.success[0].minutes
+      },
+      $push: {
+        justifications: data._data.success[0].id
       }
     }
     let devolution = await this.emit_to_server('db.horary.update', new UpdateObject(query, update));
@@ -723,31 +745,17 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async decrease_worked_minutes(data, loggedUser){
-    let _id = new Types.ObjectId();
-    let new_justification = {
-      _id: _id,
-      id: _id,
-      date: data.date,
-      description: data.description,
-      minutes: data.minutes,
-      team_member: data.team_member
-    }
-    let justification = await this.emit_to_server('db.justification.create', new_justification);
-    if (justification.data.error) {
-      justification.data.error = await Util.getErrorByLocale('pt-Br', 'create_justification', justification.data.error);
-      return await this.retorno(justification.data);
-    };
-    let justification_month = new Date(data.date).getMonth() + 1;
-    let justification_year = new Date(data.date).getFullYear();
+  private async decrease_worked_minutes(data){
+    let justification_month = new Date(data._data.success[0].date).getMonth() + 1;
+    let justification_year = new Date(data._data.success[0].date).getFullYear();
     let query = {
       month: justification_month,
       year: justification_year,
-      team_member: data.team_member
+      team_member: data._data.success[0].team_member
     };
     let update = {
       $inc: {
-        worked_minutes: - data.minutes
+        worked_minutes: - data._data.success[0].minutes
       }
     }
     let devolution = await this.emit_to_server('db.horary.update', new UpdateObject(query, update));
@@ -758,9 +766,45 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
-  public async get_justifications_by_team_member_id(data, loggedUser){
+  private async add_justification_to_horary(data){
+    let justification_month = new Date(data._data.success[0].date).getMonth() + 1;
+    let justification_year = new Date(data._data.success[0].date).getFullYear();
+    let query = {
+      month: justification_month,
+      year: justification_year,
+      team_member: data._data.success[0].team_member
+    };
+    let update = {
+      $push: {
+        justifications: data._data.success[0].id
+      }
+    };
+    let devolution = await this.emit_to_server('db.horary.update', new UpdateObject(query, update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_horary', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
+  public async get_justifications_by_team_member_id(data){
+    let query = {
+      team_member: data
+    }
+    let devolution = await this.emit_to_server('db.justification.read', new QueryObject(query));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'read_justifications', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+  //todo fazer o edit de justificativa pensando no retirar os minutos e somar ou qualquer situaçao parecida
+  public async edit_justification(data){
+    delete data.update.team_member;
 
   }
+
+
 
   // ADMIN CRUD
 
@@ -788,6 +832,10 @@ export class AdminHandler extends CommonHandler {
 
   public async get_admin_by_id(admin_id) {
     let devolution = await this.emit_to_server('db.admin.read', new QueryObject(admin_id));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'read_admin', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
     return this.retorno(devolution.data);
   }
 

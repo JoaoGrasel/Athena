@@ -50,6 +50,10 @@ let schema = new Schema(Object.assign({
     type: Schema.Types.String,
     required: [true, messages.description.REQUIRED]
   },
+  add_minutes: {
+    type: Schema.Types.Boolean,
+    required: [true, messages.add_minutes.REQUIRED]
+  },
   removed: {
     type: Schema.Types.Boolean,
     default: false

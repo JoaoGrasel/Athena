@@ -215,6 +215,9 @@
     },
     "description":{
       "REQUIRED": "description_required"
+    },
+    "add_minutes":{
+      "REQUIRED": "add_minutes_required"
     }
   }
 }

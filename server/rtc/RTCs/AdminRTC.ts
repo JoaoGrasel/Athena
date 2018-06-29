@@ -39,9 +39,9 @@ export class AdminRTC extends BasicRTC {
       'edit_needed_tasks': this.edit_needed_tasks.bind(this),
       'complete_task': this.complete_task.bind(this),
       'delete_task_by_id': this.delete_task_by_id.bind(this),
-      'increase_worked_minutes': this.increase_worked_minutes.bind(this),
-      'decrease_worked_minutes': this.decrease_worked_minutes.bind(this),
+      'create_justification': this.create_justification.bind(this),
       'get_justifications_by_team_member_id': this.get_justifications_by_team_member_id.bind(this),
+      'edit_justification': this.edit_justification.bind(this),
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
       'get_timetable_by_team_member_id': this.get_timetable_by_team_member_id.bind(this),
@@ -237,22 +237,22 @@ export class AdminRTC extends BasicRTC {
 
   // JUSTIFICATION CRUD
 
-  public async increase_worked_minutes(msg){
-    msg.datas = await this.handler.increase_worked_minutes(msg.datas, this.loggedUser);
+  public async create_justification(msg){
+    msg.datas = await this.handler.create_justification(msg.datas);
     this.emit_to_browser(msg);
   }
 
-  public async decrease_worked_minutes(msg){
-    msg.datas = await this.handler.decrease_worked_minutes(msg.datas, this.loggedUser);
-    this.emit_to_browser(msg);
-  }
   public async get_justifications_by_team_member_id(msg){
-    msg.datas = await this.handler.get_justifications_by_team_member_id(msg.datas, this.loggedUser);
+    msg.datas = await this.handler.get_justifications_by_team_member_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
+  public async edit_justification(msg){
+    msg.datas = await this.handler.edit_justification(msg.datas);
+    this.emit_to_browser(msg);
+  }
 
-    // TEAM MEMBER CRUD
+  // TEAM MEMBER CRUD
 
   public async create_team_member(msg){
     msg.datas = await this.handler.create_team_member(msg.datas);

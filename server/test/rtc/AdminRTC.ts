@@ -465,16 +465,18 @@ describe("Teste AdminRTC", () => {
         date: "Wed jun 03 2018 11:26:53 GMT-0300 (-03)",
         description: "Chegou mais cedo porque pegou uma carona em um pegasus.",
         minutes: 120,
-        team_member: "5af30e015e2cd29a74d29490"
+        team_member: "5af30e015e2cd29a74d29490",
+        add_minutes: true
       }
       current.cliente.on('retorno', retorno);
-      current.cliente.emit('increase_worked_minutes', {datas: justification});
+      current.cliente.emit('create_justification', {datas: justification});
     });
 
    it('Cria Justificativa diminuindo o numero de minutos trabalhados', (done) => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Object);
+        current.justification = msg.datas.data[0];
         current.cliente.removeListener('retorno', retorno);
         done();
       };
@@ -482,49 +484,52 @@ describe("Teste AdminRTC", () => {
        date: "Wed jun 03 2018 11:26:53 GMT-0300 (-03)",
        description: "Disse que caiu um meteoro sobre o carro.",
        minutes: 11,
-       team_member: "5af30e015e2cd29a74d29490"
+       team_member: "5af30e015e2cd29a74d29490",
+       add_minutes: false
      }
      current.cliente.on('retorno', retorno);
-     current.cliente.emit('decrease_worked_minutes', {datas: justification});
+     current.cliente.emit('create_justification', {datas: justification});
    });
 
     it('Busca Justificativas por team member', (done) => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
-        // expect(msg.datas.data).to.be.instanceOf(Object);
-        // expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
-        //   "previous_status", "__v");
+        expect(msg.datas.data).to.be.instanceOf(Array);
+        msg.datas.data.forEach(justification=>{
+          expect(justification).to.be.instanceOf(Object);
+          expect(justification).to.include.all.keys("updatedAt","createdAt","id","date","description","minutes","team_member","removed","__v");
+        });
         current.cliente.removeListener('retorno', retorno);
         done();
       };
       current.cliente.on('retorno', retorno);
-      current.cliente.emit('get_justifications_by_team_member_id', {datas: current.status.id});
+      current.cliente.emit('get_justifications_by_team_member_id', {datas: "5af30e015e2cd29a74d29490"});
     });
 
-  //   it('Edita justificafica', (done) => {
-  //     let retorno = (msg) => {
-  //       expect(msg.datas.success).to.be.true;
-  //       expect(msg.datas.data).to.be.instanceOf(Array);
-  //       expect(msg.datas.data[0]).to.be.instanceOf(Object);
-  //       expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
-  //         "previous_status");
-  //       expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
-  //       expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
-  //       current.cliente.removeListener('retorno', retorno);
-  //       done();
-  //     };
-  //     current.cliente.on('retorno', retorno);
-  //     let edited_status = {
-  //       status_name: "Not Complete",
-  //       previous_status: [],
-  //       next_status: [
-  //         "5af316b4fb91b1e207e7f405"
-  //       ]
-  //     };
-  //     current.cliente.emit('edit_status', {datas: {id: current.status.id, update: edited_status}});
-  //   });
-  //
-  //   it('Exclui justificativa', (done) => {
+
+    it('Edita justificafica', (done) => {
+      let retorno = (msg) => {
+        expect(msg.datas.success).to.be.true;
+        // expect(msg.datas.data).to.be.instanceOf(Array);
+        // expect(msg.datas.data[0]).to.be.instanceOf(Object);
+        // expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        //   "previous_status");
+        // expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
+        // expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
+        current.cliente.removeListener('retorno', retorno);
+        done();
+      };
+      current.cliente.on('retorno', retorno);
+      let edited_justification = {
+        date: "Wed jun 03 2018 11:26:53 GMT-0300 (-03)",
+        description: "Disse que caiu um meteoro sobre o carro.",
+        minutes: 11,
+        team_member: "5af30e015e2cd29a74d29490"
+      };
+      current.cliente.emit('edit_justification', {datas: {id: current.justification.id, added_minutes: current.justification.add_minutes, update: edited_justification}});
+    });
+
+    //   it('Exclui justificativa', (done) => {
   //     let retorno = (msg) => {
   //       expect(msg.datas.success).to.be.true;
   //       expect(msg.datas.data).to.be.instanceOf(Array);
