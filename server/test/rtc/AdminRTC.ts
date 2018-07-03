@@ -378,7 +378,7 @@ describe("Teste AdminRTC", () => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Array);
         expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("status_name", "id", "next_status", "previous_status");
+        expect(msg.datas.data[0]).to.include.all.keys("status_name", "id", "next_status", "previous_status");
         expect(msg.datas.data[0].next_status).to.be.instanceOf(Array);
         expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array);
         current.status = msg.datas.data[0];
@@ -402,7 +402,7 @@ describe("Teste AdminRTC", () => {
       let retorno = (msg) => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        expect(msg.datas.data).to.include.all.keys("_id", "updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
           "previous_status", "__v");
         current.cliente.removeListener('retorno', retorno);
         done();
@@ -417,7 +417,7 @@ describe("Teste AdminRTC", () => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Array);
         expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        expect(msg.datas.data[0]).to.include.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
           "previous_status");
         expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
         expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
@@ -440,7 +440,7 @@ describe("Teste AdminRTC", () => {
         expect(msg.datas.success).to.be.true;
         expect(msg.datas.data).to.be.instanceOf(Array);
         expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        expect(msg.datas.data[0]).to.include.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
           "previous_status");
         expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
         expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)

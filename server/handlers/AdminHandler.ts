@@ -369,7 +369,21 @@ export class AdminHandler extends CommonHandler {
   }
 
   public async edit_task_status(data) {
-    let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, data.edited_status));
+    let status = await this.get_status_by_id(data.edited_status.task_status);
+    let update;
+    if(status.data.completed){
+      let new_end_date = new Date();
+      update = {
+        task_end_date: new_end_date,
+        task_status: status.data.id
+      }
+    } else {
+      update = {
+        task_status: status.data.id
+      }
+    }
+
+    let devolution = await this.emit_to_server('db.task.update', new UpdateObject(data.id, update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_task_status', devolution.data.error);
       return await this.retorno(devolution.data);

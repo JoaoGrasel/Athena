@@ -42,17 +42,17 @@ let schema = new Schema(Object.assign({
     default: [],
   },
   next_status: {
-    type:[{
+    type: [{
       type: Schema.Types.ObjectId,
       ref: 'status'
     }],
+    default: []
+  },
     completed: {
       type: Schema.Types.Boolean,
       default: false
     },
-    default: []
-  },
-  removed: {
+    removed: {
     type: Schema.Types.Boolean,
     default: false
   },
