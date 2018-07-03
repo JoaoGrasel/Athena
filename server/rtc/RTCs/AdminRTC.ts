@@ -42,6 +42,7 @@ export class AdminRTC extends BasicRTC {
       'create_justification': this.create_justification.bind(this),
       'get_justifications_by_team_member_id': this.get_justifications_by_team_member_id.bind(this),
       'edit_justification': this.edit_justification.bind(this),
+      'delete_justification_by_id': this.delete_justification_by_id.bind(this),
       'create_team_member': this.create_team_member.bind(this),
       'get_team_member_by_id': this.get_team_member_by_id.bind(this),
       'get_timetable_by_team_member_id': this.get_timetable_by_team_member_id.bind(this),
@@ -249,6 +250,11 @@ export class AdminRTC extends BasicRTC {
 
   public async edit_justification(msg){
     msg.datas = await this.handler.edit_justification(msg.datas);
+    this.emit_to_browser(msg);
+  }
+
+  public async delete_justification_by_id(msg){
+    msg.datas = await this.handler.delete_justification_by_id(msg.datas);
     this.emit_to_browser(msg);
   }
 
