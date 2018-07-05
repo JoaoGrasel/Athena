@@ -1,6 +1,6 @@
 {
-  "name": "base_browser",
-  "description": "Projeto realizado com VueJs para servir como base para projetos futuros do LABTIC",
+  "name": "frontendTemplate",
+  "description": "Projeto realizado com Vue.Js para ser usado como base pelos projetos que precisam de interface web.",
   "version": "1.0.0",
   "author": "Osvaldo Miguel Junior <juniorsin2012@gmail.com>",
   "private": true,
@@ -11,12 +11,15 @@
     "lint": "node node_modules/eslint/bin/eslint.js src/*.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "eventemitter2": "^4.1.2",
     "lil-uuid": "^0.1.1",
-    "socket.io-client": "^2.0.3",
+    "localforage": "^1.7.1",
+    "socket.io-client": "^2.1.1",
     "vue": "^2.5.13",
     "vuelidate": "^0.6.1",
-    "vuetify": "^1.0.5"
+    "vuetify": "^1.1.0",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

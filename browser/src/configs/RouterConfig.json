@@ -1,8 +1,0 @@
-{
-  "routes": [
-    { "path":"*", "redirect": "/"}
-  ],
-  "mode": "history",
-  "linkActiveClass": "active-page",
-  "linkExactActiveClass": "current-page"
-}

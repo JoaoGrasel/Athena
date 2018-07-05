@@ -1,20 +1,76 @@
-import Basic from '../../utils/BasicComponents';
-import CacheValues from '../../utils/CacheValues';
-class Sidenav extends Basic{
-  constructor(){
-    super('Sidenav');
-    this.methods = {
-      'go': this.go.bind(this)
-    };
-    this.data = {
-      user: CacheValues.getData('user'),
-      active_route: '/homeRoot'
-    };
-    this.wiring();
-  }
-  go(route){
-    this.send_to_browser('change_route', route);
-    this.data.active_route = route;
+import localForage from "localforage";
+import LFM from "../../utils/LocalForageManager";
+import UserService from "../../services/userService";
+
+export default {
+  methods: {
+    go(route) {
+      this.active_route = route;
+    },
+    /**
+     * Método para sair do sistema.
+     * @returns {Promise<void>}
+     */
+    logout: async function () {
+      try {
+        await UserService.doLogout();
+        await localForage.removeItem(LFM.getKey('user'));
+        this.$router.replace('/');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  },
+  data() {
+    return {
+      drawer: false,
+      items: [],
+      active_route: '',
+      default_items: [
+        {icon: 'home', text: 'Início'},
+        {icon: 'history', text: 'Frequently contacted'},
+        {icon: 'content_copy', text: 'Duplicates'},
+        {
+          icon: 'keyboard_arrow_up',
+          'icon-alt': 'keyboard_arrow_down',
+          text: 'Aleatorio',
+          model: false,
+          children: [
+            {icon: 'person_add', text: 'Cadastrar usuário'}
+          ]
+        },
+        {
+          icon: 'keyboard_arrow_up',
+          'icon-alt': 'keyboard_arrow_down',
+          text: 'More',
+          model: false,
+          children: [
+            {text: 'Import'},
+            {text: 'Export'},
+            {text: 'Print'},
+            {text: 'Undo changes'},
+            {text: 'Other contacts'}
+          ]
+        },
+        {icon: 'settings', text: 'Administrativo', to:"/entity/UDESC/management"},
+        {icon: 'chat_bubble', text: 'Send feedback'},
+        {icon: 'help', text: 'Help'},
+        {icon: 'phonelink', text: 'App downloads'},
+        {icon: 'keyboard', text: 'Go to the old version'}
+      ]
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.userInfo
+    },
+    localeOption: {
+      get() {
+        return this.$store.state.locale.localeOption;
+      },
+      set(value) {
+        this.$store.commit('updateLocaleOption', value);
+      }
+    }
   }
 }
-export default new Sidenav().$vue;

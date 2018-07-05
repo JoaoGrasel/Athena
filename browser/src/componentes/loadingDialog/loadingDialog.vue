@@ -1,4 +1,4 @@
-<style>
+<style lang="scss">
     .sk-folding-cube {
         margin: 20px auto;
         width: 40px;
@@ -88,18 +88,20 @@
     }
 </style>
 <template>
-    <v-dialog v-model="active">
-        <v-card>
-            <v-card-text>
-                <div class="sk-folding-cube">
-                    <div class="sk-cube1 sk-cube"></div>
-                    <div class="sk-cube2 sk-cube"></div>
-                    <div class="sk-cube4 sk-cube"></div>
-                    <div class="sk-cube3 sk-cube"></div>
-                </div>
-                <div style="text-align: center; color: white">Carregando...</div>
-            </v-card-text>
-        </v-card>
-    </v-dialog>
+    <div>
+        <v-dialog v-model="active">
+            <v-card>
+                <v-card-text>
+                    <div class="sk-folding-cube">
+                        <div class="sk-cube1 sk-cube"></div>
+                        <div class="sk-cube2 sk-cube"></div>
+                        <div class="sk-cube4 sk-cube"></div>
+                        <div class="sk-cube3 sk-cube"></div>
+                    </div>
+                    <div style="text-align: center; color: white">Carregando...</div>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+    </div>
 </template>
 <script src="./loadingDialog.js"></script>
