@@ -11,7 +11,7 @@
   "onesignal": {},
   "server": {
     "domain": "",
-    "port": 1337,
+    "port": 8080,
     "images": "",
     "socketio": {
     }
