@@ -42,7 +42,7 @@ export abstract class BasicRTC {
    * @param dado
    */
   emit_to_browser(dado) {
-    this.socket.emit('retorno', dado);
+    this.socket.emit('response', dado);
   }
 
   /**

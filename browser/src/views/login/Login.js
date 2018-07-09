@@ -14,11 +14,15 @@ export default {
     login: async function () {
       this.validate_login = false;
       try {
-        const responseMessage = await SIOM.send('login', this.user);
+        const responseMessage = await SIOM.send('logar', this.user);
         console.log('response', responseMessage);
-        // this.$store.commit('updateUser', response.data);
-        // App.methods.changeSpinnerColor('#2a0845');
-        // this.$router.replace('/home');
+        if(responseMessage.response.success){
+          this.$store.commit('updateUser', responseMessage.response.data);
+          // App.methods.changeSpinnerColor('#2a0845');
+          this.$router.replace('/home');
+        } else {
+          console.error('tem que mostrar esse erro', responseMessage.response.data);
+        }
       } catch (error) {
         console.log('erro aqui', error);
         this.validate_login = true;
@@ -29,7 +33,7 @@ export default {
   data() {
     return {
       user: {
-        login: 'admin@admin.com',
+        username: 'admin',
         password: 'admin'
       },
       validate_login: false,
@@ -54,14 +58,7 @@ export default {
       }
     }
   },
-  computed: {
-    text() {
-      return this.$store.state.locale.localeData ? this.$store.state.locale.localeData.login : null;
-    },
-    snackbarText() {
-      return this.$store.state.locale.localeData ? this.$store.state.locale.localeData.snackbars : null;
-    }
-  },
+  computed: {},
   /**
    * Antes de entrar na tela de login:
    *

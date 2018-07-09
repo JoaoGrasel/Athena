@@ -57,9 +57,9 @@ export class OpenRTC extends BasicRTC {
    * @returns {Promise.<void>}
    */
   async logar(msg) {
-    msg.datas = await this.handler.logar(msg.datas);
+    msg.response = await this.handler.logar(msg.request);
 
-    if (msg.datas.success) {
+    if (msg.response.success) {
 
       return this.trocar_rtc(msg);
     }
@@ -72,7 +72,7 @@ export class OpenRTC extends BasicRTC {
    * @param msg
    */
   trocar_rtc(msg) {
-    let rtc_tipo = msg.datas.data.type;
+    let rtc_tipo = msg.response.data.type;
     new this.rtcs_usuario[rtc_tipo](this.config, msg, this);
   }
 }

@@ -28,49 +28,36 @@ export default {
       active_route: '',
       default_items: [
         {icon: 'home', text: 'Início'},
-        {icon: 'history', text: 'Frequently contacted'},
-        {icon: 'content_copy', text: 'Duplicates'},
+        {icon: 'account_circle', text: 'Meu Perfil'},
         {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',
-          text: 'Aleatorio',
+          text: 'Equipe',
           model: false,
           children: [
-            {icon: 'person_add', text: 'Cadastrar usuário'}
+            {icon: 'people', text: 'Visão Geral', to:"/user/dashboard"},
+            {icon: 'person_add', text: 'Cadastrar Usuário'},
+            {icon: 'access_time', text: 'Visualizar Horários'},
+            {icon: 'access_time', text: 'Visualizar Questões Diárias'},
           ]
         },
         {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',
-          text: 'More',
+          text: 'Projetos',
           model: false,
           children: [
-            {text: 'Import'},
-            {text: 'Export'},
-            {text: 'Print'},
-            {text: 'Undo changes'},
-            {text: 'Other contacts'}
+            {icon: 'assessment', text: 'Visão Geral'},
+            {icon: 'create', text: 'Cadastrar Projeto'}
           ]
         },
-        {icon: 'settings', text: 'Administrativo', to:"/entity/UDESC/management"},
-        {icon: 'chat_bubble', text: 'Send feedback'},
-        {icon: 'help', text: 'Help'},
-        {icon: 'phonelink', text: 'App downloads'},
-        {icon: 'keyboard', text: 'Go to the old version'}
+        {icon: 'settings', text: 'Confirgurações', to:"/entity/UDESC/management"}
       ]
     }
   },
   computed: {
     user() {
       return this.$store.state.user.userInfo
-    },
-    localeOption: {
-      get() {
-        return this.$store.state.locale.localeOption;
-      },
-      set(value) {
-        this.$store.commit('updateLocaleOption', value);
-      }
     }
   }
 }

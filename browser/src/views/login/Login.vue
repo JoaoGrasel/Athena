@@ -106,7 +106,7 @@
     }
 </style>
 <template>
-    <v-container fluid fill-height class="body" v-if="text">
+    <v-container fluid fill-height class="body">
         <v-layout class="layout-mobile" align-center justify-center xs12 sm8
                   md4>
             <img class="display-logo" src="../../assets/logo-kraken.png"/>
@@ -115,19 +115,19 @@
                 <img class="display-logo-mobile"
                      src="../../assets/logo-kraken.png"/>
                 <h3 class="headline mb-0 header-mobile" style="color: white">
-                    {{text.loginTitle}}</h3>
+                    Login</h3>
                 <v-form>
                     <v-text-field :class="class_login" prepend-icon="person"
                                   name="login"
-                                  :label="text.emailField" type="text"
+                                  label="E-mail" type="text"
                                   :error="validate_login"
                                   v-on:keyup.enter="login"
                                   v-on:click="validate_login = false"
-                                  v-model="user.login" dark>
+                                  v-model="user.username" dark>
                     </v-text-field>
                     <v-text-field :class="class_login" prepend-icon="lock"
                                   name="password"
-                                  :label="text.passwordField" id="password"
+                                  label="Senha" id="password"
                                   type="password"
                                   :error="validate_login"
                                   v-on:keyup.enter="login"
@@ -137,7 +137,7 @@
                     <span class="is-danger" v-if="validate_login">{{error_message}}</span>
                     <v-flex xs12 offset-md9 offset-lg10>
                         <v-btn dark flat v-on:click="login">
-                            {{text.loginButton}}
+                            Entrar
                         </v-btn>
                     </v-flex>
                 </v-form>
@@ -151,7 +151,7 @@
                 :timeout="timeout"
                 v-model="routeErrorSnackbar"
         >
-            {{snackbarText.routeError}}
+            Não é possível acessar essa rota.
             <v-btn dark flat @click.native="routeErrorSnackbar = false">
                 <v-icon>close</v-icon>
             </v-btn>

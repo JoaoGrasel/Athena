@@ -1,20 +1,25 @@
-<style>
+<style scoped>
 
 </style>
+
 <template>
     <v-container fluid fill-height>
-        <v-layout align-center justify-center>
+        <v-layout>
             <v-flex xs12 sm8 md4>
                 <v-card>
+                    <v-card-actions>
+                    </v-card-actions>
                     <v-card-title primary-title>
-                        <h3 class="headline mb-0">Bem vindo Comum</h3>
+                        <h3 class="headline mb-0">NOME DO MEMBRO DA EQUIPE AQUI</h3>
                     </v-card-title>
                     <v-card-text>
-
                     </v-card-text>
-                    <v-card-actions>
+                    <v-card-media
+                            :src="../../assets/logo-kraken.png"
+                            height="150px"
+                    >
+                    </v-card-media>
 
-                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -34,4 +39,5 @@
 
     </v-container>
 </template>
-<script src="./Home.js"></script>
+<script src="./UserDashboard.js"></script>
+

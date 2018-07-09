@@ -39,13 +39,13 @@ describe("Teste AdminRTC", () => {
 
     it('Login username errado', (done) => {
       let email_errado = (msg) => {
-        expect(msg.datas.success).to.be.false;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.include.all.keys('buttons', 'description', 'title');
-        current.cliente.removeListener('retorno', email_errado);
+        expect(msg.response.success).to.be.false;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.include.all.keys('buttons', 'description', 'title');
+        current.cliente.removeListener('response', email_errado);
         done();
       };
-      current.cliente.on('retorno', email_errado);
+      current.cliente.on('response', email_errado);
       let user = {
         username: 'adminadministrativo',
         password: 'admin'
@@ -55,13 +55,13 @@ describe("Teste AdminRTC", () => {
 
     it('Login senha errada', (done) => {
       let senha_errado = (msg) => {
-        expect(msg.datas.success).to.be.false;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.include.all.keys('buttons', 'description', 'title');
-        current.cliente.removeListener('retorno', senha_errado);
+        expect(msg.response.success).to.be.false;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.include.all.keys('buttons', 'description', 'title');
+        current.cliente.removeListener('response', senha_errado);
         done();
       };
-      current.cliente.on('retorno', senha_errado);
+      current.cliente.on('response', senha_errado);
       let user = {
         username: 'admin',
         password: 'administrativo'
@@ -71,10 +71,10 @@ describe("Teste AdminRTC", () => {
 
     it("Admin Login", (done) => {
       let retorno_login = function (msg) {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.include.all.keys("email", "first_name", "id", "surname", "type");
-        current.usuario = msg.datas.data;
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.include.all.keys("email", "first_name", "id", "surname", "type");
+        current.usuario = msg.response.data;
         current.cliente.removeListener("retorno", retorno_login);
         done();
       };
@@ -92,21 +92,21 @@ describe("Teste AdminRTC", () => {
 
     it(' Cria Scrum certinho', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("id", "project_name", "scrum_beginning_date", "scrum_description",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("id", "project_name", "scrum_beginning_date", "scrum_description",
           "scrum_end_date", "scrum_history_backlog", "scrum_product_backlog",
           "scrum_sprints", "scrum_sprint_duration", "scrum_status",
           "scrum_team_members");
-        expect(msg.datas.data[0].scrum_product_backlog).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].scrum_sprints).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].scrum_team_members).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
-        current.scrum = msg.datas.data[0];
+        expect(msg.response.data[0].scrum_product_backlog).to.be.instanceOf(Array);
+        expect(msg.response.data[0].scrum_sprints).to.be.instanceOf(Array);
+        expect(msg.response.data[0].scrum_team_members).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
+        current.scrum = msg.response.data[0];
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let scrum = {
         project_name: "Scrum de Teste",
         scrum_description: "Nascida pra morrer",
@@ -131,36 +131,36 @@ describe("Teste AdminRTC", () => {
 
     it('Busca Scrum', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "project_name", "scrum_description",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.have.all.keys("_id", "updatedAt", "createdAt", "project_name", "scrum_description",
           "scrum_status", "scrum_beginning_date", "scrum_end_date",
           "scrum_history_backlog", "scrum_sprint_duration", "id", "removed",
           "scrum_product_backlog", "scrum_sprints", "scrum_team_members", "__v");
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_scrum_by_id', {datas: current.scrum.id});
     });
 
     it('Edita Scrum', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "project_name", "scrum_description",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt", "createdAt", "project_name", "scrum_description",
           "scrum_status", "scrum_beginning_date", "scrum_end_date",
           "scrum_history_backlog", "scrum_sprint_duration", "id", "removed",
           "scrum_product_backlog", "scrum_sprints", "scrum_team_members");
-        expect(msg.datas.data[0].scrum_product_backlog).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].scrum_sprints).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].scrum_team_members).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrum_product_backlog).to.be.instanceOf(Array);
+        expect(msg.response.data[0].scrum_sprints).to.be.instanceOf(Array);
+        expect(msg.response.data[0].scrum_team_members).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_scrum = {
         project_name: "Scrum de Teste Editado",
         scrum_description: "Mais do mesmo",
@@ -173,11 +173,11 @@ describe("Teste AdminRTC", () => {
 
     it('Edita Team Members do Scrum', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas).to.be.true;
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response).to.be.true;
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_scrum_team_members = {
         removed_team_members: ["5af30e015e2cd29a74d29490"],
         added_team_members: ["5b0c017395fd435568db21ea"]
@@ -192,20 +192,20 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Scrum', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "project_name", "scrum_description",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt", "createdAt", "project_name", "scrum_description",
           "scrum_status", "scrum_beginning_date", "scrum_end_date",
           "scrum_history_backlog", "scrum_sprint_duration", "id", "removed",
           "scrum_product_backlog", "scrum_sprints", "scrum_team_members");
-        expect(msg.datas.data[0].scrum_product_backlog).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].scrum_sprints).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].scrum_team_members).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrum_product_backlog).to.be.instanceOf(Array);
+        expect(msg.response.data[0].scrum_sprints).to.be.instanceOf(Array);
+        expect(msg.response.data[0].scrum_team_members).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_scrum_by_id', {datas: {id: current.scrum.id, update: {removed: true}}});
     });
 
@@ -215,14 +215,14 @@ describe("Teste AdminRTC", () => {
 
     it('Cria Sprint certinha', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("sprint_name", "sprint_beginning_date", "sprint_end_date",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("sprint_name", "sprint_beginning_date", "sprint_end_date",
           "sprint_status", "id", "sprint_tasks", "scrum");
-        expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
-        current.sprint = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].sprint_tasks).to.be.instanceOf(Array);
+        current.sprint = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let sprint = {
@@ -237,37 +237,37 @@ describe("Teste AdminRTC", () => {
         sprint_status: "Running"
 
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_sprint', {datas: sprint});
 
     });
 
     it('Busca Sprint', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "sprint_name", "sprint_beginning_date",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.have.all.keys("_id", "updatedAt", "createdAt", "sprint_name", "sprint_beginning_date",
           "sprint_end_date", "sprint_status", "id", "removed", "sprint_tasks", "__v", "scrum");
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_sprint_by_id', {datas: current.sprint.id});
 
     });
 
     it('Edita Sprint', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "sprint_name", "sprint_beginning_date",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt", "createdAt", "sprint_name", "sprint_beginning_date",
           "sprint_end_date", "sprint_status", "id", "removed", "sprint_tasks", "scrum");
-        expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].sprint_tasks).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_sprint = {
         sprint_status: "Closed",
       };
@@ -276,16 +276,16 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Sprint', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "sprint_name", "sprint_beginning_date",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt", "createdAt", "sprint_name", "sprint_beginning_date",
           "sprint_end_date", "sprint_status", "id", "removed", "sprint_tasks", "scrum");
-        expect(msg.datas.data[0].sprint_tasks).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].sprint_tasks).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_sprint_by_id', {datas: {id: current.sprint.id, update: {removed: true}}});
     });
   });
@@ -294,14 +294,14 @@ describe("Teste AdminRTC", () => {
 
     it('Cria Historia certinha', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("history_theme", "history_like_one", "history_want_can", "history_need_to_do",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("history_theme", "history_like_one", "history_want_can", "history_need_to_do",
           "id", "history_tasks", "history_backlog");
-        expect(msg.datas.data[0].history_tasks).to.be.instanceOf(Array);
-        current.history = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].history_tasks).to.be.instanceOf(Array);
+        current.history = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let history = {
@@ -316,38 +316,38 @@ describe("Teste AdminRTC", () => {
         history_backlog: "5af3121b0084efb9b41f949d"
 
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_history', {datas: history});
 
     });
 
     it('Busca Historia', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.have.all.keys("_id", "updatedAt", "createdAt", "history_theme", "history_like_one", "history_want_can",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.have.all.keys("_id", "updatedAt", "createdAt", "history_theme", "history_like_one", "history_want_can",
           "history_need_to_do", "id", "removed", "history_tasks", "__v", "history_backlog");
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_history_by_id', {datas: current.history.id});
 
     });
 
     it('Edita Historia', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "history_theme", "history_like_one",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt", "createdAt", "history_theme", "history_like_one",
           "history_want_can", "history_need_to_do", "id", "removed", "history_tasks",
           "history_backlog");
-        expect(msg.datas.data[0].history_tasks).to.be.instanceOf(Array)
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].history_tasks).to.be.instanceOf(Array)
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_history = {
         history_need_to_do: "Roubar um passe do amiguinho",
       };
@@ -356,17 +356,17 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Historia', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt", "createdAt", "history_theme", "history_like_one",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt", "createdAt", "history_theme", "history_like_one",
           "history_want_can", "history_need_to_do", "id", "removed", "history_tasks",
           "history_backlog");
-        expect(msg.datas.data[0].history_tasks).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].history_tasks).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_history_by_id', {datas: {id: current.history.id, update: {removed: true}}});
     });
   });
@@ -375,14 +375,14 @@ describe("Teste AdminRTC", () => {
 
     it('Cria Status certinho', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("status_name", "id", "next_status", "previous_status");
-        expect(msg.datas.data[0].next_status).to.be.instanceOf(Array);
-        expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array);
-        current.status = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("status_name", "id", "next_status", "previous_status");
+        expect(msg.response.data[0].next_status).to.be.instanceOf(Array);
+        expect(msg.response.data[0].previous_status).to.be.instanceOf(Array);
+        current.status = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let status = {
@@ -393,38 +393,38 @@ describe("Teste AdminRTC", () => {
         next_status: [],
         completed: true
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_status', {datas: status});
 
     });
 
     it('Busca Status', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.include.all.keys("_id", "updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.include.all.keys("_id", "updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
           "previous_status", "__v");
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_status_by_id', {datas: current.status.id});
 
     });
 
     it('Edita Status', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
           "previous_status");
-        expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
-        expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].next_status).to.be.instanceOf(Array)
+        expect(msg.response.data[0].previous_status).to.be.instanceOf(Array)
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_status = {
         status_name: "Not Complete",
         previous_status: [],
@@ -437,17 +437,17 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Status', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("updatedAt", "createdAt", "status_name", "id", "removed", "next_status",
           "previous_status");
-        expect(msg.datas.data[0].next_status).to.be.instanceOf(Array)
-        expect(msg.datas.data[0].previous_status).to.be.instanceOf(Array)
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].next_status).to.be.instanceOf(Array)
+        expect(msg.response.data[0].previous_status).to.be.instanceOf(Array)
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_status_by_id', {datas: {id: current.status.id, update: {removed: true}}});
     });
   });
@@ -456,9 +456,9 @@ describe("Teste AdminRTC", () => {
 
     it('Cria Justificativa aumentando o numero de minutos trabalhados', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let justification = {
@@ -468,16 +468,16 @@ describe("Teste AdminRTC", () => {
         team_member: "5af30e015e2cd29a74d29490",
         add_minutes: true
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_justification', {datas: justification});
     });
 
    it('Cria Justificativa diminuindo o numero de minutos trabalhados', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        current.justification = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        current.justification = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
      let justification = {
@@ -487,37 +487,37 @@ describe("Teste AdminRTC", () => {
        team_member: "5af30e015e2cd29a74d29490",
        add_minutes: false
      }
-     current.cliente.on('retorno', retorno);
+     current.cliente.on('response', retorno);
      current.cliente.emit('create_justification', {datas: justification});
    });
 
     it('Busca Justificativas por team member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        msg.datas.data.forEach(justification=>{
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        msg.response.data.forEach(justification=>{
           expect(justification).to.be.instanceOf(Object);
           expect(justification).to.include.all.keys("updatedAt","createdAt","id","date","description","minutes","team_member","removed","__v");
         });
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_justifications_by_team_member_id', {datas: "5af30e015e2cd29a74d29490"});
     });
 
 
     it('Edita justificafica', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("id","date","description","minutes","team_member","add_minutes");
-        current.justification = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("id","date","description","minutes","team_member","add_minutes");
+        current.justification = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_justification = {
         date: "Wed jun 03 2018 11:26:53 GMT-0300 (-03)",
         description: "Disse que caiu uma baleia sobre o carro.",
@@ -530,14 +530,14 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui justificativa', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("id","date","description","minutes","team_member","add_minutes");
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("id","date","description","minutes","team_member","add_minutes");
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_justification_by_id', {datas: {justification: current.justification}});
     });
 
@@ -547,15 +547,15 @@ describe("Teste AdminRTC", () => {
 
     it('Cria Tarefa certinha', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("id", "task_name", "task_status", "task_artefact", "task_description",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("id", "task_name", "task_status", "task_artefact", "task_description",
           "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.task = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.task = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let task = {
@@ -571,41 +571,41 @@ describe("Teste AdminRTC", () => {
         task_end_date: "Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
         completed: false,
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_task', {datas: task});
 
     });
 
     it('Busca Tarefa', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.include.all.keys("id", "_id", "__v", "updatedAt", "createdAt", "task_name", "task_status",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.include.all.keys("id", "_id", "__v", "updatedAt", "createdAt", "task_name", "task_status",
           "task_artefact", "task_description", "task_responsibles"
         );
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_task_by_id', {datas: current.task.id});
 
     });
 
     it('Edita Task', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("id", "updatedAt", "createdAt", "task_name", "task_status",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("id", "updatedAt", "createdAt", "task_name", "task_status",
           "task_artefact", "task_description",
           "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
-        current.task = msg.datas.data[0];
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
+        current.task = msg.response.data[0];
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_task = {
         task_status: "5b1fc75c38fe2b2f4874b7cd",
         completed: true,
@@ -617,19 +617,19 @@ describe("Teste AdminRTC", () => {
 
     it('Edita Status de uma Task', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys("id", "updatedAt", "createdAt", "task_name", "task_status",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys("id", "updatedAt", "createdAt", "task_name", "task_status",
           "task_artefact", "task_description",
           "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
-        current.task = msg.datas.data[0];
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
+        current.task = msg.response.data[0];
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_status = {
         task_status: "5b1fc75c38fe2b2f4874b7cd",
       };
@@ -638,19 +638,19 @@ describe("Teste AdminRTC", () => {
 
     it('Coloca e retira uma task necessaria', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","task_name","task_status","task_artefact",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt","createdAt","task_name","task_status","task_artefact",
             "task_description","task_beginning_date","task_end_date","id","removed","completed","needed_tasks",
             "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
-        current.task = msg.datas.data[0];
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
+        current.task = msg.response.data[0];
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_tasks_needed = {
         added_tasks_needed: ["5b1fc75c38fe2b2f4874b7cd"],
         removed_tasks_needed: ["5b1fc75c38fe2b2f4874b7cd"]
@@ -660,36 +660,36 @@ describe("Teste AdminRTC", () => {
 
     it('Passa uma task para completed', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","task_name","task_status","task_artefact",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt","createdAt","task_name","task_status","task_artefact",
           "task_description","task_beginning_date","task_end_date","id","removed","completed","needed_tasks",
           "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('complete_task', {datas: {task: current.task}});
     });
 
     it('Adiciona uma Task necessaria de uma Task', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("updatedAt","createdAt","task_name","task_status","task_artefact",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("updatedAt","createdAt","task_name","task_status","task_artefact",
           "task_description","task_beginning_date","task_end_date","id","removed","completed","needed_tasks",
           "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
-        current.task = msg.datas.data[0];
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
+        current.task = msg.response.data[0];
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_tasks_needed = {
         added_tasks_needed: ["5b1fc75c38fe2b2f4874b7cd"],
         removed_tasks_needed: []
@@ -699,22 +699,22 @@ describe("Teste AdminRTC", () => {
 
     it('Tenta passar uma task para completed, porem não consegue', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas).to.be.a("string");
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response).to.be.a("string");
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('complete_task', {datas: {task: current.task}});
     });
 
 
     it('Adiciona Task em uma sprint', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('add_task_in_sprint', {
         datas: {
           task_id: current.task.id,
@@ -725,21 +725,21 @@ describe("Teste AdminRTC", () => {
 
     it('Adiciona Task em uma history', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('add_task_in_history', {datas: {id: current.task.id, history: "5af315f24e85890f295d836b"}});
     });
 
     it('Adiciona Team Member em uma Task', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('add_team_member_in_task', {
         datas: {
           task: current.task,
@@ -750,10 +750,10 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Task', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.include.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.include.all.keys(
           "id",
           "updatedAt",
           "createdAt",
@@ -763,11 +763,11 @@ describe("Teste AdminRTC", () => {
           "task_description",
           "task_responsibles"
         );
-        expect(msg.datas.data[0].task_responsibles).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].task_responsibles).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_task_by_id', {datas: {id: current.task.id, update: {removed: true}}});
     });
 
@@ -777,10 +777,10 @@ describe("Teste AdminRTC", () => {
   describe('Teste do CRUD de Team Members', () => {
     it('Cria Team Member certinho', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys(
           "id",
           "type",
           "email",
@@ -790,9 +790,9 @@ describe("Teste AdminRTC", () => {
           "birthdate",
           "first_name",
         );
-        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-        current.team_member = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrums).to.be.instanceOf(Array);
+        current.team_member = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let team_member = {
@@ -804,15 +804,15 @@ describe("Teste AdminRTC", () => {
         password: "123",
         scrums: ["5b1698801a49f5071e55fe21"]
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_team_member', {datas: team_member});
     });
 
     it('Busca Team Member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.have.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.have.all.keys(
           "id",
           "_id",
           "__v",
@@ -829,25 +829,25 @@ describe("Teste AdminRTC", () => {
           "birthdate",
           "first_name",
         );
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_team_member_by_id', {datas: current.team_member.id});
 
     });
 
     it('Busca Questoes do Team Member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0].horary).to.be.instanceOf(Object);
-        expect(msg.datas.data[0].horary.questions).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0].horary).to.be.instanceOf(Object);
+        expect(msg.response.data[0].horary.questions).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_questions_by_team_member_id', {datas: {id: "5af30e015e2cd29a74d29490"}});
 
     });
@@ -855,33 +855,33 @@ describe("Teste AdminRTC", () => {
 
     it('Busca Horarios do Team Member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0].horary).to.be.instanceOf(Object);
-        expect(msg.datas.data[0].horary.timetable).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0].horary).to.be.instanceOf(Object);
+        expect(msg.response.data[0].horary.timetable).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_timetable_by_team_member_id', {datas: {id: "5af30e015e2cd29a74d29490"}});
 
     });
 
     it('Edita Team Member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys(
           "updatedAt", "createdAt", "first_name", "surname", "birthdate", "username",
           "email", "password", "horary", "id", "type", "removed", "scrums"
         );
-        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_team_member = {
         email: "topster@tgt",
       };
@@ -890,11 +890,11 @@ describe("Teste AdminRTC", () => {
 
     it('Edita Scrums do Team Member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas).to.be.true;
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response).to.be.true;
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_team_member_scrums = {
         removed_scrums: ["5b1698801a49f5071e55fe21"],
         added_scrums: ["5b169888ec6ac5329634f5af"]
@@ -909,11 +909,11 @@ describe("Teste AdminRTC", () => {
 
     // it('Edita Scrums do Team Member', (done) => {
     //   let retorno = (msg) => {
-    //     expect(msg.datas).to.be.true;
-    //     current.cliente.removeListener('retorno', retorno);
+    //     expect(msg.response).to.be.true;
+    //     current.cliente.removeListener('response', retorno);
     //     done();
     //   };
-    //   current.cliente.on('retorno', retorno);
+    //   current.cliente.on('response', retorno);
     //   let edited_team_member_scrums = {
     //     removed_scrums: ["5b1698801a49f5071e55fe21"],
     //     added_scrums: ["5b169888ec6ac5329634f5af"]
@@ -928,11 +928,11 @@ describe("Teste AdminRTC", () => {
 
     // it('Edita Scrums do Team Member', (done) => {
     //   let retorno = (msg) => {
-    //     expect(msg.datas).to.be.true;
-    //     current.cliente.removeListener('retorno', retorno);
+    //     expect(msg.response).to.be.true;
+    //     current.cliente.removeListener('response', retorno);
     //     done();
     //   };
-    //   current.cliente.on('retorno', retorno);
+    //   current.cliente.on('response', retorno);
     //   let edited_team_member_scrums = {
     //     removed_scrums: ["5b1698801a49f5071e55fe21"],
     //     added_scrums: ["5b169888ec6ac5329634f5af"]
@@ -947,18 +947,18 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Team Member', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys(
           "updatedAt", "createdAt", "first_name", "surname", "birthdate", "username",
           "email", "password", "horary", "id", "type", "removed", "scrums"
         );
-        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_team_member_by_id', {datas: {id: current.team_member.id, update: {removed: true}}});
     });
   });
@@ -966,15 +966,15 @@ describe("Teste AdminRTC", () => {
   describe('Teste do CRUD de Admin', () => {
     it('Cria Admin certinho', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys("id", "type", "email", "scrums", "surname", "username", "birthdate",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys("id", "type", "email", "scrums", "surname", "username", "birthdate",
           "first_name",
         );
-        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-        current.admin = msg.datas.data[0];
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrums).to.be.instanceOf(Array);
+        current.admin = msg.response.data[0];
+        current.cliente.removeListener('response', retorno);
         done();
       };
       let admin = {
@@ -986,38 +986,38 @@ describe("Teste AdminRTC", () => {
         password: "123",
         scrums: ["5b1698801a49f5071e55fe21"]
       }
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('create_admin', {datas: admin});
     });
 
     it('Busca Admin', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Object);
-        expect(msg.datas.data).to.have.all.keys("id", "_id", "__v", "type", "email", "scrums", "surname", "removed",
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Object);
+        expect(msg.response.data).to.have.all.keys("id", "_id", "__v", "type", "email", "scrums", "surname", "removed",
           "username", "password", "updatedAt", "createdAt", "birthdate", "first_name",
         );
-        current.cliente.removeListener('retorno', retorno);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('get_admin_by_id', {datas: current.admin.id});
 
     });
     it('Edita Admin', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys(
           "updatedAt", "createdAt", "first_name", "surname", "birthdate", "username",
           "email", "password", "id", "type", "removed", "scrums"
         );
-        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_admin = {
         email: "topstsadssfer@tgt",
       };
@@ -1026,11 +1026,11 @@ describe("Teste AdminRTC", () => {
 
     it('Edita Scrums do Admin', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas).to.be.true;
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response).to.be.true;
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       let edited_admin_scrums = {
         removed_scrums: ["5b1698801a49f5071e55fe21"],
         added_scrums: ["5b169888ec6ac5329634f5af"]
@@ -1045,18 +1045,18 @@ describe("Teste AdminRTC", () => {
 
     it('Exclui Admin', (done) => {
       let retorno = (msg) => {
-        expect(msg.datas.success).to.be.true;
-        expect(msg.datas.data).to.be.instanceOf(Array);
-        expect(msg.datas.data[0]).to.be.instanceOf(Object);
-        expect(msg.datas.data[0]).to.have.all.keys(
+        expect(msg.response.success).to.be.true;
+        expect(msg.response.data).to.be.instanceOf(Array);
+        expect(msg.response.data[0]).to.be.instanceOf(Object);
+        expect(msg.response.data[0]).to.have.all.keys(
           "updatedAt", "createdAt", "first_name", "surname", "birthdate", "username",
           "email", "password", "id", "type", "removed", "scrums"
         );
-        expect(msg.datas.data[0].scrums).to.be.instanceOf(Array);
-        current.cliente.removeListener('retorno', retorno);
+        expect(msg.response.data[0].scrums).to.be.instanceOf(Array);
+        current.cliente.removeListener('response', retorno);
         done();
       };
-      current.cliente.on('retorno', retorno);
+      current.cliente.on('response', retorno);
       current.cliente.emit('delete_admin_by_id', {datas: {id: current.admin.id, update: {removed: true}}});
     });
   });
@@ -1065,7 +1065,7 @@ describe("Teste AdminRTC", () => {
 
     it("Admin Logout", (done) => {
       let retorno_login = (msg) => {
-        expect(msg.datas.success).to.be.true;
+        expect(msg.response.success).to.be.true;
         current.cliente.removeListener("retorno", retorno_login);
         done();
       };

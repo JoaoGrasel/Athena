@@ -11,47 +11,6 @@ class OpenService {
   constructor() {
 
   }
-
-  /**
-   * @author Bernardo Schveitzer
-   * Inicia o processo de definição do Locale no armazenamento local,
-   * verificando a localização do usuário, caso não tenha definido.
-   */
-  async initSystemLocale() {
-    try {
-      const responseAPI = await this.getLocation();
-      let localeCode = countryCodes[responseAPI.data.countryCode] ? countryCodes[responseAPI.data.countryCode] : 'en';
-      const responseGetLocale = await this.getLocale(localeCode);
-      await this.setLocaleToForage(responseGetLocale, localeCode);
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  /**
-   * @author Bernardo Schveitzer
-   * Define o locale no armazenamento local.
-   * @param response
-   * @param localeCode
-   */
-  async setLocaleToForage(response, localeCode) {
-    try {
-      await localForage.setItem(LFM.getKey('locale'), localeCode);
-      await localForage.setItem(LFM.getKey('localeData'), response.data);
-    } catch (err) {
-      await localForage.removeItem('locale');
-      window.alert("Ocorreu um erro desconhecido, recarregue a página.");
-    }
-  }
-
-  async getLocale(locale) {
-    return await axios.get(`/api/locale?locale=${locale}`);
-  }
-
-  async getLocation() {
-    return await axios.get('http://ip-api.com/json');
-  }
-
   /**
    * @author Bernardo Schveitzer
    * Verifica as autorizações do usuário para entrar em uma rota.
