@@ -5,7 +5,7 @@
 <template>
     <v-container fluid fill-height>
         <v-layout>
-            <UserCard></UserCard>
+            <UserCard>"https://codepen.io/typerory/pen/WzmvyV"</UserCard>
         </v-layout>
 
         <v-snackbar
