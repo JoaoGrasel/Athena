@@ -12,5 +12,9 @@ export default {
   },
   computed: {}
   ,
-  methods: {}
+  methods: {
+    show_profile:  function () {
+      this.$router.replace('/user/profile');
+    }
+  }
 }
