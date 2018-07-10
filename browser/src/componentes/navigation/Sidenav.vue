@@ -44,6 +44,7 @@
                                 v-for="(child, i) in item.children"
                                 :key="i"
                                 @click=""
+                                :to="child.to"
                         >
                             <v-list-tile-action v-if="child.icon">
                                 <v-icon class="drawer-style">{{ child.icon }}</v-icon>

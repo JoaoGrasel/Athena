@@ -1,4 +1,4 @@
-import UserCard from '../../../componentes/userCard/UserCard';
+import UserCard from '../../../componentes/userCard/UserCard.vue';
 
 export default {
   name: 'App',

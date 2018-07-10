@@ -16,14 +16,16 @@
                                     <v-layout row>
                                         <v-flex xs7>
                                             <div>
-                                                <div class="headline"><b>{{ people.first_name }} {{ user.surname}}</b></div>
+                                                <div class="headline"><b>{{ people.first_name }} {{ people.surname}}</b></div>
                                                 <div><b>Cargo: </b>{{ people.role }}</div>
                                                 <div><b>Aniversário: </b>{{ people.birthdate }}</div>
                                                 <div><b>Projetos: </b>{{ people.scrums }}</div>
                                             </div>
                                         </v-flex>
                                         <v-flex xs5>
-                                            <v-card-media>
+                                            <v-card-media :src="people.picture.large"
+                                                          height="125px"
+                                                          contain>
                                             </v-card-media>
                                         </v-flex>
                                     </v-layout>
@@ -35,10 +37,6 @@
                                 </v-card-actions>
                                 <v-slide-y-transition>
                                     <v-card-text v-show="people.show">
-                                        <div class="text-lg-right"><b>DOB: </b>{{ people.dob }}</div>
-                                        <div class="text-lg-right"><b>Registered: </b>{{ people.registered }}</div>
-                                        <div class="text-lg-right"><b>Phone: </b>{{ people.phone }}</div>
-                                        <div class="text-lg-right"><b>Cell: </b>{{ people.cell }}</div>
                                     </v-card-text>
                                 </v-slide-y-transition>
                             </v-card>

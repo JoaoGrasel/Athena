@@ -59,7 +59,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to,from, next) => {
-  return next(true);
+  return next();
 });
 
 /**
