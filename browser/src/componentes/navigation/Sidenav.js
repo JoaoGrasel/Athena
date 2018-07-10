@@ -27,7 +27,7 @@ export default {
       items: [],
       active_route: '',
       default_items: [
-        {icon: 'home', text: 'Início'},
+        {icon: 'home', text: 'Início', to:"/home"},
         {icon: 'account_circle', text: 'Meu Perfil'},
         {
           icon: 'keyboard_arrow_up',

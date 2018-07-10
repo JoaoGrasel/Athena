@@ -19,15 +19,12 @@
                                                 <div class="headline"><b>{{ people.first_name }} {{ user.surname}}</b></div>
                                                 <div><b>Cargo: </b>{{ people.role }}</div>
                                                 <div><b>Aniversário: </b>{{ people.birthdate }}</div>
-                                                <div><b>Projetos: </b>{{ people.sc
+                                                <div><b>Projetos: </b>{{ people.scrums }}</div>
                                             </div>
                                         </v-flex>
                                         <v-flex xs5>
-                                            <v-card-media
-                                                    :src="people.picture.large"
-                                                    height="125px"
-                                                    contain
-                                            ></v-card-media>
+                                            <v-card-media>
+                                            </v-card-media>
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
@@ -44,6 +41,7 @@
                                         <div class="text-lg-right"><b>Cell: </b>{{ people.cell }}</div>
                                     </v-card-text>
                                 </v-slide-y-transition>
+                            </v-card>
                         </v-flex>
                     </v-layout>
                 </v-flex>
@@ -52,4 +50,3 @@
     </div>
 </template>
 <script src="./UserCard.js"></script>
-rums }}</div>

@@ -26,4 +26,5 @@ export default [
     path: '/user/dashboard',
     component: UserDashboard
   },
+
 ];

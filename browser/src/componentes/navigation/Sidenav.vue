@@ -82,8 +82,7 @@
                 <span class="hidden-sm-and-down">Kraken</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn-toggle mandatory v-model="localeOption"
-                          class="toggle-custom-button-mobile">
+            <v-btn-toggle mandatory class="toggle-custom-button-mobile">
                 <v-btn flat value="pt-Br">
                     <span style="color: #009b36">PT-</span><span
                     style="color: #ead112">BR</span>
