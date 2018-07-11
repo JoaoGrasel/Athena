@@ -20,6 +20,7 @@ export default {
   ,
 
   methods: {
+    //todo fazer com que os cards se preencham com os usuarios que estão voltando do banco
     read_all_users: async function () {
       try {
         const responseMessage = await SIOM.send('get_all_users');
@@ -39,6 +40,12 @@ export default {
     },
     show_profile:  function () {
       this.$router.replace('/user/profile');
-    }
+    },
+
+    show_create_profile:  function () {
+      this.$router.replace('/user/create-profile');
+    },
+
+
   }
 }

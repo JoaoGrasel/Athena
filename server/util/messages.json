@@ -11,9 +11,6 @@
     "surname": {
       "REQUIRED": "surname_required"
     },
-    "role":{
-      "REQUIRED": "role_required"
-    },
     "birthdate": {
       "REQUIRED": "birthdate_required"
     },

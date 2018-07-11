@@ -52,7 +52,7 @@ class SIOM {
    */
   receiveFromServer(responseMessage) {
     this._promiseQueue[responseMessage.id].promiseHandler(responseMessage);
-    delete this._promiseQueue[responseMessage];
+    delete this._promiseQueue[responseMessage.id];
   }
 
   /**

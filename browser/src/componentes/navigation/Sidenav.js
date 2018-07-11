@@ -36,7 +36,7 @@ export default {
           model: false,
           children: [
             {icon: 'people', text: 'Visão Geral', to:"/user/dashboard"},
-            {icon: 'person_add', text: 'Cadastrar Usuário'},
+            {icon: 'person_add', text: 'Cadastrar Usuário', to:"/user/create-profile"},
             {icon: 'access_time', text: 'Visualizar Horários'},
             {icon: 'access_time', text: 'Visualizar Questões Diárias'},
           ]

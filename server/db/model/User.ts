@@ -41,7 +41,6 @@ let schema = new Schema(Object.assign({
   role: {
     type: Schema.Types.String,
     trim: true,
-    required: [true, messages.role.REQUIRED]
   },
   birthdate: {
     type: Schema.Types.Date,
