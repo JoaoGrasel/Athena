@@ -1,6 +1,7 @@
 import Login from './views/login/Login.vue';
 import Home from './views/home/Home.vue';
 import UserDashboard from './views/user/dashboard/UserDashboard.vue';
+import UserPerfil from './views/user/profile/UserProfile.vue'
 
 export default [
   {
@@ -12,18 +13,22 @@ export default [
     name: 'home',
     path: '/home',
     component: Home,
-    children: [
-      {
-        name: 'piroca',
-        path: '/home/piroca',
-        component: Home,
-        children: []
-      }
-    ]
   },
   {
     name: 'user-dashboard',
     path: '/user/dashboard',
-    component: UserDashboard
+    component: UserDashboard,
+    children: [
+      {
+        name: 'user-profile',
+        path: '/user/dashboard/profile',
+        component: UserPerfil,
+      },
+      {
+        name: 'create-user-profile',
+        path: '/user/dashboard/create-profile',
+        component: UserPerfil,
+      },
+    ]
   }
 ];

@@ -13,11 +13,9 @@ export default {
       showSpinner: false
     }
   },
-
   components: {
     UserCard
   },
-
   computed: {}
   ,
 
@@ -38,6 +36,9 @@ export default {
         this.validate_login = true;
         this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
       }
+    },
+    show_profile:  function () {
+      this.$router.replace('/user/profile');
     }
   }
 }
