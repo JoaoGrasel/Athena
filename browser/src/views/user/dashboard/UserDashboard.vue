@@ -8,18 +8,18 @@
             <UserCard></UserCard>
         </v-layout>
 
-        <v-snackbar
-                color="error"
-                :top="true"
-                :multi-line="true"
-                :timeout="timeout"
-                v-model="routeErrorSnackbar"
-        >
-            Sem autorização para essa rota.
-            <v-btn dark flat @click.native="routeErrorSnackbar = false">
-                <v-icon>close</v-icon>
-            </v-btn>
-        </v-snackbar>
+        <!--<v-snackbar-->
+                <!--color="error"-->
+                <!--:top="true"-->
+                <!--:multi-line="true"-->
+                <!--:timeout="timeout"-->
+                <!--v-model="routeErrorSnackbar"-->
+        <!--&gt;-->
+            <!--Sem autorização para essa rota.-->
+            <!--<v-btn dark flat @click.native="routeErrorSnackbar = false">-->
+                <!--<v-icon>close</v-icon>-->
+            <!--</v-btn>-->
+        <!--</v-snackbar>-->
 
     </v-container>
 </template>

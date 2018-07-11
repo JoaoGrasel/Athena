@@ -6,6 +6,12 @@ import {Types} from "mongoose";
 
 export class AdminHandler extends CommonHandler {
 
+
+  public async get_all_users(){
+    let devolution = await this.emit_to_server('db.user.read', new QueryObject());
+    return this.retorno(devolution.data);
+  }
+
   //SCRUM CRUD
 
   public async create_scrum(scrum) {

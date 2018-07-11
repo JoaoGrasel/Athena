@@ -38,6 +38,11 @@ let schema = new Schema(Object.assign({
     trim: true,
     required: [true, messages.surname.REQUIRED]
   },
+  role: {
+    type: Schema.Types.String,
+    trim: true,
+    required: [true, messages.role.REQUIRED]
+  },
   birthdate: {
     type: Schema.Types.Date,
     required: [true, messages.birthdate.REQUIRED],
@@ -57,6 +62,9 @@ let schema = new Schema(Object.assign({
     required: [true, messages.username.REQUIRED],
     unique: [true, messages.username.UNIQUE],
   },
+  // picture:{
+  //
+  // },
   scrums:{
     type: [{
       type: Schema.Types.ObjectId,

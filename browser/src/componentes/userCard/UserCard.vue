@@ -32,7 +32,7 @@
                                 </v-container>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn flat color="blue-grey darken-4" @click.native="people.show = !people.show">View personal data</v-btn>
+                                    <v-btn flat color="blue-grey darken-4" @click.native="people.show = !people.show">Visualizar Perfil</v-btn>
 
                                 </v-card-actions>
                                 <v-slide-y-transition>

@@ -1,16 +1,18 @@
 import localForage from "localforage";
 import LFM from "../../utils/LocalForageManager";
 import UserService from "../../services/userService";
+import SIOM from "../../services/SIOM";
 
 export default {
   mounted() {
     this.addShow()
+
   },
   methods: {
     addShow: function () {
-
       this.newPeople = this.people.map(people => (Object.assign(people, {show: false})))
-    }
+    },
+
   },
   data(){
     return {
