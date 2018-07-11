@@ -1,13 +1,7 @@
-<template>
-    
-</template>
-
-<script>
-  export default {
-    name: "user-register"
-  }
-</script>
-
 <style scoped>
 
 </style>
+<template>
+    
+</template>
+<script src="./UserRegister.js"></script>
