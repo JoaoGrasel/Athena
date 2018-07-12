@@ -10,6 +10,7 @@ export default {
 
   data() {
     return {
+      users:[],
       showSpinner: false
     }
   },
@@ -26,9 +27,7 @@ export default {
         const responseMessage = await SIOM.send('get_all_users');
         console.log('response', responseMessage);
         if(responseMessage.response.success){
-
-
-
+          this.users = responseMessage.response.data;
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
         }

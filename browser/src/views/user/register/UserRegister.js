@@ -88,6 +88,9 @@ export default {
       !this.$v.email.required && errors.push('Insira um e-mail!')
       return errors
     }},
+
+
+  //TODO CHAMAR A LÓGICA DE CADASTRO DE USUARIOS
   methods: {
     submit () {
       this.$v.$touch()
