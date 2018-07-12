@@ -33,32 +33,30 @@
                                         @input="$v.name.$touch()"
                                         @blur="$v.name.$touch()"
                                 ></v-text-field>
-                                <v-menu
-                                        ref="menu"
-                                        :close-on-content-click="false"
-                                        v-model="menu"
-                                        :nudge-right="40"
+                                <v-dialog
+                                        ref="dialog"
+                                        v-model="modal"
+                                        :return-value.sync="date"
+                                        persistent
                                         lazy
-                                        transition="scale-transition"
-                                        offset-y
                                         full-width
-                                        min-width="290px"
+                                        width="290px"
                                 >
                                     <v-text-field
                                             slot="activator"
                                             v-model="date"
+                                            :error-messages="dateErrors"
                                             label="Data de Nascimento"
                                             prepend-icon="event"
                                             readonly
                                     ></v-text-field>
-                                    <v-date-picker
-                                            ref="picker"
-                                            v-model="date"
-                                            :max="new Date().toISOString().substr(0, 10)"
-                                            min="1950-01-01"
-                                            @change="save"
-                                    ></v-date-picker>
-                                </v-menu>
+                                    <v-date-picker v-model="date" scrollable>
+                                        <v-spacer></v-spacer>
+                                        <v-btn flat color="primary" @click="modal = false">Cancelar</v-btn>
+                                        <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
+
                                 <v-text-field
                                         v-model="email"
                                         :error-messages="emailErrors"
@@ -79,6 +77,7 @@
                                         v-model="password"
                                         :append-icon="show1 ? 'visibility_off' : 'visibility'"
                                         :rules="[rules.required]"
+                                        :error-messages="passwordErrors"
                                         :type="show1 ? 'text' : 'password'"
                                         label="Senha"
                                         counter
@@ -91,7 +90,7 @@
                                         required
                                         @change="$v.checkbox.$touch()"
                                         @blur="$v.checkbox.$touch()"
-                                ></v-checkbox>
+                                />
 
                                 <v-btn @click="submit">Cadastrar</v-btn>
                             </form>

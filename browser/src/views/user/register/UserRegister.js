@@ -9,10 +9,13 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: {required, maxLength: maxLength(10)},
+    name: {required},
+    surname: {required},
+    role: {required},
+    date: {required},
+    username: {required},
+    password: {required},
     email: {required, email},
-    select: {required},
-    checkbox: {required},
   },
 
   mounted() {},
@@ -33,36 +36,56 @@ export default {
       password: '',
       rules: {
         required: value => !!value || 'Required.',
-      }
+      },
+      date: null,
+      menu: false,
+      modal: false,
+      menu2: false
     }
   },
   components: {},
-  //todo fazer todos os erros presentes no formulario
   computed: {
-    checkboxErrors () {
-      const errors = []
-      if (!this.$v.checkbox.$dirty) return errors
-      !this.$v.checkbox.required && errors.push('You must agree to continue!')
-      return errors
-    },
-    selectErrors () {
-      const errors = []
-      if (!this.$v.select.$dirty) return errors
-      !this.$v.select.required && errors.push('Item is required')
-      return errors
-    },
     nameErrors () {
       const errors = []
       if (!this.$v.name.$dirty) return errors
-      !this.$v.name.maxLength && errors.push('Name must be at most 10 characters long')
-      !this.$v.name.required && errors.push('Name is required.')
+      !this.$v.name.required && errors.push('Insira um nome!')
+      return errors
+    },
+    surnameErrors () {
+      const errors = []
+      if (!this.$v.surname.$dirty) return errors
+      !this.$v.surname.required && errors.push('Insira um sobrenome!')
+      return errors
+    },
+    roleErrors () {
+      const errors = []
+      if (!this.$v.role.$dirty) return errors
+      !this.$v.role.required && errors.push('Insira um cargo!')
+      return errors
+    },
+    dateErrors () {
+      const errors = []
+      if (!this.$v.date.$dirty) return errors
+      !this.$v.date.required && errors.push('Selecione uma data de nascimento!')
+      return errors
+    },
+    usernameErrors () {
+      const errors = []
+      if (!this.$v.username.$dirty) return errors
+      !this.$v.username.required && errors.push('Insira um usuario!')
+      return errors
+    },
+    passwordErrors () {
+      const errors = []
+      if (!this.$v.password.$dirty) return errors
+      !this.$v.password.required && errors.push('Insira uma senha!')
       return errors
     },
     emailErrors () {
       const errors = []
       if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('Must be valid e-mail')
-      !this.$v.email.required && errors.push('E-mail is required')
+      !this.$v.email.email && errors.push('Insira um e-mail válido.')
+      !this.$v.email.required && errors.push('Insira um e-mail!')
       return errors
     }},
   methods: {
