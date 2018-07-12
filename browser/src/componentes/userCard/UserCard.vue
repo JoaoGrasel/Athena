@@ -4,6 +4,7 @@
     }
 </style>
 
+<!--TODO PERSONALIZAR O CARTAO-->
 <template>
     <div id="app">
         <v-app id="inspire">

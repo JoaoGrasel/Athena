@@ -21,7 +21,7 @@ export default {
   ,
 
   methods: {
-    //todo fazer com que os cards se preencham com os usuarios que estão voltando do banco
+    //todo FAZER COM O QUE VA NO SCRUMS SEJA O NOME E NAO O ID
     read_all_users: async function () {
       try {
         const responseMessage = await SIOM.send('get_all_users');

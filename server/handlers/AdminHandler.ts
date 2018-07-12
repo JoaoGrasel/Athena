@@ -521,6 +521,7 @@ export class AdminHandler extends CommonHandler {
       username: team_member.username,
       email: team_member.email,
       password: team_member.password,
+      role: team_member.role,
       scrums: team_member.scrums
     }
     delete team_member.horary;
@@ -922,6 +923,7 @@ export class AdminHandler extends CommonHandler {
       surname: admin.surname,
       birthdate: admin.birthdate,
       username: admin.username,
+      role: admin.role,
       email: admin.email,
       password: admin.password,
       scrums: admin.scrums
