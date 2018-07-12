@@ -1,13 +1,10 @@
+<style scoped>
+
+</style>
+
 <template>
 
 </template>
 
-<script>
-  export default {
-    name: "UserPerfil"
-  }
-</script>
+<script src="./UserProfile.js"></script>
 
-<style scoped>
-
-</style>

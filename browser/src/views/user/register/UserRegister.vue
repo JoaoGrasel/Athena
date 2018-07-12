@@ -41,7 +41,8 @@
                                         :return-value.sync="date"
                                         persistent
                                         lazy
-                                        full-width
+
+                                        :error-messages="checkboxErrors"                      full-width
                                         width="290px"
                                 >
                                     <v-text-field
@@ -87,7 +88,6 @@
                                 ></v-text-field>
                                 <v-checkbox
                                         v-model="checkbox"
-                                        :error-messages="checkboxErrors"
                                         label="O usuario eh administrador?"
                                         required
                                         @change="$v.checkbox.$touch()"

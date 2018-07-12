@@ -28,7 +28,8 @@ export default {
       active_route: '',
       default_items: [
         {icon: 'home', text: 'Início', to:"/home"},
-        {icon: 'account_circle', text: 'Meu Perfil'},
+        //TODO CONSERTAR A ROTA DO PROFILE
+        {icon: 'account_circle', text: 'Meu Perfil', to:"/user/profile"},
         {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',

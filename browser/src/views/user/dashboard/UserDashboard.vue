@@ -5,18 +5,19 @@
 <template>
     <v-container fluid fill-height>
         <v-layout>
+            <!--TODO ARRUMAR O POSICIONAMENTO DO BOTAO-->
+            <v-btn
+                    absolute
+                    dark
+                    fab
+                    right
+                    color="pink"
+                    v-on:click="show_create_profile"
+            >
+                <v-icon>add</v-icon>
+            </v-btn>
             <div v-for="user in users">
                 <UserCard :user="user"></UserCard>
-                <v-btn
-                        absolute
-                        dark
-                        fab
-                        right
-                        color="pink"
-                        v-on:click="show_create_profile"
-                >
-                    <v-icon>add</v-icon>
-                </v-btn>
             </div>
         </v-layout>
 
