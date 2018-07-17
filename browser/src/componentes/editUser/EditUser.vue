@@ -1,10 +1,8 @@
 <style scoped>
 
 </style>
-
-<!--TODO ESTILIZAR O FORMULARIO - ARRUMAR A ORDEM DOS CAMPOS -->
-<!--TODO ARRUMAR PRA COLOCAR FOTO-->
-<!-- TODO FAZER FUNCIONAR O CADASTRAR-->
+<!--TODO FAZER FUNCIONAR O DELETAR-->
+<!--TODO IR PRA PAGINA DO EDITAR-->
 <template>
     <div id="app">
         <v-app id="inspire">
@@ -105,4 +103,5 @@
         </v-app>
     </div>
 </template>
-<script src="./UserRegister.js"></script>
+
+<script src="./EditUser.js"></script>

@@ -8,12 +8,14 @@ export default {
 
   data() {
     return {
+
      }
   },
   components: {
     UserProfile
   },
-  computed: {}
+  computed: {
+  }
   ,
 
   methods: {}

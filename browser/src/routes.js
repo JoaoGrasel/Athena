@@ -30,7 +30,7 @@ export default [
     name: 'create-user-profile',
     path: '/user/create-profile',
     component: UserRegister,
-  },
+  }
 
 
 ];
