@@ -7,8 +7,18 @@ import {Types} from "mongoose";
 export class AdminHandler extends CommonHandler {
 
 
-  public async get_all_users(){
+  private async get_all_users(){
     let devolution = await this.emit_to_server('db.user.read', new QueryObject());
+    return this.retorno(devolution.data);
+  }
+
+  public async fill_user_cards(){
+    let devolution = await this.get_all_users();
+    devolution.data.forEach(user=>{
+      delete user.createdAt;
+      delete user.password;
+      delete user.updatedAt;
+    });
     return this.retorno(devolution.data);
   }
 

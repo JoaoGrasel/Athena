@@ -96,6 +96,10 @@
                                             label="E-mail"
                                             :readonly="!edit"
                                     ></v-text-field>
+                                    <v-checkbox
+                                            v-model="checkbox"
+                                            label="O usuario eh administrador?"
+                                    />
 
                                     <!--TODO PERMITIR EDITAR OS -->
                                     <v-card-actions>

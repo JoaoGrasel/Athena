@@ -3,6 +3,7 @@
   "data": [
     {
       "_id": "5af30e015e2cd29a74d29490",
+      "role": "Desenvolvedor",
       "first_name": "team_member",
       "surname": "team_member",
       "birthdate": "Thu Jul 03 1970 15:26:53 GMT+0000 (UTC)",
@@ -14,6 +15,7 @@
     },
     {
       "_id": "5b0c017395fd435568db21ea",
+      "role": "Fazedor de Café",
       "first_name": "team_member2",
       "surname": "team_member2",
       "birthdate": "Thu Jul 03 1970 15:26:53 GMT+0000 (UTC)",

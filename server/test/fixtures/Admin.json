@@ -4,6 +4,7 @@
     {
       "_id": "59d418c0659c0ab8386f19e3",
       "first_name": "admin",
+      "role": "Administrador",
       "surname": "admin",
       "birthdate": "Tue Mar 25 1980 03:18:52 GMT-0300 (-03)",
       "username": "admin",

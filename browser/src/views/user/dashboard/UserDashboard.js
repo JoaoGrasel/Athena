@@ -26,7 +26,7 @@ export default {
     //todo TRATAR A DATA
     read_all_users: async function () {
       try {
-        const responseMessage = await SIOM.send('get_all_users');
+        const responseMessage = await SIOM.send('fill_user_cards');
         console.log('response', responseMessage);
         if(responseMessage.response.success){
           this.users = responseMessage.response.data;

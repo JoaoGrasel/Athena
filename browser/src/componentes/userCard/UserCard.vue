@@ -3,7 +3,7 @@
         flex-shrink: 0
     }
 </style>
-
+<!--TODO VER COMO COLOCAR PICTURE NO PERFIL, TALVEZ SEJA PRECISO REMODELAR O BANCO PRA SALVAR NO DB-->
 <!--TODO PERSONALIZAR O CARTAO-->
 <template>
     <div id="app">
@@ -20,12 +20,12 @@
                                     <div><b>Projetos: </b>{{ user.scrums }}</div>
                                 </div>
                             </v-flex>
-                            <!--<v-flex xs5>-->
-                                <!--<v-card-media :src="user.picture.large"-->
-                                              <!--height="125px"-->
-                                              <!--contain>-->
-                                <!--</v-card-media>-->
-                            <!--</v-flex>-->
+                            <v-flex xs5>
+                                <v-card-media src="https://www.otvfoco.com.br/wp-content/uploads/2018/02/Ronaldinho-Ga%C3%BAcho.jpg"
+                                              height="150px"
+                                              contain>
+                                </v-card-media>
+                            </v-flex>
                         </v-layout>
                     </v-container>
                     <v-card-actions>

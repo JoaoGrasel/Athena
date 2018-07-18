@@ -91,9 +91,6 @@
                                 <v-checkbox
                                         v-model="checkbox"
                                         label="O usuario eh administrador?"
-                                        required
-                                        @change="$v.checkbox.$touch()"
-                                        @blur="$v.checkbox.$touch()"
                                 />
 
                                 <v-btn @click="submit">Cadastrar</v-btn>
