@@ -12,8 +12,13 @@ export default {
      */
     show_profile:  function () {
       this.$router.replace('/user/dashboard');
+    },
+    edit_profile: function(){
+
     }
+
   },
+  computed: {},
   props: [
     'user',
   ],
@@ -21,7 +26,13 @@ export default {
     return {
       user: this.user,
       edit: false,
-      name: 'asdasd'
+      name: '',
+      surname:'',
+      role:'',
+      email: '',
+      username:'',
+      checkbox: false,
+      date: null,
     }
   }
 }

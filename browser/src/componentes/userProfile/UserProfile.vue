@@ -28,17 +28,24 @@
                                         <ul>
                                             <li> Pollo </li>
                                             <li> Xunda </li>
-                                        </ul>
+                                        </ul>989
                                     </div>
-
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <span class="group pa-2">
+                                            <v-btn @click="edit = true">
+                                                <v-icon>edit</v-icon>
+                                            </v-btn>
+                                            <v-btn v-on:click="show_profile">
+                                                <v-icon>delete</v-icon>
+                                            </v-btn>
+                                        </span>
+                                    </v-card-actions>
                                 </div>
                             </v-flex>
 
                             <v-flex xs7 v-else>
                                 <div>
-
-                                    <!--<div class="headline"><b>{{ user.first_name }} {{ user.surname}}</b></div>-->
-                                    <!--<input class="headline"><b>João Grasel</b></input>-->
                                     <v-text-field
                                             v-model="name"
                                             :error-messages="nameErrors"
@@ -46,19 +53,62 @@
                                             required
                                             :readonly="!edit"
                                     ></v-text-field>
-                                    <!--<div><b>Cargo: </b>{{ user.role }}</div>-->
-                                    <div><b>Cargo: </b>Desenvolvedor</div>
-                                    <div><b>Aniversário: </b>18/10/1997</div>
-                                    <div><b>Email: </b>batata.ba@tata.com</div>
-                                    <div><b>É um administrador: </b> Não</div>
-                                    <div><b>Projetos: </b></div>
-                                    <div>
-                                        <ul>
-                                            <li> Pollo </li>
-                                            <li> Xunda </li>
-                                        </ul>
-                                    </div>
+                                    <v-text-field
+                                            v-model="surname"
+                                            :error-messages="surnameErrors"
+                                            label="Sobrenome"
+                                            :readonly="!edit"
+                                    ></v-text-field>
+                                    <v-text-field
+                                            v-model="role"
+                                            :error-messages="roleErrors"
+                                            label="Cargo"
+                                            :readonly="!edit"
+                                    ></v-text-field>
+                                    <v-dialog
+                                            ref="dialog"
+                                            v-model="modal"
+                                            :return-value.sync="date"
+                                            persistent
+                                            lazy
 
+                                            :error-messages="checkboxErrors"                      full-width
+                                            width="290px"
+                                    >
+                                        <v-text-field
+                                                slot="activator"
+                                                v-model="date"
+                                                :error-messages="dateErrors"
+                                                label="Data de Nascimento"
+                                                prepend-icon="event"
+                                                readonly
+                                                :readonly="!edit"
+                                        ></v-text-field>
+                                        <v-date-picker v-model="date" scrollable>
+                                            <v-spacer></v-spacer>
+                                            <v-btn flat color="primary" @click="modal = false">Cancelar</v-btn>
+                                            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                                        </v-date-picker>
+                                    </v-dialog>
+                                    <v-text-field
+                                            v-model="email"
+                                            :error-messages="emailErrors"
+                                            label="E-mail"
+                                            :readonly="!edit"
+                                    ></v-text-field>
+
+                                    <!--TODO PERMITIR EDITAR OS -->
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <span class="group pa-2">
+                                            <v-btn @click="edit = false">
+                                                <v-icon>close</v-icon>
+                                            </v-btn>
+                                            <v-btn v-on:click="edit_profile" @click="edit = false">
+                                                <v-icon>check</v-icon>
+                                            </v-btn>
+                                        </span>
+                                    </v-card-actions>
                                 </div>
                             </v-flex>
                             <!--<v-flex xs5>-->
@@ -69,17 +119,7 @@
                             <!--</v-flex>-->
                         </v-layout>
                     </v-container>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                          <span class="group pa-2">
-                            <v-btn @click="edit = true">
-                                <v-icon>edit</v-icon>
-                            </v-btn>
-                            <v-btn v-on:click="show_profile">
-                                <v-icon>delete</v-icon>
-                            </v-btn>
-                          </span>
-                    </v-card-actions>
+
                 </v-card>
             </v-flex>
         </v-app>
