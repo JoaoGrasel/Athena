@@ -15,7 +15,7 @@ export class AdminRTC extends BasicRTC {
     openRTC.destroy();
     this.interfaceListeners = {
       'logout': this.logout.bind(this),
-      'fill_user_cards': this.fill_user_cards.bind(this),
+      'get_all_users': this.get_all_users.bind(this),
       'create_scrum': this.create_scrum.bind(this),
       'get_scrum_by_id': this.get_scrum_by_id.bind(this),
       'edit_scrum': this.edit_scrum.bind(this),
@@ -96,8 +96,8 @@ export class AdminRTC extends BasicRTC {
     this.destroy();
   }
 
-  public async fill_user_cards(msg) {
-    msg.response = await this.handler.fill_user_cards();
+  public async get_all_users(msg) {
+    msg.response = await this.handler.get_all_users();
     this.emit_to_browser(msg);
   }
 

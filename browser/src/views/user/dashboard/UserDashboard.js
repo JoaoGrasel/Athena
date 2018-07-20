@@ -21,12 +21,11 @@ export default {
   ,
 
   methods: {
-    //todo FAZER COM O QUE VA NO SCRUMS SEJA O NOME E NAO O ID
     //todo FAZER COM QUE VOLTE SO OS ATRIBUTOS QUE VAO APARECER E NAO SENHA E ETC
     //todo TRATAR A DATA
     read_all_users: async function () {
       try {
-        const responseMessage = await SIOM.send('fill_user_cards');
+        const responseMessage = await SIOM.send('get_all_users');
         console.log('response', responseMessage);
         if(responseMessage.response.success){
           this.users = responseMessage.response.data;

@@ -17,7 +17,11 @@
                                     <div class="headline"><b>{{ user.first_name }} {{ user.surname}}</b></div>
                                     <div><b>Cargo: </b>{{ user.role }}</div>
                                     <div><b>Aniversário: </b>{{ user.birthdate }}</div>
-                                    <div><b>Projetos: </b>{{ user.scrums }}</div>
+                                    <div><b>Projetos: </b></div>
+                                    <div v-for="scrum in user.scrums">
+                                        <p>{{ scrum.project_name }}</p>
+                                    </div>
+
                                 </div>
                             </v-flex>
                             <v-flex xs5>

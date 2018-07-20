@@ -7,18 +7,12 @@ import {Types} from "mongoose";
 export class AdminHandler extends CommonHandler {
 
 
-  private async get_all_users(){
-    let devolution = await this.emit_to_server('db.user.read', new QueryObject());
-    return this.retorno(devolution.data);
-  }
-
-  public async fill_user_cards(){
-    let devolution = await this.get_all_users();
-    devolution.data.forEach(user=>{
-      delete user.createdAt;
-      delete user.password;
-      delete user.updatedAt;
-    });
+  public async get_all_users(){
+    let devolution = await this.emit_to_server('db.user.read', new QueryObject({}, "first_name surname " +
+      "role birthdate username removed scrums", {
+      path:'scrums',
+      select: 'project_name'
+    } ) );
     return this.retorno(devolution.data);
   }
 
