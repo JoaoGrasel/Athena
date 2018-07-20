@@ -19,7 +19,9 @@
                 <v-icon>add</v-icon>
             </v-btn>
             <div v-for="user in users">
-                <UserCard :user="user"></UserCard>
+                <div v-if="!user.removed">
+                    <UserCard :user="user"></UserCard>
+                </div>
             </div>
         </v-layout>
 

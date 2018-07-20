@@ -6,7 +6,7 @@ import SIOM from "../../services/SIOM";
 export default {
   mounted() {},
   methods: {
-    /**
+    /**l
      * Método para entrar no sistema.
      * @returns {Promise<void>}
      */

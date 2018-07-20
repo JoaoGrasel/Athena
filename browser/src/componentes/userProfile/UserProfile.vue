@@ -36,7 +36,7 @@
                                             <v-btn @click="edit = true">
                                                 <v-icon>edit</v-icon>
                                             </v-btn>
-                                            <v-btn v-on:click="show_profile">
+                                            <v-btn v-on:click="delete_user">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                         </span>

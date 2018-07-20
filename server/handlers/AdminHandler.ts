@@ -16,6 +16,18 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+  public async delete_user_by_id(data) {
+    let update = {
+      removed: true
+    };
+    let devolution = await this.emit_to_server('db.user.update', new UpdateObject(data.id, update));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_user', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
   //SCRUM CRUD
 
   public async create_scrum(scrum) {
