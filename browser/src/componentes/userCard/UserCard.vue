@@ -25,7 +25,8 @@
                                 </div>
                             </v-flex>
                             <v-flex xs5>
-                                <v-card-media src="https://www.otvfoco.com.br/wp-content/uploads/2018/02/Ronaldinho-Ga%C3%BAcho.jpg"
+                                <v-card-media src="https://www.otvfoco.cser
+                                om.br/wp-content/uploads/2018/02/Ronaldinho-Ga%C3%BAcho.jpg"
                                               height="150px"
                                               contain>
                                 </v-card-media>
@@ -36,6 +37,7 @@
                         <v-spacer></v-spacer>
                         <v-btn flat color="blue-grey darken-4"  v-on:click="show_profile"> Visualizar perfil</v-btn>
                     </v-card-actions>
+
                 </v-card>
             </v-flex>
         </v-app>

@@ -18,11 +18,13 @@
             >
                 <v-icon>add</v-icon>
             </v-btn>
-            <div v-for="user in users">
-                <div v-if="!user.removed">
-                    <UserCard :user="user"></UserCard>
+            <v-flex>
+                <div v-for="user in users">
+                    <div v-if="!user.removed">
+                        <UserCard :user="user"></UserCard>
+                    </div>
                 </div>
-            </div>
+            </v-flex>
         </v-layout>
 
         <!--<v-snackbar-->

@@ -89,8 +89,6 @@ export default {
       return errors
     }},
 
-
-  //TODO CHAMAR A LÓGICA DE CADASTRO DE USUARIOS
   methods: {
     async create_user () {
       let data_new_user = {
@@ -101,7 +99,7 @@ export default {
         username: this.username,
         checkbox: this.checkbox,
         password: this.password,
-        date: this.date,
+        birthdate: this.date,
       };
       try {
         const responseMessage = await SIOM.send('create_user', data_new_user);
