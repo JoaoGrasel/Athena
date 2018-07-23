@@ -92,8 +92,31 @@
                                         v-model="checkbox"
                                         label="O usuario eh administrador?"
                                 />
-
+                                <v-btn v-on:click="show_dashboard">Voltar</v-btn>
                                 <v-btn v-on:click="create_user">Cadastrar</v-btn>
+
+                                <v-layout row justify-center>
+                                    <v-dialog v-model="success_dialog" persistent max-width="290">
+                                        <v-card>
+                                            <v-card-title class="headline">Usuario cadastrado com sucesso!</v-card-title>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-layout>
+                                <v-layout row justify-center>
+                                    <v-dialog v-model="success_dialog" persistent max-width="290">
+                                        <v-card>
+                                            <v-card-title class="headline">Ops, parece que ocorreu algum erro :/</v-card-title>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-layout>
                             </form>
                         </v-container>
                     </v-card>
@@ -101,5 +124,6 @@
             </v-container>
         </v-app>
     </div>
+
 </template>
 <script src="./UserRegister.js"></script>

@@ -22,6 +22,9 @@ export default {
 
   data() {
     return {
+      success_dialog: false,
+      error_dialog: false,
+      error_dialog: false,
       first_name: '',
       surname: '',
       role: '',
@@ -90,7 +93,7 @@ export default {
     }},
 
   methods: {
-    async create_user () {
+    async create_user() {
       let data_new_user = {
         first_name: this.first_name,
         surname: this.surname,
@@ -104,10 +107,12 @@ export default {
       try {
         const responseMessage = await SIOM.send('create_user', data_new_user);
         console.log('response', responseMessage);
-        if(responseMessage.response.success){
+        if (responseMessage.response.success) {
           this.users = responseMessage.response.data;
+          this.success_dialog = true;
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
+          this.error_dialog = true;
         }
       } catch (error) {
         console.log('erro aqui', error);
@@ -115,5 +120,9 @@ export default {
         this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
       }
     },
+
+    show_dashboard: function () {
+      this.$router.replace('/user/dashboard');
+    }
   }
 }
