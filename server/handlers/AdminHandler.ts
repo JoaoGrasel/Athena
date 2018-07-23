@@ -16,6 +16,14 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+  public async create_user(data){
+    if(data.checkbox){
+      return this.create_admin(data);
+    } else {
+      return this.create_team_member(data);
+    }
+  }
+
   public async delete_user_by_id(data) {
     let update = {
       removed: true

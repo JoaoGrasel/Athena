@@ -9,7 +9,7 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: {required},
+    first_name: {required},
     surname: {required},
     role: {required},
     date: {required},
@@ -22,33 +22,33 @@ export default {
 
   data() {
     return {
-      name: '',
-      surname:'',
-      role:'',
+      first_name: '',
+      surname: '',
+      role: '',
       email: '',
-      username:'',
+      username: '',
       checkbox: false,
+      password: '',
+      date: null,
       showSpinner: false,
       show1: false,
       show2: true,
       show3: false,
       show4: false,
-      password: '',
       rules: {
         required: value => !!value || 'Required.',
       },
-      date: null,
       menu: false,
       modal: false,
-      menu2: false
+      menu2: false,
     }
   },
   components: {},
   computed: {
     nameErrors () {
       const errors = []
-      if (!this.$v.name.$dirty) return errors
-      !this.$v.name.required && errors.push('Insira um nome!')
+      if (!this.$v.first_name.$dirty) return errors
+      !this.$v.first_name.required && errors.push('Insira um nome!')
       return errors
     },
     surnameErrors () {
@@ -92,8 +92,30 @@ export default {
 
   //TODO CHAMAR A LÓGICA DE CADASTRO DE USUARIOS
   methods: {
-    submit () {
-      this.$v.$touch()
+    async create_user () {
+      let data_new_user = {
+        first_name: this.first_name,
+        surname: this.surname,
+        role: this.role,
+        email: this.email,
+        username: this.username,
+        checkbox: this.checkbox,
+        password: this.password,
+        date: this.date,
+      };
+      try {
+        const responseMessage = await SIOM.send('create_user', data_new_user);
+        console.log('response', responseMessage);
+        if(responseMessage.response.success){
+          this.users = responseMessage.response.data;
+        } else {
+          console.error('tem que mostrar esse erro', responseMessage.response.data);
+        }
+      } catch (error) {
+        console.log('erro aqui', error);
+        this.validate_login = true;
+        this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
+      }
     },
   }
 }

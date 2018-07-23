@@ -14,28 +14,28 @@
                         <v-container>
                             <form>
                                 <v-text-field
-                                        v-model="name"
+                                        v-model="first_name"
                                         :error-messages="nameErrors"
                                         label="Nome"
                                         required
-                                        @input="$v.name.$touch()"
-                                        @blur="$v.name.$touch()"
+                                        @input="$v.first_name.$touch()"
+                                        @blur="$v.first_name.$touch()"
                                 ></v-text-field>
                                 <v-text-field
                                         v-model="surname"
                                         :error-messages="surnameErrors"
                                         label="Sobrenome"
                                         required
-                                        @input="$v.name.$touch()"
-                                        @blur="$v.name.$touch()"
+                                        @input="$v.surname.$touch()"
+                                        @blur="$v.surname.$touch()"
                                 ></v-text-field>
                                 <v-text-field
                                         v-model="role"
                                         :error-messages="roleErrors"
                                         label="Cargo"
                                         required
-                                        @input="$v.name.$touch()"
-                                        @blur="$v.name.$touch()"
+                                        @input="$v.role.$touch()"
+                                        @blur="$v.role.$touch()"
                                 ></v-text-field>
                                 <v-dialog
                                         ref="dialog"
@@ -44,7 +44,7 @@
                                         persistent
                                         lazy
 
-                                        :error-messages="checkboxErrors"                      full-width
+                                                            full-width
                                         width="290px"
                                 >
                                     <v-text-field
@@ -75,8 +75,8 @@
                                         :error-messages="usernameErrors"
                                         label="Usuario"
                                         required
-                                        @input="$v.name.$touch()"
-                                        @blur="$v.name.$touch()"
+                                        @input="$v.username.$touch()"
+                                        @blur="$v.username.$touch()"
                                 ></v-text-field>
                                 <v-text-field
                                         v-model="password"
@@ -93,7 +93,7 @@
                                         label="O usuario eh administrador?"
                                 />
 
-                                <v-btn @click="submit">Cadastrar</v-btn>
+                                <v-btn v-on:click="create_user">Cadastrar</v-btn>
                             </form>
                         </v-container>
                     </v-card>
