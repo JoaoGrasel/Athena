@@ -11,7 +11,7 @@ export default {
      * @returns {Promise<void>}
      */
     show_profile:  function () {
-      this.$router.replace('/user/profile');
+      this.$router.replace(`/user/profile/${this.user.id}`);
     }
   },
   props: [

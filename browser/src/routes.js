@@ -23,7 +23,7 @@ export default [
   },
   {
     name: 'user-profile',
-    path: '/user/profile',
+    path: '/user/profile/:profileId',
     component: UserProfile,
   },
   {

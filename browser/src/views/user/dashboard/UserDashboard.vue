@@ -5,8 +5,10 @@
 <!--TODO COLOCAR O CAMINHO FEITO PELO USUARIO -->
 
 <template>
-    <v-container fluid fill-height>
+    <v-container>
         <v-layout>
+            <v-flex>
+                <!--TODO ARRUMAR O POSICIONAMENTO DOS CARDS-->
             <!--TODO ARRUMAR O POSICIONAMENTO DO BOTAO-->
             <v-btn
                     absolute
@@ -18,7 +20,7 @@
             >
                 <v-icon>add</v-icon>
             </v-btn>
-            <v-flex>
+
                 <div v-for="user in users">
                     <div v-if="!user.removed">
                         <UserCard :user="user"></UserCard>

@@ -8,15 +8,14 @@ export default {
 
   data() {
     return {
-
+        profileId: this.$route.params.profileId
      }
   },
   components: {
     UserProfile
   },
   computed: {
-  }
-  ,
+  },
 
   methods: {}
 }

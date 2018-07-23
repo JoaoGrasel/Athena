@@ -21,7 +21,6 @@ export default {
   ,
 
   methods: {
-    //todo FAZER COM QUE VOLTE SO OS ATRIBUTOS QUE VAO APARECER E NAO SENHA E ETC
     //todo TRATAR A DATA
     read_all_users: async function () {
       try {
