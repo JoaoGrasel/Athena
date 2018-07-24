@@ -18,15 +18,15 @@
 
                                     <div class="headline"><b>{{ user.first_name }} {{ user.surname}}</b></div>
                                     <div><b>Cargo: </b>{{ user.role }}</div>
-                                    <div><b>Aniversário: </b>18/10/1997</div>
-                                    <div><b>Email: </b>batata.ba@tata.com</div>
-                                    <div><b>É um administrador: </b> Não</div>
+                                    <div><b>Aniversário: </b>{{ user.birthdate }}</div>
+                                    <div><b>Email: </b>{{ user.email }}</div>
+                                    <!--TODO VER COMO CITAR O DISCRIMINANTE-->
+                                    <div><b>É um administrador: </b> </div>
                                     <div><b>Projetos: </b></div>
                                     <div>
                                         <ul>
-                                            <li> Pollo </li>
-                                            <li> Xunda </li>
-                                        </ul>989
+                                            <li v-for="scrum in user.scrums"> {{ scrum.project_name }}  </li>
+                                        </ul>
                                     </div>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
