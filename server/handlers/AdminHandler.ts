@@ -24,6 +24,15 @@ export class AdminHandler extends CommonHandler {
     }
   }
 
+  public async get_user_by_id(user_id) {
+    let devolution = await this.emit_to_server('db.user.read', new QueryObject(user_id));
+    if (devolution.data.error) {
+      devolution.data.error = await Util.getErrorByLocale('pt-Br', 'read_user', devolution.data.error);
+      return await this.retorno(devolution.data);
+    }
+    return this.retorno(devolution.data);
+  }
+
   public async delete_user_by_id(data) {
     let update = {
       removed: true
