@@ -4,21 +4,22 @@ export default {
   name: 'App',
 
   mounted() {
-    console.log('breza viado');
     this.get_user()
   },
 
   data() {
     return {
       profileId: this.$route.params.profileId,
-      edit: false
+      edit: false,
+      success_dialog: false,
+      error_dialog: false,
      }
   },
   components: {},
   computed: {
   },
   props: [
-    'user',
+    'user'
   ],
   methods: {
     /**
@@ -29,9 +30,7 @@ export default {
       this.$router.replace('/user/dashboard');
     },
     get_user: async function () {
-      console.log('pncdoosvaldo');
       try {
-        console.log('pncdoosvaldo2');
         const responseMessage = await SIOM.send('get_user_by_id', this.profileId);
         console.log('response', responseMessage);
         if(responseMessage.response.success){
@@ -47,18 +46,23 @@ export default {
     },
     delete_user: async function () {
       try {
-        const responseMessage = await SIOM.send('delete_user_by_id', this.user.id);
+        const responseMessage = await SIOM.send('delete_user_by_id', this.profileId);
         console.log('response', responseMessage);
         if(responseMessage.response.success){
           this.users = responseMessage.response.data;
+          this.success_dialog = true;
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
+          this.error_dialog = true;
         }
       } catch (error) {
         console.log('erro aqui', error);
         this.validate_login = true;
         this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
       }
+    },
+    show_dashboard: function () {
+      this.$router.replace('/user/dashboard');
     }
 
   },

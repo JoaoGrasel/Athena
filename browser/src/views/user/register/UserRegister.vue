@@ -107,7 +107,7 @@
                                     </v-dialog>
                                 </v-layout>
                                 <v-layout row justify-center>
-                                    <v-dialog v-model="success_dialog" persistent max-width="290">
+                                    <v-dialog v-model="error_dialog" persistent max-width="290">
                                         <v-card>
                                             <v-card-title class="headline">Ops, parece que ocorreu algum erro :/</v-card-title>
                                             <v-card-actions>

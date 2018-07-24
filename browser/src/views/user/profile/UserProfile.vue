@@ -28,6 +28,7 @@
                                             <li v-for="scrum in user.scrums"> {{ scrum.project_name }}  </li>
                                         </ul>
                                     </div>
+
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <span class="group pa-2">
@@ -113,12 +114,28 @@
                                     </v-card-actions>
                                 </div>
                             </v-flex>
-                            <!--<v-flex xs5>-->
-                            <!--<v-card-media :src="user.picture.large"-->
-                            <!--height="125px"-->
-                            <!--contain>-->
-                            <!--</v-card-media>-->
-                            <!--</v-flex>-->
+                        </v-layout>
+                        <v-layout row justify-center>
+                            <v-dialog v-model="success_dialog" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">Usuario deletado com sucesso!</v-card-title>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-layout>
+                        <v-layout row justify-center>
+                            <v-dialog v-model="error_dialog" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">Ops, parece que ocorreu algum erro :/</v-card-title>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </v-layout>
                     </v-container>
 

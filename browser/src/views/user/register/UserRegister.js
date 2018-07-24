@@ -24,7 +24,6 @@ export default {
     return {
       success_dialog: false,
       error_dialog: false,
-      error_dialog: false,
       first_name: '',
       surname: '',
       role: '',

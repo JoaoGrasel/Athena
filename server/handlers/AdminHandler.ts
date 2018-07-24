@@ -41,7 +41,7 @@ export class AdminHandler extends CommonHandler {
     let update = {
       removed: true
     };
-    let devolution = await this.emit_to_server('db.user.update', new UpdateObject(data.id, update));
+    let devolution = await this.emit_to_server('db.user.update', new UpdateObject(data, update));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_user', devolution.data.error);
       return await this.retorno(devolution.data);
