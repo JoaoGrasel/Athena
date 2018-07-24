@@ -26,7 +26,7 @@ export class AdminHandler extends CommonHandler {
 
   public async get_user_by_id(user_id) {
     let devolution = await this.emit_to_server('db.user.read', new QueryObject(user_id, "first_name surname " +
-      "role birthdate username removed scrums", {
+      "role birthdate email username removed scrums", {
       path: 'scrums',
       select: 'project_name'
     }));

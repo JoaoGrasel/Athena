@@ -16,16 +16,16 @@
                             <v-flex xs7 v-if="!edit">
                                 <div>
 
-                                    <div class="headline"><b>{{ user.first_name }} {{ user.surname}}</b></div>
-                                    <div><b>Cargo: </b>{{ user.role }}</div>
-                                    <div><b>Aniversário: </b>{{ user.birthdate }}</div>
-                                    <div><b>Email: </b>{{ user.email }}</div>
+                                    <div class="headline"><b>{{ bro.first_name }} {{ bro.surname}}</b></div>
+                                    <div><b>Cargo: </b>{{ bro.role }}</div>
+                                    <div><b>Aniversário: </b>{{ bro.birthdate }}</div>
+                                    <div><b>Email: </b>{{ bro.email }}</div>
                                     <!--TODO VER COMO CITAR O DISCRIMINANTE-->
                                     <div><b>É um administrador: </b> </div>
                                     <div><b>Projetos: </b></div>
                                     <div>
                                         <ul>
-                                            <li v-for="scrum in user.scrums"> {{ scrum.project_name }}  </li>
+                                            <li v-for="scrum in bro.scrums"> {{ scrum.project_name }}  </li>
                                         </ul>
                                     </div>
 
@@ -46,21 +46,18 @@
                             <v-flex xs7 v-else>
                                 <div>
                                     <v-text-field
-                                            v-model="name"
-                                            :error-messages="nameErrors"
+                                            v-model="first_name"
                                             label="Nome"
                                             required
                                             :readonly="!edit"
                                     ></v-text-field>
                                     <v-text-field
                                             v-model="surname"
-                                            :error-messages="surnameErrors"
                                             label="Sobrenome"
                                             :readonly="!edit"
                                     ></v-text-field>
                                     <v-text-field
                                             v-model="role"
-                                            :error-messages="roleErrors"
                                             label="Cargo"
                                             :readonly="!edit"
                                     ></v-text-field>
@@ -70,14 +67,11 @@
                                             :return-value.sync="date"
                                             persistent
                                             lazy
-
-                                            :error-messages="checkboxErrors"                      full-width
                                             width="290px"
                                     >
                                         <v-text-field
                                                 slot="activator"
                                                 v-model="date"
-                                                :error-messages="dateErrors"
                                                 label="Data de Nascimento"
                                                 prepend-icon="event"
                                                 readonly
@@ -91,7 +85,6 @@
                                     </v-dialog>
                                     <v-text-field
                                             v-model="email"
-                                            :error-messages="emailErrors"
                                             label="E-mail"
                                             :readonly="!edit"
                                     ></v-text-field>

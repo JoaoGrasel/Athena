@@ -13,10 +13,26 @@ export default {
       edit: false,
       success_dialog: false,
       error_dialog: false,
+      modal: false,
+      bro: this.user,
+      first_name: '',
+      surname: '',
+      role: '',
+      email: '',
+      username: '',
+      checkbox: false,
+      password: '',
+      date: null,
      }
   },
   components: {},
   computed: {
+  //   emailErrors () {
+  //     const errors = []
+  //     if (!this.$v.email.$dirty) return errors;
+  //     !this.$v.email.email && errors.push('Insira um e-mail válido.');
+  //     return errors
+  //   },
   },
   props: [
     'user'
@@ -34,7 +50,7 @@ export default {
         const responseMessage = await SIOM.send('get_user_by_id', this.profileId);
         console.log('response', responseMessage);
         if(responseMessage.response.success){
-          this.user = responseMessage.response.data;
+         this.bro = responseMessage.response.data;
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
         }
@@ -56,7 +72,7 @@ export default {
           this.error_dialog = true;
         }
       } catch (error) {
-        console.log('erro aqui', error);
+        console.log('ERRO AQUI MANO', error);
         this.validate_login = true;
         this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
       }
