@@ -93,7 +93,6 @@
                                             label="O usuario eh administrador?"
                                     />
 
-                                    <!--TODO PERMITIR EDITAR OS -->
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <span class="group pa-2">

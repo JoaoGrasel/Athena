@@ -21,8 +21,8 @@ export default {
       email: '',
       username: '',
       checkbox: false,
-      password: '',
-      date: null,
+
+      date: this.user.date,
      }
   },
   components: {},
