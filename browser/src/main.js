@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 Vue.use(Vuelidate);
 Vue.use(Vuetify, {
   theme: {
-    primary: '#2a0845',
+    primary: '#3E2723',
     secondary: '#424242',
     accent: '#82B1FF',
     error: '#FF5252',

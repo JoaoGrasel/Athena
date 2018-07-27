@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
     .drawer-style {
-        color: #2a0845 !important;
+        color: #3E2723 !important;
     }
 </style>
 
@@ -77,30 +77,12 @@
                 fixed
                 app
         >
-            <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+            <v-toolbar-title style="width: 320px" class="ml-0 pl-3">
                 <v-toolbar-side-icon
                         @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <span class="hidden-sm-and-down">Kraken</span>
+                <span class="hidden-sm-and-down">Pollo - Controle de Scrum</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn-toggle mandatory class="toggle-custom-button-mobile">
-                <v-btn flat value="pt-Br">
-                    <span style="color: #009b36">PT-</span><span
-                    style="color: #ead112">BR</span>
-                </v-btn>
-                <v-btn flat value="en">
-                    <span style="color: #d9221e">E</span><span
-                    style="color: #3c81b3">N</span>
-                </v-btn>
-            </v-btn-toggle>
-            <v-btn icon large>
-                <v-avatar size="32px" tile>
-                    <img
-                            src="https://vuetifyjs.com/static/doc-images/logo.svg"
-                            alt="Vuetify"
-                    >
-                </v-avatar>
-            </v-btn>
             <v-btn icon @click.native="logout">
                 <v-icon>exit_to_app</v-icon>
             </v-btn>
