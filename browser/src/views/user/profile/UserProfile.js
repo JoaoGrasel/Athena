@@ -3,7 +3,7 @@ import SIOM from "../../../services/SIOM";
 export default {
   name: 'App',
 
-  mounted() {
+  created() {
     this.get_user()
   },
 
@@ -14,12 +14,13 @@ export default {
       success_dialog: false,
       error_dialog: false,
       modal: false,
-      bro: this.user,
-      first_name: '',
-      surname: '',
-      role: '',
-      email: '',
-      username: '',
+      bro: {},
+      editedItem: {},
+      // first_name: '',
+      // surname: '',
+      // role: '',
+      // email: '',
+      // username: '',
       checkbox: false,
 
       date: this.user.date,
@@ -79,7 +80,10 @@ export default {
     },
     show_dashboard: function () {
       this.$router.replace('/user/dashboard');
+    },
+    setEditState: function () {
+      this.edit = true;
+      this.editedItem = Object.assign({}, this.bro);
     }
-
   },
 }

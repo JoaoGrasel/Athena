@@ -6,7 +6,7 @@
 <!--TODO VER COMO COLOCAR PICTURE NO PERFIL, TALVEZ SEJA PRECISO REMODELAR O BANCO PRA SALVAR NO DB-->
 <!--TODO PERSONALIZAR O CARTAO-->
 <template>
-    <container>
+    <v-container>
             <v-card color="brown lighten-3" class="black--text elevation-8" height="300px" width="450px">
                 <v-container>
                     <v-layout>
@@ -29,6 +29,6 @@
                     </v-layout>
                 </v-container>
             </v-card>
-    </container>
+    </v-container>
 </template>
 <script src="./UserCard.js"></script>

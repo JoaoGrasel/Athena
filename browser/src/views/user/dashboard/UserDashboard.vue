@@ -10,10 +10,11 @@
 <template>
     <v-container grid-list-md text-xs-center>
         <v-layout row wrap>
-            <v-flex v-for="user in users" xs3>
-
-                <div v-if="!user.removed">
-                    <UserCard :user="user"></UserCard>
+            <v-flex xs3>
+                <div v-for="user in users" :key="user.id">
+                    <div v-if="!user.removed">
+                        <UserCard :user="user"></UserCard>
+                    </div>
                 </div>
 
 

@@ -13,53 +13,47 @@
                 <v-card color="white" class="blue-grey--text elevation-8" height="300px" width="300px">
                     <v-container fluid grid-list-lg>
                         <v-layout row>
-                            <v-flex xs7 v-if="!edit">
+                            <v-flex xs7>
+                                <div class="headline"><b>{{ bro.first_name }} {{ bro.surname}}</b></div>
+                                <div><b>Cargo: </b>{{ bro.role }}</div>
+                                <div><b>Aniversário: </b>{{ bro.birthdate }}</div>
+                                <div><b>Email: </b>{{ bro.email }}</div>
+                                <!--TODO VER COMO CITAR O DISCRIMINANTE-->
+                                <div><b>É um administrador: </b> </div>
+                                <div><b>Projetos: </b></div>
                                 <div>
-
-                                    <div class="headline"><b>{{ bro.first_name }} {{ bro.surname}}</b></div>
-                                    <div><b>Cargo: </b>{{ bro.role }}</div>
-                                    <div><b>Aniversário: </b>{{ bro.birthdate }}</div>
-                                    <div><b>Email: </b>{{ bro.email }}</div>
-                                    <!--TODO VER COMO CITAR O DISCRIMINANTE-->
-                                    <div><b>É um administrador: </b> </div>
-                                    <div><b>Projetos: </b></div>
-                                    <div>
-                                        <ul>
-                                            <li v-for="scrum in bro.scrums"> {{ scrum.project_name }}  </li>
-                                        </ul>
-                                    </div>
-
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <span class="group pa-2">
-                                            <v-btn @click="edit = true">
-                                                <v-icon>edit</v-icon>
-                                            </v-btn>
-                                            <v-btn v-on:click="delete_user">
-                                                <v-icon>delete</v-icon>
-                                            </v-btn>
-                                        </span>
-                                    </v-card-actions>
+                                    <ul>
+                                        <li v-for="scrum in bro.scrums"> {{ scrum.project_name }}  </li>
+                                    </ul>
                                 </div>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <span class="group pa-2">
+                                        <v-btn @click="setEditState">
+                                            <v-icon>edit</v-icon>
+                                        </v-btn>
+                                        <v-btn v-on:click="delete_user">
+                                            <v-icon>delete</v-icon>
+                                        </v-btn>
+                                    </span>
+                                </v-card-actions>
                             </v-flex>
 
-                            <v-flex xs7 v-else>
-                                <div>
+                            <v-dialog v-model="edit">
+                                <v-card>
                                     <v-text-field
-                                            v-model="first_name"
+                                            v-model="editedItem.first_name"
                                             label="Nome"
                                             required
-                                            :readonly="!edit"
                                     ></v-text-field>
                                     <v-text-field
                                             v-model="surname"
                                             label="Sobrenome"
-                                            :readonly="!edit"
                                     ></v-text-field>
                                     <v-text-field
                                             v-model="role"
                                             label="Cargo"
-                                            :readonly="!edit"
                                     ></v-text-field>
                                     <v-dialog
                                             ref="dialog"
@@ -75,7 +69,6 @@
                                                 label="Data de Nascimento"
                                                 prepend-icon="event"
                                                 readonly
-                                                :readonly="!edit"
                                         ></v-text-field>
                                         <v-date-picker v-model="date" scrollable>
                                             <v-spacer></v-spacer>
@@ -86,7 +79,6 @@
                                     <v-text-field
                                             v-model="email"
                                             label="E-mail"
-                                            :readonly="!edit"
                                     ></v-text-field>
                                     <v-checkbox
                                             v-model="checkbox"
@@ -99,13 +91,13 @@
                                             <v-btn @click="edit = false">
                                                 <v-icon>close</v-icon>
                                             </v-btn>
-                                            <v-btn v-on:click="edit_profile" @click="edit = false">
+                                            <v-btn v-on:click="" @click="edit = false">
                                                 <v-icon>check</v-icon>
                                             </v-btn>
                                         </span>
                                     </v-card-actions>
-                                </div>
-                            </v-flex>
+                                </v-card>
+                            </v-dialog>
                         </v-layout>
                         <v-layout row justify-center>
                             <v-dialog v-model="success_dialog" persistent max-width="290">
