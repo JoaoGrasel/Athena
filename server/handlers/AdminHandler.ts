@@ -104,6 +104,11 @@ export class AdminHandler extends CommonHandler {
     return this.retorno(devolution.data);
   }
 
+  public async get_all_scrums() {
+    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject({}, "project_name"));
+    return this.retorno(devolution.data);
+  }
+
   public async edit_scrum(data) {
     delete data.edited_scrum.history_backlog;
     let devolution = await this.emit_to_server('db.scrum.update', new UpdateObject(data.actual_scrum.id, data.edited_scrum));

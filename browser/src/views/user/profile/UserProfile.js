@@ -4,7 +4,8 @@ export default {
   name: 'App',
 
   created() {
-    this.get_user()
+    this.get_user();
+    this.get_all_scrums();
   },
 
   data() {
@@ -17,6 +18,8 @@ export default {
       modal: false,
       bro: {},
       editedItem: {},
+      e7: [],
+      scrums:[],
       // first_name: '',
       // surname: '',
       // role: '',
@@ -53,6 +56,21 @@ export default {
         console.log('response', responseMessage);
         if(responseMessage.response.success){
          this.bro = responseMessage.response.data;
+        } else {
+          console.error('tem que mostrar esse erro', responseMessage.response.data);
+        }
+      } catch (error) {
+        console.log('erro aqui', error);
+        this.validate_login = true;
+        this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
+      }
+    },
+    get_all_scrums: async function () {
+      try {
+        const responseMessage = await SIOM.send('get_all_scrums');
+        console.log('response', responseMessage);
+        if(responseMessage.response.success){
+         this.scrums = responseMessage.response.data;
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
         }

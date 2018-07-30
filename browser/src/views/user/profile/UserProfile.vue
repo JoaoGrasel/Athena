@@ -80,6 +80,16 @@
                                             v-model="editedItem.email"
                                             label="E-mail"
                                     ></v-text-field>
+                                    <v-select
+                                            :items="scrums"
+                                            item-text="project_name"
+                                            v-model="e7"
+                                            label="scrums"
+                                            multiple
+                                            chips
+                                            hint="Projetos"
+                                            persistent-hint
+                                    ></v-select>
                                     <v-checkbox
                                             v-model="editedItem.type === 'admin'"
                                             label="O usuario eh administrador?"

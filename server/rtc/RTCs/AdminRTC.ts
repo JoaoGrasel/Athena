@@ -22,6 +22,7 @@ export class AdminRTC extends BasicRTC {
       'delete_user_by_id': this.delete_user_by_id.bind(this),
       'create_scrum': this.create_scrum.bind(this),
       'get_scrum_by_id': this.get_scrum_by_id.bind(this),
+      'get_all_scrums': this.get_all_scrums.bind(this),
       'edit_scrum': this.edit_scrum.bind(this),
       'delete_scrum_by_id': this.delete_scrum_by_id.bind(this),
       'create_sprint': this.create_sprint.bind(this),
@@ -137,6 +138,11 @@ export class AdminRTC extends BasicRTC {
 
   public async get_scrum_by_id(msg){
     msg.response = await this.handler.get_scrum_by_id(msg.request);
+    this.emit_to_browser(msg);
+  }
+
+  public async get_all_scrums(msg){
+    msg.response = await this.handler.get_all_scrums();
     this.emit_to_browser(msg);
   }
 
