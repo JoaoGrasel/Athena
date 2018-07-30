@@ -11,7 +11,8 @@ export default {
   data() {
     return {
       users:[],
-      showSpinner: false
+      showSpinner: false,
+      show_deleted: false,
     }
   },
   components: {

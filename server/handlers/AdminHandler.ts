@@ -639,7 +639,7 @@ export class AdminHandler extends CommonHandler {
     }
 
   public async edit_team_member(data) {
-    let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data.update));
+    let devolution = await this.emit_to_server('db.team_member.update', new UpdateObject(data.id, data));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_team_member', devolution.data.error);
       return await this.retorno(devolution.data);
@@ -992,7 +992,7 @@ export class AdminHandler extends CommonHandler {
   }
 
   public async edit_admin(data) {
-    let devolution = await this.emit_to_server('db.admin.update', new UpdateObject(data.id, data.update));
+    let devolution = await this.emit_to_server('db.admin.update', new UpdateObject(data.id, data));
     if (devolution.data.error) {
       devolution.data.error = await Util.getErrorByLocale('pt-Br', 'update_admin', devolution.data.error);
       return await this.retorno(devolution.data);

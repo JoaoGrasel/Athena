@@ -10,7 +10,10 @@
 <template>
     <v-container grid-list-md text-xs-center>
         <v-layout row wrap>
+
             <v-flex xs3>
+                <v-btn @click=""> Usuarios Deletados
+                </v-btn>
                 <div v-for="user in users" :key="user.id">
                     <div v-if="!user.removed">
                         <UserCard :user="user"></UserCard>
