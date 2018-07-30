@@ -24,6 +24,14 @@ export class AdminHandler extends CommonHandler {
     }
   }
 
+  public async edit_user(data){
+    if(data.type === 'admin'){
+      return await this.edit_admin(data);
+    } else {
+      return await this.edit_team_member(data);
+    }
+  }
+
   public async get_user_by_id(user_id) {
     let devolution = await this.emit_to_server('db.user.read', new QueryObject(user_id, "first_name surname " +
       "role birthdate email username removed scrums", {

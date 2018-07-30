@@ -89,7 +89,8 @@ export default {
       !this.$v.email.email && errors.push('Insira um e-mail válido.')
       !this.$v.email.required && errors.push('Insira um e-mail!')
       return errors
-    }},
+    }
+  },
 
   methods: {
     async create_user() {

@@ -11,7 +11,8 @@ export default {
     return {
       profileId: this.$route.params.profileId,
       edit: false,
-      success_dialog: false,
+      delete_success_dialog: false,
+      edit_success_dialog: false,
       error_dialog: false,
       modal: false,
       bro: {},
@@ -67,7 +68,7 @@ export default {
         console.log('response', responseMessage);
         if(responseMessage.response.success){
           this.users = responseMessage.response.data;
-          this.success_dialog = true;
+          this.delete_success_dialog = true;
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
           this.error_dialog = true;
@@ -84,6 +85,24 @@ export default {
     setEditState: function () {
       this.edit = true;
       this.editedItem = Object.assign({}, this.bro);
+
+    },
+    edit_user: async function() {
+      try {
+        const responseMessage = await SIOM.send('edit_user', this.editedItem);
+        console.log('response', responseMessage);
+        if (responseMessage.response.success) {
+          this.bro = responseMessage.response.data;
+          this.edit_success_dialog = true;
+        } else {
+          console.error('tem que mostrar esse erro', responseMessage.response.data);
+          this.error_dialog = true;
+        }
+      } catch (error) {
+        console.log('ERRO AQUI MANO', error);
+        this.validate_login = true;
+        this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
+      }
     }
   },
 }

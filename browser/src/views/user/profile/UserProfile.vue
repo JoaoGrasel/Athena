@@ -48,11 +48,11 @@
                                             required
                                     ></v-text-field>
                                     <v-text-field
-                                            v-model="surname"
+                                            v-model="editedItem.surname"
                                             label="Sobrenome"
                                     ></v-text-field>
                                     <v-text-field
-                                            v-model="role"
+                                            v-model="editedItem.role"
                                             label="Cargo"
                                     ></v-text-field>
                                     <v-dialog
@@ -65,7 +65,7 @@
                                     >
                                         <v-text-field
                                                 slot="activator"
-                                                v-model="date"
+                                                v-model="editedItem.birthdate"
                                                 label="Data de Nascimento"
                                                 prepend-icon="event"
                                                 readonly
@@ -77,11 +77,11 @@
                                         </v-date-picker>
                                     </v-dialog>
                                     <v-text-field
-                                            v-model="email"
+                                            v-model="editedItem.email"
                                             label="E-mail"
                                     ></v-text-field>
                                     <v-checkbox
-                                            v-model="checkbox"
+                                            v-model="editedItem.type === 'admin'"
                                             label="O usuario eh administrador?"
                                     />
 
@@ -91,7 +91,7 @@
                                             <v-btn @click="edit = false">
                                                 <v-icon>close</v-icon>
                                             </v-btn>
-                                            <v-btn v-on:click="" @click="edit = false">
+                                            <v-btn v-on:click="edit_user" @click="edit = false">
                                                 <v-icon>check</v-icon>
                                             </v-btn>
                                         </span>
@@ -100,7 +100,18 @@
                             </v-dialog>
                         </v-layout>
                         <v-layout row justify-center>
-                            <v-dialog v-model="success_dialog" persistent max-width="290">
+                            <v-dialog v-model="edit_success_dialog" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">Usuario editado com sucesso!</v-card-title>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-layout>
+                        <v-layout row justify-center>
+                            <v-dialog v-model="delete_success_dialog" persistent max-width="290">
                                 <v-card>
                                     <v-card-title class="headline">Usuario deletado com sucesso!</v-card-title>
                                     <v-card-actions>
