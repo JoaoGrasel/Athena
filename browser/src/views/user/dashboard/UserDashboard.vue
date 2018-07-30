@@ -11,19 +11,32 @@
     <v-container grid-list-md text-xs-center>
         <v-layout row wrap>
 
-            <v-flex xs3>
-                <v-btn @click=""> Usuarios Deletados
+            <v-flex v-if="!show_deleted" xs3>
+                <v-btn @click="show_deleted = true"> Usuarios Deletados
                 </v-btn>
+
                 <div v-for="user in users" :key="user.id">
                     <div v-if="!user.removed">
                         <UserCard :user="user"></UserCard>
                     </div>
                 </div>
+            </v-flex>
+
+            <v-flex v-if="show_deleted" xs3>
+                <v-btn @click="show_deleted = false"> Usuarios Ativos
+                </v-btn>
+
+                <div v-for="user in users" :key="user.id">
+                    <div v-if="user.removed">
+                        <UserCard :user="user"></UserCard>
+                    </div>
+                </div>
+            </v-flex>
 
 
 
 
-                <!--<v-btn-->
+            <!--<v-btn-->
                     <!--absolute-->
                     <!--dark-->
                     <!--fab-->
@@ -35,7 +48,7 @@
                 <!--</v-btn>-->
 
 
-            </v-flex>
+
         </v-layout>
     </v-container>
 </template>
