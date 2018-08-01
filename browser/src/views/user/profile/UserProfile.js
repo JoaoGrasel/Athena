@@ -16,14 +16,18 @@ export default {
     return {
       profileId: this.$route.params.profileId,
       edit: false,
+      removed: false,
       delete_success_dialog: false,
       edit_success_dialog: false,
       error_dialog: false,
       modal: false,
       bro: {},
       editedItem: {},
-      e7: [],
+      show_add_scrums: false,
+      show_remove_scrums: false,
       scrums:[],
+      added_scrums: [],
+      removed_scrums: [],
       // first_name: '',
       // surname: '',
       // role: '',
@@ -60,6 +64,9 @@ export default {
         console.log('response', responseMessage);
         if(responseMessage.response.success){
          this.bro = responseMessage.response.data;
+         if(this.bro.removed){
+           this.removed = true;
+         }
         } else {
           console.error('tem que mostrar esse erro', responseMessage.response.data);
         }
@@ -107,7 +114,6 @@ export default {
     setEditState: function () {
       this.edit = true;
       this.editedItem = Object.assign({}, this.bro);
-
     },
     edit_user: async function() {
       try {

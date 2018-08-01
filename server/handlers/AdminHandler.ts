@@ -104,7 +104,7 @@ export class AdminHandler extends CommonHandler {
   }
 
   public async get_all_scrums() {
-    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject({}, "project_name"));
+    let devolution = await this.emit_to_server('db.scrum.read', new QueryObject({}, "project_name _id"));
     return this.retorno(devolution.data);
   }
 

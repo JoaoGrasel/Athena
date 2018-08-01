@@ -22,7 +22,6 @@ export default {
   ,
 
   methods: {
-    //todo TRATAR A DATA
     read_all_users: async function () {
       try {
         const responseMessage = await SIOM.send('get_all_users');

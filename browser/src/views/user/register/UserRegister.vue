@@ -37,6 +37,17 @@
                                         @input="$v.role.$touch()"
                                         @blur="$v.role.$touch()"
                                 ></v-text-field>
+                                <v-select
+                                        :items="scrums"
+                                        item-text="project_name"
+                                        item-value="id"
+                                        v-model="e7"
+                                        label="Projetos"
+                                        multiple
+                                        chips
+                                        hint="Projetos"
+                                        persistent-hint
+                                ></v-select>
                                 <v-dialog
                                         ref="dialog"
                                         v-model="modal"

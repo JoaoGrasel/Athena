@@ -14,6 +14,10 @@
                     <v-container fluid grid-list-lg>
                         <v-layout row>
                             <v-flex xs7>
+
+                                <!--TODO PERMITIR A RECUPERAÇAO DE USUARIO-->
+                                <v-btn v-if="removed" v-on:click="" @click="">Recuperar usuario</v-btn>
+
                                 <div class="headline"><b>{{ bro.first_name }} {{ bro.surname}}</b></div>
                                 <div><b>Cargo: </b>{{ bro.role }}</div>
                                 <div><b>Aniversário: </b>{{ bro.birthdate }}</div>
@@ -27,7 +31,7 @@
                                     </ul>
                                 </div>
 
-                                <v-card-actions>
+                                <v-card-actions v-if="!removed">
                                     <v-spacer></v-spacer>
                                     <span class="group pa-2">
                                         <v-btn @click="setEditState">
@@ -80,21 +84,12 @@
                                             v-model="editedItem.email"
                                             label="E-mail"
                                     ></v-text-field>
-                                    <v-select
-                                            :items="scrums"
-                                            item-text="project_name"
-                                            v-model="e7"
-                                            label="scrums"
-                                            multiple
-                                            chips
-                                            hint="Projetos"
-                                            persistent-hint
-                                    ></v-select>
                                     <v-checkbox
                                             v-model="editedItem.type === 'admin'"
                                             label="O usuario eh administrador?"
                                     />
-
+                                    <v-btn @click="show_remove_scrums = true"> Remover Projetos</v-btn>
+                                    <v-btn @click="show_add_scrums = true"> Adicionar Projetos</v-btn>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <span class="group pa-2">
@@ -109,6 +104,41 @@
                                 </v-card>
                             </v-dialog>
                         </v-layout>
+
+                        <v-dialog v-model="show_add_scrums" persistent max-width="290">
+                            <v-card>
+                                <v-card-title class="headline">Adicionar Projetos</v-card-title>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <span class="group pa-2">
+                                            <v-btn @click="show_add_scrums = false">
+                                                <v-icon>close</v-icon>
+                                            </v-btn>
+                                            <v-btn v-on:click="" @click="show_add_scrums = false">
+                                                <v-icon>check</v-icon>
+                                            </v-btn>
+                                        </span>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+
+                        <v-dialog v-model="show_remove_scrums" persistent max-width="290">
+                            <v-card>
+                                <v-card-title class="headline">Remover Projetos</v-card-title>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <span class="group pa-2">
+                                            <v-btn @click="show_remove_scrums = false">
+                                                <v-icon>close</v-icon>
+                                            </v-btn>
+                                            <v-btn v-on:click="edit_user" @click="show_remove_scrums = false">
+                                                <v-icon>check</v-icon>
+                                            </v-btn>
+                                        </span>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+
                         <v-layout row justify-center>
                             <v-dialog v-model="edit_success_dialog" persistent max-width="290">
                                 <v-card>

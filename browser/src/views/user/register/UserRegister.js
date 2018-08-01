@@ -18,7 +18,9 @@ export default {
     email: {required, email},
   },
 
-  mounted() {},
+  mounted() {
+    this.get_all_scrums();
+  },
 
   data() {
     return {
@@ -31,6 +33,8 @@ export default {
       username: '',
       checkbox: false,
       password: '',
+      scrums: [],
+      e7: [],
       date: null,
       showSpinner: false,
       show1: false,
@@ -103,8 +107,10 @@ export default {
         checkbox: this.checkbox,
         password: this.password,
         birthdate: this.date,
+        scrums: this.e7
       };
       try {
+        console.log(this.e7);
         const responseMessage = await SIOM.send('create_user', data_new_user);
         console.log('response', responseMessage);
         if (responseMessage.response.success) {
@@ -123,6 +129,22 @@ export default {
 
     show_dashboard: function () {
       this.$router.replace('/user/dashboard');
-    }
+    },
+
+    get_all_scrums: async function () {
+      try {
+        const responseMessage = await SIOM.send('get_all_scrums');
+        console.log('response', responseMessage);
+        if(responseMessage.response.success){
+          this.scrums = responseMessage.response.data;
+          } else {
+          console.error('tem que mostrar esse erro', responseMessage.response.data);
+        }
+      } catch (error) {
+        console.log('erro aqui', error);
+        this.validate_login = true;
+        this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
+      }
+    },
   }
 }
