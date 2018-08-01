@@ -12,7 +12,7 @@
         <v-layout row wrap>
 
             <v-flex v-if="!show_deleted" xs3>
-                <v-btn @click="show_deleted = true"> Usuarios Deletados
+                <v-btn @click="show_deleted = true"> Mostrar usuarios deletados
                 </v-btn>
 
                 <div v-for="user in users" :key="user.id">
@@ -23,7 +23,7 @@
             </v-flex>
 
             <v-flex v-if="show_deleted" xs3>
-                <v-btn @click="show_deleted = false"> Usuarios Ativos
+                <v-btn @click="show_deleted = false"> Mostrar usuarios ativos
                 </v-btn>
 
                 <div v-for="user in users" :key="user.id">

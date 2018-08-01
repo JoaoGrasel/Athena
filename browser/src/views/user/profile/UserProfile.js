@@ -8,6 +8,10 @@ export default {
     this.get_all_scrums();
   },
 
+
+    //TODO DAR A POSSIBILIDADE DE RESGATAR O PERFIL DEPOIS DE EXCLUIDO
+
+
   data() {
     return {
       profileId: this.$route.params.profileId,
