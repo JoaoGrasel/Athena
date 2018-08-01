@@ -46,81 +46,84 @@
 
                             <v-dialog v-model="edit">
                                 <v-card>
-                                    <v-text-field
-                                            v-model="editedItem.first_name"
-                                            label="Nome"
-                                            required
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editedItem.surname"
-                                            label="Sobrenome"
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editedItem.role"
-                                            label="Cargo"
-                                    ></v-text-field>
-                                    <v-dialog
-                                            ref="dialog"
-                                            v-model="modal"
-                                            :return-value.sync="date"
-                                            persistent
-                                            lazy
-                                            width="290px"
-                                    >
+                                    <v-container>
                                         <v-text-field
-                                                slot="activator"
-                                                v-model="editedItem.birthdate"
-                                                label="Data de Nascimento"
-                                                prepend-icon="event"
-                                                readonly
+                                                v-model="editedItem.first_name"
+                                                label="Nome"
+                                                required
                                         ></v-text-field>
-                                        <v-date-picker v-model="date" scrollable>
+                                        <v-text-field
+                                                v-model="editedItem.surname"
+                                                label="Sobrenome"
+                                        ></v-text-field>
+                                        <v-text-field
+                                                v-model="editedItem.role"
+                                                label="Cargo"
+                                        ></v-text-field>
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="modal"
+                                                :return-value.sync="date"
+                                                persistent
+                                                lazy
+                                                width="290px"
+                                        >
+                                            <v-text-field
+                                                    slot="activator"
+                                                    v-model="editedItem.birthdate"
+                                                    label="Data de Nascimento"
+                                                    prepend-icon="event"
+                                                    readonly
+                                            ></v-text-field>
+                                            <v-date-picker v-model="date" scrollable>
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary" @click="modal = false">Cancelar</v-btn>
+                                                <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                                            </v-date-picker>
+                                        </v-dialog>
+                                        <v-text-field
+                                                v-model="editedItem.email"
+                                                label="E-mail"
+                                        ></v-text-field>
+                                        <v-checkbox
+                                                v-model="editedItem.type === 'admin'"
+                                                label="O usuario eh administrador?"
+                                        />
+                                        <v-btn @click="show_remove_scrums = true"> Remover Projetos</v-btn>
+                                        <v-btn @click="show_add_scrums = true"> Adicionar Projetos</v-btn>
+                                        <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn flat color="primary" @click="modal = false">Cancelar</v-btn>
-                                            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
-                                        </v-date-picker>
-                                    </v-dialog>
-                                    <v-text-field
-                                            v-model="editedItem.email"
-                                            label="E-mail"
-                                    ></v-text-field>
-                                    <v-checkbox
-                                            v-model="editedItem.type === 'admin'"
-                                            label="O usuario eh administrador?"
-                                    />
-                                    <v-btn @click="show_remove_scrums = true"> Remover Projetos</v-btn>
-                                    <v-btn @click="show_add_scrums = true"> Adicionar Projetos</v-btn>
+                                            <span class="group pa-2">
+                                                <v-btn @click="edit = false">
+                                                    <v-icon>close</v-icon>
+                                                </v-btn>
+                                                <v-btn v-on:click="edit_user" @click="edit = false">
+                                                    <v-icon>check</v-icon>
+                                                </v-btn>
+                                            </span>
+                                        </v-card-actions>
+                                    </v-container>
+                                    </v-card>
+                                </v-dialog>
+                            </v-layout>
+
+                            <v-dialog v-model="show_add_scrums" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">Adicionar Projetos</v-card-title>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <span class="group pa-2">
-                                            <v-btn @click="edit = false">
-                                                <v-icon>close</v-icon>
-                                            </v-btn>
-                                            <v-btn v-on:click="edit_user" @click="edit = false">
-                                                <v-icon>check</v-icon>
-                                            </v-btn>
-                                        </span>
+                                                <v-btn @click="show_add_scrums = false">
+                                                    <v-icon>close</v-icon>
+                                                </v-btn>
+                                                <v-btn v-on:click="" @click="show_add_scrums = false">
+                                                    <v-icon>check</v-icon>
+                                                </v-btn>
+                                            </span>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
-                        </v-layout>
 
-                        <v-dialog v-model="show_add_scrums" persistent max-width="290">
-                            <v-card>
-                                <v-card-title class="headline">Adicionar Projetos</v-card-title>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <span class="group pa-2">
-                                            <v-btn @click="show_add_scrums = false">
-                                                <v-icon>close</v-icon>
-                                            </v-btn>
-                                            <v-btn v-on:click="" @click="show_add_scrums = false">
-                                                <v-icon>check</v-icon>
-                                            </v-btn>
-                                        </span>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
 
                         <v-dialog v-model="show_remove_scrums" persistent max-width="290">
                             <v-card>

@@ -45,7 +45,6 @@
                                         label="Projetos"
                                         multiple
                                         chips
-                                        hint="Projetos"
                                         persistent-hint
                                 ></v-select>
                                 <v-dialog
