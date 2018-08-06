@@ -109,47 +109,74 @@
 
                             <v-dialog v-model="show_add_scrums" persistent max-width="290">
                                 <v-card>
-                                    <v-card-title class="headline">Adicionar Projetos</v-card-title>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <span class="group pa-2">
-                                                <v-btn @click="show_add_scrums = false">
-                                                    <v-icon>close</v-icon>
-                                                </v-btn>
-                                                <v-btn v-on:click="" @click="show_add_scrums = false">
-                                                    <v-icon>check</v-icon>
-                                                </v-btn>
-                                            </span>
-                                    </v-card-actions>
+                                    <v-container>
+                                        <v-card-title class="headline">Adicionar Projetos</v-card-title>
+                                        <v-select
+                                                :items="scrums"
+                                                item-text="project_name"
+                                                item-value="id"
+                                                v-model="e7"
+                                                label="Projetos"
+                                                multiple
+                                                chips
+                                                persistent-hint
+                                        ></v-select>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <span class="group pa-2">
+                                                    <v-btn @click="show_add_scrums = false">
+                                                        <v-icon>close</v-icon>
+                                                    </v-btn>
+                                                    <v-btn v-on:click="" @click="show_add_scrums = false">
+                                                        <v-icon>check</v-icon>
+                                                    </v-btn>
+                                                </span>
+                                        </v-card-actions>
+                                    </v-container>
                                 </v-card>
                             </v-dialog>
 
 
                         <v-dialog v-model="show_remove_scrums" persistent max-width="290">
+
                             <v-card>
-                                <v-card-title class="headline">Remover Projetos</v-card-title>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <span class="group pa-2">
-                                            <v-btn @click="show_remove_scrums = false">
-                                                <v-icon>close</v-icon>
-                                            </v-btn>
-                                            <v-btn v-on:click="edit_user" @click="show_remove_scrums = false">
-                                                <v-icon>check</v-icon>
-                                            </v-btn>
-                                        </span>
-                                </v-card-actions>
+                                <v-container>
+                                    <v-card-title class="headline">Remover Projetos</v-card-title>
+                                    <v-select
+                                            :items="bro.scrums"
+                                            item-text="project_name"
+                                            item-value="id"
+                                            v-model="e7"
+                                            label="Projetos"
+                                            multiple
+                                            chips
+                                            persistent-hint
+                                    ></v-select>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <span class="group pa-2">
+                                                <v-btn @click="show_remove_scrums = false">
+                                                    <v-icon>close</v-icon>
+                                                </v-btn>
+                                                <v-btn v-on:click="update_removed_scrums" @click="show_remove_scrums = false">
+                                                    <v-icon>check</v-icon>
+                                                </v-btn>
+                                            </span>
+                                    </v-card-actions>
+                                </v-container>
                             </v-card>
                         </v-dialog>
 
                         <v-layout row justify-center>
                             <v-dialog v-model="edit_success_dialog" persistent max-width="290">
                                 <v-card>
-                                    <v-card-title class="headline">Usuario editado com sucesso!</v-card-title>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
-                                    </v-card-actions>
+                                    <v-container>
+                                        <v-card-title class="headline">Usuario editado com sucesso!</v-card-title>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="green darken-1" flat v-on:click="show_dashboard">Ok</v-btn>
+                                        </v-card-actions>
+                                    </v-container>
                                 </v-card>
                             </v-dialog>
                         </v-layout>

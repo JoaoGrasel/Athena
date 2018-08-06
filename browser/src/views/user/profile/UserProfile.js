@@ -22,6 +22,7 @@ export default {
       error_dialog: false,
       modal: false,
       bro: {},
+      e7: {},
       editedItem: {},
       show_add_scrums: false,
       show_remove_scrums: false,
@@ -131,6 +132,9 @@ export default {
         this.validate_login = true;
         this.error_message = error.response ? error.response.data.description : "Ocorreu um erro desconhecido.";
       }
+    },
+      update_removed_scrums: async function() {
+        this.removed_scrums = this.e7;
     }
   },
 }
